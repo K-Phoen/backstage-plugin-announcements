@@ -1,5 +1,12 @@
 node_modules
 
+# Tests
+coverage
+
+# Ts generated output
+dist-types
+dist
+
 # Yarn 3 files
 .pnp.*
 .yarn/*
