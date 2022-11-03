@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   release:
@@ -32,6 +33,7 @@ jobs:
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
+          version: yarn version
           publish: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
