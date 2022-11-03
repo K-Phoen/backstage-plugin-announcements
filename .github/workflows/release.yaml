@@ -1,14 +1,13 @@
-name: Changeset
+name: Release
 on:
   push:
     branches: [main]
 
 permissions:
-  contents: read
-  pull-requests: write
+  contents: write
 
 jobs:
-  create-release-pr:
+  release:
     name: Create Changeset PR
     runs-on: ubuntu-latest
 
@@ -24,12 +23,16 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
+      - name: Build type declarations
+        run: yarn tsc
+
+      - name: Build packages
+        run: yarn build
+
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
-          # Calls `changeset version`.
-          # Updates the versions for all packages described in changesets since last release.
-          # Will also create/append to a CHANGELOG file for each package using the summaries from the changesets.
-          version: yarn release
+          publish: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
