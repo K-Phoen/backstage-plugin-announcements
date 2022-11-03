@@ -1,0 +1,1 @@
+export { AnnouncementCollatorFactory } from './AnnouncementCollatorFactory';

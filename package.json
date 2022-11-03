@@ -1,0 +1,49 @@
+{
+  "name": "root",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "14 || 16"
+  },
+  "scripts": {
+    "dev": "concurrently \"yarn start\" \"yarn start-backend\"",
+    "dev:ci": "concurrently \"http-server --port 3000 --proxy http://localhost:3000? packages/app/dist\" \"yarn start-backend\"",
+    "start": "yarn workspace app start",
+    "start-backend": "yarn workspace backend start",
+    "start-backend:ci": "yarn workspace backend backstage-cli package build && node packages/backend",
+    "start:ci": "concurrently \"yarn start\" \"yarn start-backend:ci\"",
+    "build": "backstage-cli repo build --all",
+    "tsc": "tsc",
+    "tsc:full": "tsc --skipLibCheck false --incremental false",
+    "clean": "backstage-cli repo clean",
+    "diff": "lerna run diff --",
+    "test": "backstage-cli repo test",
+    "test:all": "backstage-cli repo test --coverage",
+    "lint": "backstage-cli repo lint --since origin/main",
+    "lint:all": "backstage-cli repo lint",
+    "release": "changeset version && yarn install",
+    "prepare": "husky install"
+  },
+  "workspaces": {
+    "packages": [
+      "plugins/**"
+    ]
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.20.0",
+    "@spotify/prettier-config": "^12.0.0",
+    "@types/webpack": "^5.28.0",
+    "concurrently": "^7.0.0",
+    "eslint-plugin-notice": "^0.9.10",
+    "husky": "^8.0.1",
+    "lerna": "^5.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.3.2",
+    "typescript": "~4.7.0"
+  },
+  "prettier": "@spotify/prettier-config",
+  "dependencies": {
+    "@changesets/cli": "^2.18.0"
+  },
+  "packageManager": "yarn@3.2.4"
+}
