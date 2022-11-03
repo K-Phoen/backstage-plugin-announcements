@@ -1,0 +1,35 @@
+name: Changeset
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-release-pr:
+    name: Create Changeset PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        with:
+          # Calls `changeset version`.
+          # Updates the versions for all packages described in changesets since last release.
+          # Will also create/append to a CHANGELOG file for each package using the summaries from the changesets.
+          version: yarn release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
