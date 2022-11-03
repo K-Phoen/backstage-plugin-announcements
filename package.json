@@ -18,7 +18,7 @@
     "test:all": "backstage-cli repo test --coverage",
     "lint": "backstage-cli repo lint --since origin/main",
     "lint:all": "backstage-cli repo lint",
-    "release": "changeset version",
+    "release": "changeset publish",
     "prepare": "husky install"
   },
   "workspaces": {
