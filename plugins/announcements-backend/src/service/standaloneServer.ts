@@ -32,7 +32,7 @@ export async function startStandaloneServer(options: ServerOptions): Promise<Ser
 
   let service = createServiceBuilder(module)
     .setPort(options.port)
-    .addRouter('/announcements-backend', router);
+    .addRouter('/api/announcements', router);
   if (options.enableCors) {
     service = service.enableCors({ origin: 'http://localhost:3000' });
   }
