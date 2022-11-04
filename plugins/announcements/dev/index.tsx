@@ -18,7 +18,9 @@ createDevApp()
 
         <Content>
           <Grid container>
-            <Grid item md={6}><AnnouncementsCard /></Grid>
+            <Grid item md={6}>
+              <AnnouncementsCard max={2} />
+            </Grid>
           </Grid>
         </Content>
       </Page>
