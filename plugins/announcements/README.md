@@ -1,13 +1,13 @@
-# announcements
+# Announcements plugin for Backstage
 
-Welcome to the announcements plugin!
+The Announcements plugin is both a frontend and a backend plugin that manages and displays announcements within Backstage.
 
-_This plugin was created through the Backstage CLI_
+This plugin provides:
 
-## Getting started
+* a component to display the latest announcements, for example on a homepage
+* pages to list, view, create, edit and delete announcements
+* integration with the [`@backstage/plugin-search`](https://github.com/backstage/backstage/tree/master/plugins/search) plugin
 
-Your plugin has been added to the example app in this repository, meaning you'll be able to access it by running `yarn start` in the root directory, and then navigating to [/announcements](http://localhost:3000/announcements).
+## Setup
 
-You can also serve the plugin in isolation by running `yarn start` in the plugin directory.
-This method of serving the plugin provides quicker iteration speed and a faster startup and hot reloads.
-It is only meant for local development, and the setup for it can be found inside the [/dev](./dev) directory.
+See [the project's README](../../README.md).
