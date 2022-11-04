@@ -22,8 +22,7 @@ export type CreateAnnouncementRequest = {
 };
 
 export interface AnnouncementsApi {
-  latestAnnouncements(): Promise<Announcement[]>;
-  announcements(): Promise<Announcement[]>;
+  announcements(opts: { max?: number }): Promise<Announcement[]>;
   announcementByID(id: string): Promise<Announcement>;
 
   createAnnouncement(request: CreateAnnouncementRequest): Promise<Announcement>;
@@ -88,7 +87,7 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
     }
 
     const request = new Request(`${baseApiUrl}${input}`, {
-      ...{method: 'DELETE'},
+      ...{ method: 'DELETE' },
       headers,
     });
 
@@ -99,12 +98,8 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
     });
   }
 
-  async latestAnnouncements(): Promise<Announcement[]> {
-    return this.fetch<Announcement[]>('/?max=5');
-  }
-
-  async announcements(): Promise<Announcement[]> {
-    return this.fetch<Announcement[]>('/');
+  async announcements({ max }: { max?: number }): Promise<Announcement[]> {
+    return this.fetch<Announcement[]>(`/?${max ? `max=${max}` : ''}`);
   }
 
   async announcementByID(id: string): Promise<Announcement> {
@@ -114,7 +109,7 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
   async createAnnouncement(request: CreateAnnouncementRequest): Promise<Announcement> {
     return await this.fetch<Announcement>(`/`, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request),
     });
   }
@@ -122,13 +117,13 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
   async updateAnnouncement(id: string, request: CreateAnnouncementRequest): Promise<Announcement> {
     return this.fetch<Announcement>(`/${id}`, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request),
     });
   }
 
   async deleteAnnouncementByID(id: string): Promise<void> {
-    return this.delete(`/${id}`, {method: 'DELETE'});
+    return this.delete(`/${id}`, { method: 'DELETE' });
   }
 
   lastSeenDate(): DateTime {

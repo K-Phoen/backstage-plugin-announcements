@@ -15,7 +15,11 @@ const useStyles = makeStyles({
   },
 });
 
-export const AnnouncementsCard = () => {
+type AnnouncementsCardOpts = {
+  max?: number;
+};
+
+export const AnnouncementsCard = ({ max }: AnnouncementsCardOpts) => {
   const classes = useStyles();
   const announcementsApi = useApi(announcementsApiRef);
   const announcementsLink = useRouteRef(rootRouteRef);
@@ -23,7 +27,9 @@ export const AnnouncementsCard = () => {
   const createAnnouncementLink = useRouteRef(announcementCreateRouteRef);
   const lastSeen = announcementsApi.lastSeenDate();
 
-  const { value: announcements, loading, error } = useAsync(async () => announcementsApi.latestAnnouncements());
+  const { value: announcements, loading, error } = useAsync(async () => announcementsApi.announcements({
+    max: max || 5,
+  }));
 
   if (loading) {
     return <Progress />;

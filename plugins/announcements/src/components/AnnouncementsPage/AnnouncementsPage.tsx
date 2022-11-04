@@ -14,7 +14,7 @@ const AnnouncementsTable = () => {
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
   const newAnnouncementLink = useRouteRef(announcementCreateRouteRef);
   const editAnnouncementLink = useRouteRef(announcementEditRouteRef);
-  const { value: announcements, loading, error, retry: refreshAnnouncements } = useAsyncRetry(async () => announcementsApi.announcements());
+  const { value: announcements, loading, error, retry: refreshAnnouncements } = useAsyncRetry(async () => announcementsApi.announcements({}));
 
   if (error) {
     return <Alert severity="error">{error.message}</Alert>;
