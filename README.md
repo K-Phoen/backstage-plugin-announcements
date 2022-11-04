@@ -10,4 +10,12 @@ This plugin provides:
 
 ## Setup
 
-See [the project's README](../../README.md).
+Find [installation instructions](./docs/index.md#installation) in our documentation.
+
+## How does it look?
+
+TBD
+
+## License
+
+This library is under the [MIT](LICENSE) license.
