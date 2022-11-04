@@ -7,7 +7,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import { DateTime } from 'luxon';
 import { useAsync } from 'react-use';
 import { announcementsApiRef } from '../../api';
-import { announcementViewRouteRef, rootRouteRef } from '../../routes';
+import { announcementCreateRouteRef, announcementViewRouteRef, rootRouteRef } from '../../routes';
 
 const useStyles = makeStyles({
   newAnnouncementIcon: {
@@ -20,6 +20,7 @@ export const AnnouncementsCard = () => {
   const announcementsApi = useApi(announcementsApiRef);
   const announcementsLink = useRouteRef(rootRouteRef);
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
+  const createAnnouncementLink = useRouteRef(announcementCreateRouteRef);
   const lastSeen = announcementsApi.lastSeenDate();
 
   const { value: announcements, loading, error } = useAsync(async () => announcementsApi.latestAnnouncements());
@@ -51,6 +52,11 @@ export const AnnouncementsCard = () => {
             </ListItem>
           </ListItem>
         ))}
+        {announcements?.length === 0 && (
+          <ListItem>
+            <ListItemText>No announcements yet, want to <Link to={createAnnouncementLink()}>add one</Link>?</ListItemText>
+          </ListItem>
+        )}
       </List>
     </InfoCard>
   );
