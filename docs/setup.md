@@ -68,3 +68,5 @@ const AppRoutes = () => (
   </FlatRoutes>
 );
 ```
+
+An interface to create/update/edit/delete announcements is now available at `/announcements`.
