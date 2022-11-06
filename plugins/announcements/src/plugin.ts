@@ -40,3 +40,13 @@ export const AnnouncementsCard = announcementsPlugin.provide(
     },
   }),
 );
+
+export const NewAnnouncementBanner = announcementsPlugin.provide(
+  createComponentExtension({
+    name: 'NewAnnouncementBanner',
+    component: {
+      lazy: () =>
+        import('./components/NewAnnouncementBanner').then(m => m.NewAnnouncementBanner),
+    },
+  }),
+);

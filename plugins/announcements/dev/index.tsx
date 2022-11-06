@@ -1,8 +1,13 @@
 import React from 'react';
 import { Content, Header, Page } from '@backstage/core-components';
 import { createDevApp } from '@backstage/dev-utils';
-import { announcementsPlugin, AnnouncementsPage, AnnouncementsCard } from '../src/plugin';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+import {
+  announcementsPlugin,
+  AnnouncementsPage,
+  AnnouncementsCard,
+  NewAnnouncementBanner,
+} from '../src/plugin';
 
 createDevApp()
   .registerPlugin(announcementsPlugin)
@@ -18,6 +23,13 @@ createDevApp()
 
         <Content>
           <Grid container>
+            <Grid item xs={12} md={12}>
+              <Typography variant="h4">Test homepage</Typography>
+            </Grid>
+
+            <Grid item md={12}>
+              <NewAnnouncementBanner />
+            </Grid>
             <Grid item md={6}>
               <AnnouncementsCard max={2} />
             </Grid>
