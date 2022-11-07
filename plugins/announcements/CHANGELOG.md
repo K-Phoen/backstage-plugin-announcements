@@ -1,5 +1,11 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.0.4
+
+### Patch Changes
+
+- 24b061c: Expose NewAnnouncementBanner component
+
 ## 0.0.3
 
 ### Patch Changes
