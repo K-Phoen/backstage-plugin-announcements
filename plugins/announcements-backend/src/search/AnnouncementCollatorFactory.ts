@@ -35,11 +35,11 @@ export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
   }
 
   private async *execute(): AsyncGenerator<IndexableAnnouncementDocument> {
-    this.logger.warn('indexing announcements');
+    this.logger.info('indexing announcements');
 
     const results = await this.announcementsClient.announcements();
 
-    this.logger.warn(`got ${results.length} announcements`);
+    this.logger.debug(`got ${results.length} announcements`);
 
     for (const result of results) {
       yield this.getDocumentInfo(result);
@@ -47,7 +47,7 @@ export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
   }
 
   private getDocumentInfo(announcement: Announcement): IndexableAnnouncementDocument {
-    this.logger.warn(`mapping announcement ${announcement.id} to indexable document`);
+    this.logger.debug(`mapping announcement ${announcement.id} to indexable document`);
 
     return {
       title: announcement.title,
