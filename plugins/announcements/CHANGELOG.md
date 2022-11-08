@@ -1,5 +1,12 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.0.5
+
+### Patch Changes
+
+- 4bfeb8a: Make a few component titles customizable
+- b679760: Use Cards instead of a table for the announcements page
+
 ## 0.0.4
 
 ### Patch Changes
