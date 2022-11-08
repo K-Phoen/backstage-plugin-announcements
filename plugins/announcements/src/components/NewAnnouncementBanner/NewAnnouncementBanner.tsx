@@ -109,7 +109,7 @@ export const NewAnnouncementBanner = () => {
         action={[
           <IconButton
             key="dismiss"
-            title="Permanently dismiss this message"
+            title="Mark as seen"
             color="inherit"
             onClick={handleClick}
           >
