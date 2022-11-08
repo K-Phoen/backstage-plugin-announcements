@@ -90,12 +90,16 @@ const AnnouncementsGrid = () => {
   );
 };
 
-export const AnnouncementsPage = () => {
+type AnnouncementsPageOpts = {
+  title?: string;
+};
+
+export const AnnouncementsPage = (opts: AnnouncementsPageOpts) => {
   const newAnnouncementLink = useRouteRef(announcementCreateRouteRef);
 
   return (
     <Page themeId="home">
-      <Header title="Announcements" />
+      <Header title={opts.title || "Announcements"} />
 
       <Content>
         <ContentHeader title="">

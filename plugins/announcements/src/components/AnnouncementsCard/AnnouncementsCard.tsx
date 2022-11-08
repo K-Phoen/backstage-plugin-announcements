@@ -16,10 +16,11 @@ const useStyles = makeStyles({
 });
 
 type AnnouncementsCardOpts = {
+  title?: string;
   max?: number;
 };
 
-export const AnnouncementsCard = ({ max }: AnnouncementsCardOpts) => {
+export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
   const classes = useStyles();
   const announcementsApi = useApi(announcementsApiRef);
   const announcementsLink = useRouteRef(rootRouteRef);
@@ -43,7 +44,7 @@ export const AnnouncementsCard = ({ max }: AnnouncementsCardOpts) => {
   };
 
   return (
-    <InfoCard title="Announcements" variant="gridItem" deepLink={deepLink}>
+    <InfoCard title={title || "Announcements"} variant="gridItem" deepLink={deepLink}>
       <List dense>
         {announcements?.map(announcement => (
           <ListItem key={announcement.id}>
