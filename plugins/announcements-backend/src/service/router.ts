@@ -1,9 +1,10 @@
 import { errorHandler } from '@backstage/backend-common';
 import express, { Request } from 'express';
 import Router from 'express-promise-router';
+import { DateTime } from 'luxon';
 import { v4 as uuid } from 'uuid';
 import { AnnouncementsContext } from './announcementsContextBuilder';
-import { Announcement } from './persistence/AnnouncementsDatabase';
+import { Announcement } from './model';
 
 interface AnnouncementRequest {
   publisher: string;
@@ -43,7 +44,7 @@ export async function createRouter(options: AnnouncementsContext): Promise<expre
       ...announcementRequest,
       ...{
         id: uuid(),
-        created_at: new Date(),
+        created_at: DateTime.now(),
       },
     }
 
