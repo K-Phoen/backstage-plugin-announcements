@@ -1,8 +1,10 @@
 import { getVoidLogger } from '@backstage/backend-common';
 import express from 'express';
+import { DateTime } from 'luxon';
 import request from 'supertest';
 import { AnnouncementsContext } from './announcementsContextBuilder';
-import { Announcement, AnnouncementsDatabase } from './persistence/AnnouncementsDatabase';
+import { Announcement } from './model';
+import { AnnouncementsDatabase } from './persistence/AnnouncementsDatabase';
 import { PersistenceContext } from './persistence/persistenceContext';
 import { createRouter } from './router';
 
@@ -52,7 +54,7 @@ describe('createRouter', () => {
           excerpt: "excerpt",
           body: "body",
           publisher: "user:default/name",
-          created_at: new Date("2022-11-02T15:28:08.539Z"),
+          created_at: DateTime.fromISO("2022-11-02T15:28:08.539Z"),
         },
       ] as Announcement[]);
 
@@ -67,7 +69,7 @@ describe('createRouter', () => {
           excerpt: "excerpt",
           body: "body",
           publisher: "user:default/name",
-          created_at: "2022-11-02T15:28:08.539Z",
+          created_at: "2022-11-02T15:28:08.539+00:00",
         },
       ]);
     });
