@@ -46,7 +46,7 @@ export async function createRouter(options: AnnouncementsContext): Promise<expre
         id: uuid(),
         created_at: DateTime.now(),
       },
-    }
+    };
 
     await persistenceContext.announcementsStore.insertAnnouncement(announcement);
 
@@ -61,8 +61,13 @@ export async function createRouter(options: AnnouncementsContext): Promise<expre
 
     const updatedAnnouncement: Announcement = {
       ...announcement,
-      ...req.body,
-    }
+      ...{
+        title: req.body.title,
+        excerpt: req.body.excerpt,
+        body: req.body.body,
+        publisher: req.body.publisher,
+      },
+    };
 
     await persistenceContext.announcementsStore.updateAnnouncement(updatedAnnouncement);
 
