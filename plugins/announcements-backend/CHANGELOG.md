@@ -1,5 +1,11 @@
 # @k-phoen/backstage-plugin-announcements-backend
 
+## 0.0.4
+
+### Patch Changes
+
+- 785ac0b: Bump dependencies to match Backstage 1.8.0
+
 ## 0.0.3
 
 ### Patch Changes
