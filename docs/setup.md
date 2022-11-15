@@ -5,7 +5,7 @@
 Add the plugin to your backend app:
 
 ```bash
-cd packages/backend && @k-phoen/backstage-plugin-announcements-backend
+cd packages/backend && yarn add @k-phoen/backstage-plugin-announcements-backend
 ```
 
 Create a file in `packages/backend/src/plugins/announcements.ts`:
@@ -49,7 +49,7 @@ async function main() {
 Add the plugin to your frontend app:
 
 ```bash
-cd packages/app && @k-phoen/backstage-plugin-announcements
+cd packages/app && yarn add @k-phoen/backstage-plugin-announcements
 ```
 
 Expose the announcements page:
