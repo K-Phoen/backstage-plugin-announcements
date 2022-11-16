@@ -1,23 +1,32 @@
 import React from 'react';
-import { Progress, Page, Header, Content, MarkdownContent, InfoCard } from '@backstage/core-components';
-import { useApi, useRouteRef, useRouteRefParams } from '@backstage/core-plugin-api';
-import Alert from '@material-ui/lab/Alert';
 import { DateTime } from 'luxon';
+import { Progress, Page, Header, Content, MarkdownContent, InfoCard, Link } from '@backstage/core-components';
+import { useApi, useRouteRef, useRouteRefParams } from '@backstage/core-plugin-api';
+import { parseEntityRef } from '@backstage/catalog-model';
+import { entityRouteRef } from '@backstage/plugin-catalog-react';
+import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 import { Announcement, announcementsApiRef } from '../../api';
 import { announcementViewRouteRef, rootRouteRef } from '../../routes';
+import { Grid } from '@material-ui/core';
 
 const AnnouncementDetails = ({ announcement }: { announcement: Announcement }) => {
   const announcementsLink = useRouteRef(rootRouteRef);
+  const entityLink = useRouteRef(entityRouteRef);
   const deepLink = {
     link: announcementsLink(),
     title: 'Back to announcements',
   };
 
+  const publisherRef = parseEntityRef(announcement.publisher);
+  const subHeader = (<span>
+    By <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>, {DateTime.fromISO(announcement.created_at).toRelative()}
+  </span>);
+
   return (
     <InfoCard
       title={announcement.title}
-      subheader={DateTime.fromISO(announcement.created_at).toRelative()}
+      subheader={subHeader}
       deepLink={deepLink}
     >
       <MarkdownContent content={announcement.body} />
@@ -54,7 +63,11 @@ export const AnnouncementPage = () => {
       <Header title={title} />
 
       <Content>
-        {content}
+        <Grid container justify="center" alignItems="center">
+          <Grid item sm={6}>
+            {content}
+          </Grid>
+        </Grid>
       </Content>
     </Page>
   );
