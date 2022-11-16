@@ -1,5 +1,11 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.0.7
+
+### Patch Changes
+
+- 127e248: Display announcement author as a link to its catalog page
+
 ## 0.0.6
 
 ### Patch Changes
