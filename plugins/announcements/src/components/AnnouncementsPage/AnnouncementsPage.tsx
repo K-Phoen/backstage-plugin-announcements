@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useAsyncRetry } from 'react-use';
+import { DateTime } from 'luxon';
 import { Page, Header, Content, Link, ItemCardGrid, Progress, Button, ItemCardHeader, ContentHeader } from '@backstage/core-components';
 import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
+import { parseEntityRef } from '@backstage/catalog-model';
+import { entityRouteRef } from '@backstage/plugin-catalog-react';
 import Alert from '@material-ui/lab/Alert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { Announcement, announcementsApiRef } from '../../api';
-import { announcementCreateRouteRef, announcementEditRouteRef, announcementViewRouteRef } from '../../routes';
 import { Card, CardActions, CardContent, CardMedia, makeStyles } from '@material-ui/core';
-import { DateTime } from 'luxon';
+import { announcementCreateRouteRef, announcementEditRouteRef, announcementViewRouteRef } from '../../routes';
+import { Announcement, announcementsApiRef } from '../../api';
 
 const useStyles = makeStyles((theme) => ({
   cardHeader: {
@@ -22,12 +24,14 @@ const AnnouncementCard = ({ announcement, onChange }: { announcement: Announceme
   const alertApi = useApi(alertApiRef);
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
   const editAnnouncementLink = useRouteRef(announcementEditRouteRef);
+  const entityLink = useRouteRef(entityRouteRef);
   const [deleting, setDeleting] = useState(false);
 
+  const publisherRef = parseEntityRef(announcement.publisher);
   const title = <Link className={classes.cardHeader} to={viewAnnouncementLink({ id: announcement.id })}>{announcement.title}</Link>;
   const subTitle = (
     <>
-      By {announcement.publisher}, {DateTime.fromISO(announcement.created_at).toRelative()}
+      By <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>, {DateTime.fromISO(announcement.created_at).toRelative()}
     </>
   );
 
