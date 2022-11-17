@@ -55,7 +55,7 @@ export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
       excerpt: announcement.excerpt,
       createdAt: announcement.created_at,
       // TODO this might not be correct
-      location: `/announcements/${announcement.id}`,
+      location: `/announcements/view/${announcement.id}`,
     };
   }
 }
