@@ -1,5 +1,11 @@
 # @k-phoen/backstage-plugin-announcements-backend
 
+## 0.0.5
+
+### Patch Changes
+
+- c6b1bda: Fix announcement link in search results
+
 ## 0.0.4
 
 ### Patch Changes
