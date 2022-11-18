@@ -5,6 +5,10 @@ import { DateTime } from 'luxon';
 import { v4 as uuid } from 'uuid';
 import { AnnouncementsContext } from './announcementsContextBuilder';
 import { Announcement } from './model';
+import { getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
+import {  AuthorizeResult } from '@backstage/plugin-permission-common';
+import { announcementEntityPermissions } from '@k-phoen/backstage-plugin-announcements-common';
+import { NotAllowedError } from '@backstage/errors';
 
 interface AnnouncementRequest {
   publisher: string;
@@ -14,7 +18,8 @@ interface AnnouncementRequest {
 }
 
 export async function createRouter(options: AnnouncementsContext): Promise<express.Router> {
-  const persistenceContext = options.persistenceContext;
+  const { persistenceContext, permissions } = options;
+  const { announcementCreatePermission, announcementDeletePermission } = announcementEntityPermissions
 
   const router = Router();
   router.use(express.json());
@@ -32,14 +37,38 @@ export async function createRouter(options: AnnouncementsContext): Promise<expre
   });
 
   router.delete('/:id', async (req: Request<{id: string}, {}, {}, {}>, res) => {
+    const token = getBearerTokenFromAuthorizationHeader(req.header('authorization'));
+
+    const decision = (
+      await permissions.authorize([{ permission: announcementDeletePermission }], {
+        token
+      })
+    )[0];
+
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError('Unauthorized'); 
+    }
+
     await persistenceContext.announcementsStore.deleteAnnouncementByID(req.params.id);
 
     return res.status(204).end();
   });
 
   router.post('/', async (req, res) => {
-    const announcementRequest: AnnouncementRequest = req.body;
+    const token = getBearerTokenFromAuthorizationHeader(req.header('authorization'));
 
+    const decision = (
+      await permissions.authorize([{ permission: announcementCreatePermission }], {
+        token
+      })
+    )[0];
+
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError('Unauthorized'); 
+    }
+
+    const announcementRequest: AnnouncementRequest = req.body;
+    
     const announcement: Announcement = {
       ...announcementRequest,
       ...{
