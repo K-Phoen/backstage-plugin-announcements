@@ -55,5 +55,48 @@ export default async function createPlugin({
     logger,
   });
 }
+```
 
+Nicely display announcements search results:
+
+```typescript
+// packages/app/components/search/SearchPage.tsx
+
+import { AnnouncementSearchResultListItem } from '@k-phoen/backstage-plugin-announcements';
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
+
+// ...
+<SearchType.Accordion
+  name="Result Type"
+  defaultValue="software-catalog"
+  types={[
+    // ...
+    {
+      value: 'announcements',
+      name: 'Announcements',
+      icon: <RecordVoiceOverIcon />,
+    },
+  ]}
+/>
+
+<SearchResult>
+  {({ results }) => (
+    <List>
+      {results.map(({ type, document, highlight, rank }) => {
+        switch (type) {
+          case 'announcements':
+            return (
+              <AnnouncementSearchResultListItem
+                key={document.location}
+                result={document}
+                highlight={highlight}
+                rank={rank}
+              />
+            );
+          // ...
+        }
+      })}
+    </List>
+  )}
+</SearchResult>
 ```
