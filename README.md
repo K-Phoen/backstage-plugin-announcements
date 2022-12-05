@@ -27,6 +27,10 @@ Announcements page:
 
 ![Announcements page](./docs/images/announcements_page.png)
 
+Announcements search:
+
+![Announcements search results](./docs/images/announcements_search.png)
+
 ## License
 
 This library is under the [MIT](LICENSE) license.
