@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "@backstage/plugin-permission-react": "^0.4.8",
     "@changesets/cli": "^2.18.0"
   },
   "devDependencies": {

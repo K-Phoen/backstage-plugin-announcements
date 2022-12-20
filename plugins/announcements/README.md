@@ -1,6 +1,6 @@
 # Announcements plugin for Backstage
 
-The Announcements plugin is both a frontend and a backend plugin that manages and displays announcements within Backstage.
+The Announcements plugin is a frontend, backend, and common plugin that manages and displays announcements within Backstage.
 
 This plugin provides:
 

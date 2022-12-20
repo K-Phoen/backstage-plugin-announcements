@@ -7,6 +7,9 @@ import { Announcement } from './model';
 import { AnnouncementsDatabase } from './persistence/AnnouncementsDatabase';
 import { PersistenceContext } from './persistence/persistenceContext';
 import { createRouter } from './router';
+import {
+  PermissionEvaluator,
+} from '@backstage/plugin-permission-common';
 
 describe('createRouter', () => {
   let app: express.Express;
@@ -27,6 +30,17 @@ describe('createRouter', () => {
     } as unknown as AnnouncementsDatabase,
   };
 
+  const mockedAuthorize: jest.MockedFunction<PermissionEvaluator['authorize']> = 
+    jest.fn();
+  
+  const mockedPermissionQuery: jest.MockedFunction<PermissionEvaluator['authorizeConditional']> = 
+    jest.fn();
+
+  const permissionEvaluator: PermissionEvaluator = {
+    authorize: mockedAuthorize,
+    authorizeConditional: mockedPermissionQuery,
+  };
+
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -35,7 +49,8 @@ describe('createRouter', () => {
     const announcementsContext: AnnouncementsContext = {
       logger: getVoidLogger(),
       persistenceContext: mockPersistenceContext,
-    }
+      permissions: permissionEvaluator
+    };
 
     const router = await createRouter(announcementsContext);
     app = express().use(router);
