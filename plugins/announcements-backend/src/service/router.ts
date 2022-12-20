@@ -19,7 +19,8 @@ interface AnnouncementRequest {
 
 export async function createRouter(options: AnnouncementsContext): Promise<express.Router> {
   const { persistenceContext, permissions } = options;
-  const { announcementCreatePermission, announcementDeletePermission } = announcementEntityPermissions
+  const { announcementCreatePermission, announcementDeletePermission, announcementUpdatePermission } = 
+    announcementEntityPermissions;
 
   const router = Router();
   router.use(express.json());
@@ -83,6 +84,18 @@ export async function createRouter(options: AnnouncementsContext): Promise<expre
   });
 
   router.put('/:id', async (req: Request<{id: string}, {}, AnnouncementRequest, {}>, res) => {
+    const token = getBearerTokenFromAuthorizationHeader(req.header('authorization'));
+
+    const decision = (
+      await permissions.authorize([{ permission: announcementUpdatePermission }], {
+        token
+      })
+    )[0];
+
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError('Unauthorized'); 
+    }
+
     const announcement = await persistenceContext.announcementsStore.announcementByID(req.params.id);
     if (!announcement) {
       return res.status(404).end();

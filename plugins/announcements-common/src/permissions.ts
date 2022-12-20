@@ -10,7 +10,13 @@ export const announcementDeletePermission = createPermission({
   attributes: { action: 'delete' },
 });
 
+export const announcementUpdatePermission = createPermission({
+  name: 'announcement.entity.update',
+  attributes: { action: 'update' },
+});
+
 export const announcementEntityPermissions = {
   announcementCreatePermission,
   announcementDeletePermission,
+  announcementUpdatePermission,
 };

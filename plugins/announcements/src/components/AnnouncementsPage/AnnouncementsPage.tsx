@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAsyncRetry } from 'react-use';
+import { usePermission } from '@backstage/plugin-permission-react';
+import { announcementEntityPermissions } from '@k-phoen/backstage-plugin-announcements-common';
 import { DateTime } from 'luxon';
 import { Page, Header, Content, Link, ItemCardGrid, Progress, Button, ItemCardHeader, ContentHeader } from '@backstage/core-components';
 import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
@@ -34,6 +36,9 @@ const AnnouncementCard = ({ announcement, onChange }: { announcement: Announceme
       By <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>, {DateTime.fromISO(announcement.created_at).toRelative()}
     </>
   );
+  const { announcementUpdatePermission, announcementDeletePermission } = announcementEntityPermissions;
+  const { loading: loadingDeletePermission, allowed: canDelete } = usePermission({ permission: announcementDeletePermission });
+  const { loading: loadingUpdatePermission, allowed: canUpdate } = usePermission({ permission: announcementUpdatePermission });
 
   const handleDelete = async () => {
     setDeleting(true);
@@ -64,12 +69,16 @@ const AnnouncementCard = ({ announcement, onChange }: { announcement: Announceme
         {announcement.excerpt}
       </CardContent>
       <CardActions>
-        <Button to={editAnnouncementLink({ id: announcement.id })} color="default">
-          <EditIcon />
-        </Button>
-        <Button to="#" onClick={handleDelete} color="default">
-          <DeleteIcon />
-        </Button>
+        {!loadingUpdatePermission && canUpdate && (
+          <Button to={editAnnouncementLink({ id: announcement.id })} color="default">
+            <EditIcon />
+          </Button>
+        )}
+        {!loadingDeletePermission && canDelete && (
+          <Button to="#" onClick={handleDelete} color="default">
+            <DeleteIcon />
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
@@ -100,6 +109,8 @@ type AnnouncementsPageOpts = {
 
 export const AnnouncementsPage = (opts: AnnouncementsPageOpts) => {
   const newAnnouncementLink = useRouteRef(announcementCreateRouteRef);
+  const { announcementCreatePermission } = announcementEntityPermissions;
+  const { loading: loadingCreatePermission, allowed: canCreate } = usePermission({ permission: announcementCreatePermission });
 
   return (
     <Page themeId="home">
@@ -107,9 +118,11 @@ export const AnnouncementsPage = (opts: AnnouncementsPageOpts) => {
 
       <Content>
         <ContentHeader title="">
-          <Button to={newAnnouncementLink()} color="primary" variant="contained">
-            New announcement
-          </Button>
+          {!loadingCreatePermission && (
+            <Button disabled={!canCreate} to={newAnnouncementLink()} color="primary" variant="contained">
+              New announcement
+            </Button>
+          )}
         </ContentHeader>
 
         <AnnouncementsGrid />

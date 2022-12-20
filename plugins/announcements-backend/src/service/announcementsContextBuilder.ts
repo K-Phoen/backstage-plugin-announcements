@@ -19,6 +19,6 @@ export const buildAnnouncementsContext = async ({ logger, database, permissions 
   return {
     logger: logger,
     persistenceContext: await initializePersistenceContext(database),
-    permissions
+    permissions: permissions,
   };
 };
