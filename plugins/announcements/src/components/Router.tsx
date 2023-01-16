@@ -1,7 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router';
 import { RequirePermission } from '@backstage/plugin-permission-react';
-import { announcementEntityPermissions } from '@k-phoen/backstage-plugin-announcements-common';
+import {
+  announcementCreatePermission,
+  announcementUpdatePermission,
+} from '@k-phoen/backstage-plugin-announcements-common';
 import {
   announcementCreateRouteRef,
   announcementEditRouteRef,
@@ -13,9 +16,6 @@ import { CreateAnnouncementPage } from './CreateAnnouncementPage';
 import { EditAnnouncementPage } from './EditAnnouncementPage';
 
 export const Router = () => {
-  const { announcementCreatePermission, announcementUpdatePermission } =
-    announcementEntityPermissions;
-
   return (
     <Routes>
       <Route path="/" element={<AnnouncementsPage />} />

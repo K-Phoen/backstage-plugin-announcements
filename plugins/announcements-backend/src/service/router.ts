@@ -5,8 +5,15 @@ import { v4 as uuid } from 'uuid';
 import { errorHandler } from '@backstage/backend-common';
 import { NotAllowedError } from '@backstage/errors';
 import { getBearerTokenFromAuthorizationHeader } from '@backstage/plugin-auth-node';
-import { AuthorizeResult } from '@backstage/plugin-permission-common';
-import { announcementEntityPermissions } from '@k-phoen/backstage-plugin-announcements-common';
+import {
+  AuthorizeResult,
+  BasicPermission,
+} from '@backstage/plugin-permission-common';
+import {
+  announcementCreatePermission,
+  announcementDeletePermission,
+  announcementUpdatePermission,
+} from '@k-phoen/backstage-plugin-announcements-common';
 import { AnnouncementsContext } from './announcementsContextBuilder';
 import { Announcement } from './model';
 
@@ -21,11 +28,23 @@ export async function createRouter(
   options: AnnouncementsContext,
 ): Promise<express.Router> {
   const { persistenceContext, permissions } = options;
-  const {
-    announcementCreatePermission,
-    announcementDeletePermission,
-    announcementUpdatePermission,
-  } = announcementEntityPermissions;
+
+  const isRequestAuthorized = async (
+    req: Request,
+    permission: BasicPermission,
+  ): Promise<boolean> => {
+    const token = getBearerTokenFromAuthorizationHeader(
+      req.header('authorization'),
+    );
+
+    const decision = (
+      await permissions.authorize([{ permission: permission }], {
+        token,
+      })
+    )[0];
+
+    return decision.result !== AuthorizeResult.DENY;
+  };
 
   const router = Router();
   router.use(express.json());
@@ -49,20 +68,7 @@ export async function createRouter(
   router.delete(
     '/:id',
     async (req: Request<{ id: string }, {}, {}, {}>, res) => {
-      const token = getBearerTokenFromAuthorizationHeader(
-        req.header('authorization'),
-      );
-
-      const decision = (
-        await permissions.authorize(
-          [{ permission: announcementDeletePermission }],
-          {
-            token,
-          },
-        )
-      )[0];
-
-      if (decision.result === AuthorizeResult.DENY) {
+      if (!(await isRequestAuthorized(req, announcementDeletePermission))) {
         throw new NotAllowedError('Unauthorized');
       }
 
@@ -75,25 +81,11 @@ export async function createRouter(
   );
 
   router.post('/', async (req, res) => {
-    const token = getBearerTokenFromAuthorizationHeader(
-      req.header('authorization'),
-    );
-
-    const decision = (
-      await permissions.authorize(
-        [{ permission: announcementCreatePermission }],
-        {
-          token,
-        },
-      )
-    )[0];
-
-    if (decision.result === AuthorizeResult.DENY) {
+    if (!(await isRequestAuthorized(req, announcementCreatePermission))) {
       throw new NotAllowedError('Unauthorized');
     }
 
     const announcementRequest: AnnouncementRequest = req.body;
-
     const announcement: Announcement = {
       ...announcementRequest,
       ...{
@@ -112,20 +104,7 @@ export async function createRouter(
   router.put(
     '/:id',
     async (req: Request<{ id: string }, {}, AnnouncementRequest, {}>, res) => {
-      const token = getBearerTokenFromAuthorizationHeader(
-        req.header('authorization'),
-      );
-
-      const decision = (
-        await permissions.authorize(
-          [{ permission: announcementUpdatePermission }],
-          {
-            token,
-          },
-        )
-      )[0];
-
-      if (decision.result === AuthorizeResult.DENY) {
+      if (!(await isRequestAuthorized(req, announcementUpdatePermission))) {
         throw new NotAllowedError('Unauthorized');
       }
 

@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useAsyncRetry } from 'react-use';
 import { usePermission } from '@backstage/plugin-permission-react';
-import { announcementEntityPermissions } from '@k-phoen/backstage-plugin-announcements-common';
+import {
+  announcementCreatePermission,
+  announcementUpdatePermission,
+  announcementDeletePermission,
+} from '@k-phoen/backstage-plugin-announcements-common';
 import { DateTime } from 'luxon';
 import {
   Page,
@@ -70,8 +74,6 @@ const AnnouncementCard = ({
       {DateTime.fromISO(announcement.created_at).toRelative()}
     </>
   );
-  const { announcementUpdatePermission, announcementDeletePermission } =
-    announcementEntityPermissions;
   const { loading: loadingDeletePermission, allowed: canDelete } =
     usePermission({ permission: announcementDeletePermission });
   const { loading: loadingUpdatePermission, allowed: canUpdate } =
@@ -156,7 +158,6 @@ type AnnouncementsPageOpts = {
 
 export const AnnouncementsPage = (opts: AnnouncementsPageOpts) => {
   const newAnnouncementLink = useRouteRef(announcementCreateRouteRef);
-  const { announcementCreatePermission } = announcementEntityPermissions;
   const { loading: loadingCreatePermission, allowed: canCreate } =
     usePermission({ permission: announcementCreatePermission });
 

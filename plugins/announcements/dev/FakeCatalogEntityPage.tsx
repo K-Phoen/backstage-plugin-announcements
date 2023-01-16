@@ -6,9 +6,7 @@ export const FakeCatalogEntityPage = () => {
     <Page themeId="home">
       <Header title="FakeCatalogPage" />
 
-      <Content>
-        plop
-      </Content>
+      <Content>plop</Content>
     </Page>
   );
 };
