@@ -13,7 +13,6 @@
     "type": "git",
     "url": "https://github.com/K-Phoen/backstage-plugin-announcements.git"
   },
-  "private": true,
   "publishConfig": {
     "access": "public",
     "main": "dist/index.cjs.js",
