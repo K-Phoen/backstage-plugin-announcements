@@ -1,3 +1,6 @@
+import { Server } from 'http';
+import Knex from 'knex';
+import { Logger } from 'winston';
 import {
   createServiceBuilder,
   useHotMemoize,
@@ -5,9 +8,6 @@ import {
   loadBackendConfig,
   SingleHostDiscovery,
 } from '@backstage/backend-common';
-import { Server } from 'http';
-import Knex from 'knex';
-import { Logger } from 'winston';
 import { buildAnnouncementsContext } from './announcementsContextBuilder';
 import { createRouter } from './router';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';

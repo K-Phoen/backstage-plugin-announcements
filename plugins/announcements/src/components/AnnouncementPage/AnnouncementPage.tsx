@@ -1,16 +1,32 @@
 import React from 'react';
+import useAsync from 'react-use/lib/useAsync';
 import { DateTime } from 'luxon';
-import { Progress, Page, Header, Content, MarkdownContent, InfoCard, Link } from '@backstage/core-components';
-import { useApi, useRouteRef, useRouteRefParams } from '@backstage/core-plugin-api';
+import {
+  Progress,
+  Page,
+  Header,
+  Content,
+  MarkdownContent,
+  InfoCard,
+  Link,
+} from '@backstage/core-components';
+import {
+  useApi,
+  useRouteRef,
+  useRouteRefParams,
+} from '@backstage/core-plugin-api';
 import { parseEntityRef } from '@backstage/catalog-model';
 import { entityRouteRef } from '@backstage/plugin-catalog-react';
 import Alert from '@material-ui/lab/Alert';
-import useAsync from 'react-use/lib/useAsync';
+import { Grid } from '@material-ui/core';
 import { Announcement, announcementsApiRef } from '../../api';
 import { announcementViewRouteRef, rootRouteRef } from '../../routes';
-import { Grid } from '@material-ui/core';
 
-const AnnouncementDetails = ({ announcement }: { announcement: Announcement }) => {
+const AnnouncementDetails = ({
+  announcement,
+}: {
+  announcement: Announcement;
+}) => {
   const announcementsLink = useRouteRef(rootRouteRef);
   const entityLink = useRouteRef(entityRouteRef);
   const deepLink = {
@@ -19,9 +35,12 @@ const AnnouncementDetails = ({ announcement }: { announcement: Announcement }) =
   };
 
   const publisherRef = parseEntityRef(announcement.publisher);
-  const subHeader = (<span>
-    By <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>, {DateTime.fromISO(announcement.created_at).toRelative()}
-  </span>);
+  const subHeader = (
+    <span>
+      By <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>,{' '}
+      {DateTime.fromISO(announcement.created_at).toRelative()}
+    </span>
+  );
 
   return (
     <InfoCard
@@ -37,9 +56,11 @@ const AnnouncementDetails = ({ announcement }: { announcement: Announcement }) =
 export const AnnouncementPage = () => {
   const announcementsApi = useApi(announcementsApiRef);
   const { id } = useRouteRefParams(announcementViewRouteRef);
-  const { value, loading, error } = useAsync(async () => announcementsApi.announcementByID(id));
+  const { value, loading, error } = useAsync(async () =>
+    announcementsApi.announcementByID(id),
+  );
 
-  let title = "Announcements";
+  let title = 'Announcements';
   let content: React.ReactNode = <Progress />;
 
   if (loading) {
@@ -47,7 +68,7 @@ export const AnnouncementPage = () => {
   } else if (error) {
     content = <Alert severity="error">{error.message}</Alert>;
   } else {
-    title = `${value!.title} – Announcements`
+    title = `${value!.title} – Announcements`;
     content = <AnnouncementDetails announcement={value!} />;
 
     const lastSeen = announcementsApi.lastSeenDate();

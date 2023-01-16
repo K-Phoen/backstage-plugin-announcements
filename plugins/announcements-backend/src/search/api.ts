@@ -1,6 +1,6 @@
+import crossFetch from 'cross-fetch';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
 import { ResponseError } from '@backstage/errors';
-import crossFetch from 'cross-fetch';
 
 export type Announcement = {
   id: string;
@@ -14,7 +14,7 @@ export type Announcement = {
 export class AnnouncementsClient {
   private readonly discoveryApi: DiscoveryApi;
 
-  constructor(opts: {discoveryApi: DiscoveryApi}) {
+  constructor(opts: { discoveryApi: DiscoveryApi }) {
     this.discoveryApi = opts.discoveryApi;
   }
 

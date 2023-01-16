@@ -23,7 +23,9 @@ export type PersistenceContext = {
  *
  * @public
  */
-export const initializePersistenceContext = async (database: PluginDatabaseManager): Promise<PersistenceContext> => {
+export const initializePersistenceContext = async (
+  database: PluginDatabaseManager,
+): Promise<PersistenceContext> => {
   const client = await database.getClient();
 
   if (!database.migrations?.skip) {

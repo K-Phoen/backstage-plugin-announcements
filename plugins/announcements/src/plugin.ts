@@ -1,4 +1,12 @@
-import { createApiFactory, createComponentExtension, createPlugin, createRoutableExtension, discoveryApiRef, errorApiRef, identityApiRef } from '@backstage/core-plugin-api';
+import {
+  createApiFactory,
+  createComponentExtension,
+  createPlugin,
+  createRoutableExtension,
+  discoveryApiRef,
+  errorApiRef,
+  identityApiRef,
+} from '@backstage/core-plugin-api';
 import { announcementsApiRef, DefaultAnnouncementsApi } from './api';
 import { rootRouteRef } from './routes';
 
@@ -10,7 +18,11 @@ export const announcementsPlugin = createPlugin({
   apis: [
     createApiFactory({
       api: announcementsApiRef,
-      deps: { discoveryApi: discoveryApiRef, identityApi: identityApiRef, errorApi: errorApiRef },
+      deps: {
+        discoveryApi: discoveryApiRef,
+        identityApi: identityApiRef,
+        errorApi: errorApiRef,
+      },
       factory: ({ discoveryApi, identityApi, errorApi }) => {
         return new DefaultAnnouncementsApi({
           discoveryApi: discoveryApi,
@@ -19,14 +31,13 @@ export const announcementsPlugin = createPlugin({
         });
       },
     }),
-  ]
+  ],
 });
 
 export const AnnouncementsPage = announcementsPlugin.provide(
   createRoutableExtension({
     name: 'AnnouncementsPage',
-    component: () =>
-      import('./components/Router').then(m => m.Router),
+    component: () => import('./components/Router').then(m => m.Router),
     mountPoint: rootRouteRef,
   }),
 );
@@ -46,7 +57,9 @@ export const NewAnnouncementBanner = announcementsPlugin.provide(
     name: 'NewAnnouncementBanner',
     component: {
       lazy: () =>
-        import('./components/NewAnnouncementBanner').then(m => m.NewAnnouncementBanner),
+        import('./components/NewAnnouncementBanner').then(
+          m => m.NewAnnouncementBanner,
+        ),
     },
   }),
 );

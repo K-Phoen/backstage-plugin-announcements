@@ -11,9 +11,9 @@ export const CreateAnnouncementPage = () => {
   const onSubmit = async (request: CreateAnnouncementRequest) => {
     try {
       await announcementsApi.createAnnouncement(request);
-      alertApi.post({message: 'Announcement created.', severity: 'success'});
+      alertApi.post({ message: 'Announcement created.', severity: 'success' });
     } catch (err) {
-      alertApi.post({message: (err as Error).message, severity: 'error'});
+      alertApi.post({ message: (err as Error).message, severity: 'error' });
     }
   };
 
@@ -22,7 +22,10 @@ export const CreateAnnouncementPage = () => {
       <Header title="New announcement" />
 
       <Content>
-        <AnnouncementForm initialData={{} as CreateAnnouncementRequest} onSubmit={onSubmit} />
+        <AnnouncementForm
+          initialData={{} as CreateAnnouncementRequest}
+          onSubmit={onSubmit}
+        />
       </Content>
     </Page>
   );

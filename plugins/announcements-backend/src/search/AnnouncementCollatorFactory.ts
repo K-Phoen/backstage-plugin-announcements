@@ -1,8 +1,8 @@
-import { DiscoveryApi } from '@backstage/core-plugin-api';
-import { DocumentCollatorFactory, } from '@backstage/plugin-search-common';
 import { Readable } from 'stream';
 import { Logger } from 'winston';
-import { IndexableDocument } from "@backstage/plugin-search-common";
+import { DiscoveryApi } from '@backstage/core-plugin-api';
+import { DocumentCollatorFactory } from '@backstage/plugin-search-common';
+import { IndexableDocument } from '@backstage/plugin-search-common';
 import { Announcement, AnnouncementsClient } from './api';
 
 export type IndexableAnnouncementDocument = IndexableDocument & {
@@ -13,7 +13,7 @@ export type IndexableAnnouncementDocument = IndexableDocument & {
 type AnnouncementCollatorOptions = {
   logger: Logger;
   discoveryApi: DiscoveryApi;
-}
+};
 
 export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
   public readonly type: string = 'announcements';
@@ -27,7 +27,9 @@ export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
 
   private constructor(options: AnnouncementCollatorOptions) {
     this.logger = options.logger;
-    this.announcementsClient = new AnnouncementsClient({discoveryApi: options.discoveryApi});
+    this.announcementsClient = new AnnouncementsClient({
+      discoveryApi: options.discoveryApi,
+    });
   }
 
   async getCollator() {
@@ -46,8 +48,12 @@ export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
     }
   }
 
-  private getDocumentInfo(announcement: Announcement): IndexableAnnouncementDocument {
-    this.logger.debug(`mapping announcement ${announcement.id} to indexable document`);
+  private getDocumentInfo(
+    announcement: Announcement,
+  ): IndexableAnnouncementDocument {
+    this.logger.debug(
+      `mapping announcement ${announcement.id} to indexable document`,
+    );
 
     return {
       title: announcement.title,

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Content, Header, Page } from '@backstage/core-components';
-import { createPlugin, createRoutableExtension } from '@backstage/core-plugin-api';
+import {
+  createPlugin,
+  createRoutableExtension,
+} from '@backstage/core-plugin-api';
 import { createDevApp } from '@backstage/dev-utils';
 import { entityRouteRef } from '@backstage/plugin-catalog-react';
 import { Grid, Typography } from '@material-ui/core';
@@ -21,7 +24,8 @@ const fakeCatalogPlugin = createPlugin({
 export const CatalogEntityPage: () => JSX.Element = fakeCatalogPlugin.provide(
   createRoutableExtension({
     name: 'CatalogEntityPage',
-    component: () => import('./FakeCatalogEntityPage').then(m => m.FakeCatalogEntityPage),
+    component: () =>
+      import('./FakeCatalogEntityPage').then(m => m.FakeCatalogEntityPage),
     mountPoint: entityRouteRef,
   }),
 );
@@ -32,12 +36,12 @@ createDevApp()
   .addPage({
     element: <AnnouncementsPage />,
     title: 'Root Page',
-    path: '/announcements'
+    path: '/announcements',
   })
   .addPage({
     element: <CatalogEntityPage />,
     title: 'Catalog Entity Page',
-    path: '/catalog'
+    path: '/catalog',
   })
   .addPage({
     element: (
@@ -61,6 +65,6 @@ createDevApp()
       </Page>
     ),
     title: 'AnnouncementsCard',
-    path: '/announcements/card'
+    path: '/announcements/card',
   })
   .render();
