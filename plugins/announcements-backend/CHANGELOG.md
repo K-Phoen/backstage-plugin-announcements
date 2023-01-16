@@ -1,5 +1,18 @@
 # @k-phoen/backstage-plugin-announcements-backend
 
+## 0.1.0
+
+### Minor Changes
+
+- 062aca5: Add permissioning around creating and deleting announcements
+
+### Patch Changes
+
+- 0c12eea: Bump Backstage dependencies
+- Updated dependencies [062aca5]
+- Updated dependencies [0c12eea]
+  - @k-phoen/backstage-plugin-announcements-common@0.0.2
+
 ## 0.0.5
 
 ### Patch Changes

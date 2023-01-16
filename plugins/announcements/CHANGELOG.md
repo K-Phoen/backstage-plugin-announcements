@@ -1,5 +1,14 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.0.8
+
+### Patch Changes
+
+- 0c12eea: Bump Backstage dependencies
+- Updated dependencies [062aca5]
+- Updated dependencies [0c12eea]
+  - @k-phoen/backstage-plugin-announcements-common@0.0.2
+
 ## 0.0.7
 
 ### Patch Changes
