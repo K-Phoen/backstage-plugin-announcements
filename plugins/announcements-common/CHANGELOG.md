@@ -1,5 +1,12 @@
 # @k-phoen/backstage-plugin-announcements-common
 
+## 0.0.5
+
+### Patch Changes
+
+- 0e1d000: Give up on workspace:^ constraints
+- 56d5e6d: Try and setup release pipeline to replace 'workspace:\*' version constraints
+
 ## 0.0.4
 
 ### Patch Changes
