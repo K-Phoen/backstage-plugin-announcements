@@ -1,7 +1,12 @@
-import { WebStorage } from '@backstage/core-app-api';
-import { createApiRef, DiscoveryApi, ErrorApi, IdentityApi } from '@backstage/core-plugin-api';
-import { ResponseError } from '@backstage/errors';
 import { DateTime } from 'luxon';
+import { WebStorage } from '@backstage/core-app-api';
+import {
+  createApiRef,
+  DiscoveryApi,
+  ErrorApi,
+  IdentityApi,
+} from '@backstage/core-plugin-api';
+import { ResponseError } from '@backstage/errors';
 
 const lastSeenKey = 'user_last_seen_date';
 
@@ -26,7 +31,10 @@ export interface AnnouncementsApi {
   announcementByID(id: string): Promise<Announcement>;
 
   createAnnouncement(request: CreateAnnouncementRequest): Promise<Announcement>;
-  updateAnnouncement(id: string, request: CreateAnnouncementRequest): Promise<Announcement>;
+  updateAnnouncement(
+    id: string,
+    request: CreateAnnouncementRequest,
+  ): Promise<Announcement>;
   deleteAnnouncementByID(id: string): Promise<void>;
 
   lastSeenDate(): DateTime;
@@ -46,7 +54,7 @@ type Options = {
 export class DefaultAnnouncementsApi implements AnnouncementsApi {
   private readonly discoveryApi: DiscoveryApi;
   private readonly identityApi: IdentityApi;
-  private readonly webStorage: WebStorage
+  private readonly webStorage: WebStorage;
 
   constructor(opts: Options) {
     this.discoveryApi = opts.discoveryApi;
@@ -106,7 +114,9 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
     return this.fetch<Announcement>(`/${id}`);
   }
 
-  async createAnnouncement(request: CreateAnnouncementRequest): Promise<Announcement> {
+  async createAnnouncement(
+    request: CreateAnnouncementRequest,
+  ): Promise<Announcement> {
     return await this.fetch<Announcement>(`/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -114,7 +124,10 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
     });
   }
 
-  async updateAnnouncement(id: string, request: CreateAnnouncementRequest): Promise<Announcement> {
+  async updateAnnouncement(
+    id: string,
+    request: CreateAnnouncementRequest,
+  ): Promise<Announcement> {
     return this.fetch<Announcement>(`/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -130,7 +143,7 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
     const lastSeen = this.webStorage.get<string>(lastSeenKey);
     if (!lastSeen) {
       // magic default date, probably enough in the past to consider every announcement as "not seen"
-      return DateTime.fromISO("1990-01-01");
+      return DateTime.fromISO('1990-01-01');
     }
 
     return DateTime.fromISO(lastSeen);

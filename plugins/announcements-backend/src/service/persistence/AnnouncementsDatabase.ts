@@ -30,7 +30,7 @@ const timestampToDateTime = (input: Date | string): DateTime => {
   }
 
   return result;
-}
+};
 
 const announcementToDB = (announcement: Announcement): DbAnnouncement => {
   return {
@@ -41,7 +41,7 @@ const announcementToDB = (announcement: Announcement): DbAnnouncement => {
     publisher: announcement.publisher,
     created_at: announcement.created_at.toSQL(),
   };
-}
+};
 
 const DBToAnnouncement = (announcementDb: DbAnnouncement): Announcement => {
   return {
@@ -52,13 +52,16 @@ const DBToAnnouncement = (announcementDb: DbAnnouncement): Announcement => {
     publisher: announcementDb.publisher,
     created_at: timestampToDateTime(announcementDb.created_at),
   };
-}
+};
 
 export class AnnouncementsDatabase {
-  constructor(private readonly db: Knex) { }
+  constructor(private readonly db: Knex) {}
 
   async announcements(request: AnnouncementsFilters): Promise<Announcement[]> {
-    const queryBuilder = this.db<DbAnnouncement>(announcementsTable).orderBy('created_at', 'desc');
+    const queryBuilder = this.db<DbAnnouncement>(announcementsTable).orderBy(
+      'created_at',
+      'desc',
+    );
 
     if (request.max) {
       queryBuilder.limit(request.max);
@@ -68,7 +71,9 @@ export class AnnouncementsDatabase {
   }
 
   async announcementByID(id: string): Promise<Announcement | undefined> {
-    const dbAnnouncement = await this.db<DbAnnouncement>(announcementsTable).where('id', id).first();
+    const dbAnnouncement = await this.db<DbAnnouncement>(announcementsTable)
+      .where('id', id)
+      .first();
     if (!dbAnnouncement) {
       return undefined;
     }
@@ -81,10 +86,14 @@ export class AnnouncementsDatabase {
   }
 
   async insertAnnouncement(announcement: Announcement) {
-    await this.db<DbAnnouncement>(announcementsTable).insert(announcementToDB(announcement));
+    await this.db<DbAnnouncement>(announcementsTable).insert(
+      announcementToDB(announcement),
+    );
   }
 
   async updateAnnouncement(announcement: Announcement) {
-    await this.db<DbAnnouncement>(announcementsTable).where('id', announcement.id).update(announcementToDB(announcement));
+    await this.db<DbAnnouncement>(announcementsTable)
+      .where('id', announcement.id)
+      .update(announcementToDB(announcement));
   }
 }

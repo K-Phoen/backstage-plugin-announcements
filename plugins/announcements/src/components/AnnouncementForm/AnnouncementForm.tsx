@@ -1,11 +1,11 @@
 import React from 'react';
+import MDEditor from '@uiw/react-md-editor';
 import { InfoCard } from '@backstage/core-components';
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { Button, makeStyles, TextField } from '@material-ui/core';
-import MDEditor from '@uiw/react-md-editor';
 import { CreateAnnouncementRequest } from '../../api';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   formRoot: {
     '& > *': {
       margin: theme.spacing(1),
@@ -18,7 +18,10 @@ export type AnnouncementFormProps = {
   onSubmit: (data: CreateAnnouncementRequest) => Promise<void>;
 };
 
-export const AnnouncementForm = ({ initialData, onSubmit }: AnnouncementFormProps) => {
+export const AnnouncementForm = ({
+  initialData,
+  onSubmit,
+}: AnnouncementFormProps) => {
   const classes = useStyles();
   const identityApi = useApi(identityApiRef);
   const [form, setForm] = React.useState(initialData);
@@ -39,16 +42,18 @@ export const AnnouncementForm = ({ initialData, onSubmit }: AnnouncementFormProp
     const createRequest = {
       ...form,
       ...{
-        publisher: userIdentity.userEntityRef
+        publisher: userIdentity.userEntityRef,
       },
-    }
+    };
 
     await onSubmit(createRequest);
     setLoading(false);
   };
 
   return (
-    <InfoCard title={initialData.title? `Edit announcement` : "New announcement"}>
+    <InfoCard
+      title={initialData.title ? `Edit announcement` : 'New announcement'}
+    >
       <form className={classes.formRoot} onSubmit={handleSubmit}>
         <div>
           <TextField
@@ -73,11 +78,18 @@ export const AnnouncementForm = ({ initialData, onSubmit }: AnnouncementFormProp
         <div>
           <MDEditor
             value={form.body}
-            style={{minHeight: '30rem'}}
+            style={{ minHeight: '30rem' }}
             onChange={value => setForm({ ...form, ...{ body: value || '' } })}
           />
         </div>
-        <Button variant='contained' color='primary' type='submit' disabled={loading}>Submit</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          disabled={loading}
+        >
+          Submit
+        </Button>
       </form>
     </InfoCard>
   );

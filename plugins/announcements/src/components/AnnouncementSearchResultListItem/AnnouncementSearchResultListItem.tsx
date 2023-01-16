@@ -1,7 +1,11 @@
 import React from 'react';
+import { DateTime } from 'luxon';
 import { Link } from '@backstage/core-components';
 import { useAnalytics } from '@backstage/core-plugin-api';
-import { IndexableDocument, ResultHighlight } from '@backstage/plugin-search-common';
+import {
+  IndexableDocument,
+  ResultHighlight,
+} from '@backstage/plugin-search-common';
 import { HighlightedSearchResultText } from '@backstage/plugin-search-react';
 import {
   Divider,
@@ -11,7 +15,6 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
-import { DateTime } from 'luxon';
 
 const useStyles = makeStyles({
   createdAt: {
@@ -38,7 +41,11 @@ type Props = {
   rank?: number;
 };
 
-export const AnnouncementSearchResultListItem = ({ result, rank, highlight }: Props) => {
+export const AnnouncementSearchResultListItem = ({
+  result,
+  rank,
+  highlight,
+}: Props) => {
   const classes = useStyles();
   const analytics = useAnalytics();
 
@@ -53,32 +60,35 @@ export const AnnouncementSearchResultListItem = ({ result, rank, highlight }: Pr
 
   const title = (
     <Link noTrack to={result.location} onClick={handleClick}>
-      {
-        highlight?.fields.title ? (
-          <HighlightedSearchResultText
-            text={highlight.fields.title}
-            preTag={highlight.preTag}
-            postTag={highlight.postTag}
-          />
-        ) : result.title
-      }
+      {highlight?.fields.title ? (
+        <HighlightedSearchResultText
+          text={highlight.fields.title}
+          preTag={highlight.preTag}
+          postTag={highlight.postTag}
+        />
+      ) : (
+        result.title
+      )}
     </Link>
   );
   const excerpt = (
     <>
-      <span className={classes.createdAt}>Published <span title={document.createdAt}>{DateTime.fromISO(document.createdAt).toRelative()}</span></span>
+      <span className={classes.createdAt}>
+        Published{' '}
+        <span title={document.createdAt}>
+          {DateTime.fromISO(document.createdAt).toRelative()}
+        </span>
+      </span>
       <>
-        {
-          highlight?.fields.text ? (
-            <HighlightedSearchResultText
-              text={highlight.fields.text}
-              preTag={highlight.preTag}
-              postTag={highlight.postTag}
-            />
-          ) : (
-            result.text
-          )
-        }
+        {highlight?.fields.text ? (
+          <HighlightedSearchResultText
+            text={highlight.fields.text}
+            preTag={highlight.preTag}
+            postTag={highlight.postTag}
+          />
+        ) : (
+          result.text
+        )}
       </>
     </>
   );

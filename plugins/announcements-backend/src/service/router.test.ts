@@ -7,9 +7,7 @@ import { Announcement } from './model';
 import { AnnouncementsDatabase } from './persistence/AnnouncementsDatabase';
 import { PersistenceContext } from './persistence/persistenceContext';
 import { createRouter } from './router';
-import {
-  PermissionEvaluator,
-} from '@backstage/plugin-permission-common';
+import { PermissionEvaluator } from '@backstage/plugin-permission-common';
 
 describe('createRouter', () => {
   let app: express.Express;
@@ -30,11 +28,12 @@ describe('createRouter', () => {
     } as unknown as AnnouncementsDatabase,
   };
 
-  const mockedAuthorize: jest.MockedFunction<PermissionEvaluator['authorize']> = 
+  const mockedAuthorize: jest.MockedFunction<PermissionEvaluator['authorize']> =
     jest.fn();
-  
-  const mockedPermissionQuery: jest.MockedFunction<PermissionEvaluator['authorizeConditional']> = 
-    jest.fn();
+
+  const mockedPermissionQuery: jest.MockedFunction<
+    PermissionEvaluator['authorizeConditional']
+  > = jest.fn();
 
   const permissionEvaluator: PermissionEvaluator = {
     authorize: mockedAuthorize,
@@ -49,7 +48,7 @@ describe('createRouter', () => {
     const announcementsContext: AnnouncementsContext = {
       logger: getVoidLogger(),
       persistenceContext: mockPersistenceContext,
-      permissions: permissionEvaluator
+      permissions: permissionEvaluator,
     };
 
     const router = await createRouter(announcementsContext);
@@ -64,12 +63,12 @@ describe('createRouter', () => {
     it('returns ok', async () => {
       announcementsMock.mockReturnValueOnce([
         {
-          id: "uuid",
-          title: "title",
-          excerpt: "excerpt",
-          body: "body",
-          publisher: "user:default/name",
-          created_at: DateTime.fromISO("2022-11-02T15:28:08.539Z"),
+          id: 'uuid',
+          title: 'title',
+          excerpt: 'excerpt',
+          body: 'body',
+          publisher: 'user:default/name',
+          created_at: DateTime.fromISO('2022-11-02T15:28:08.539Z'),
         },
       ] as Announcement[]);
 
@@ -79,12 +78,12 @@ describe('createRouter', () => {
       expect(announcementsMock).toHaveBeenCalledWith({});
       expect(response.body).toEqual([
         {
-          id: "uuid",
-          title: "title",
-          excerpt: "excerpt",
-          body: "body",
-          publisher: "user:default/name",
-          created_at: "2022-11-02T15:28:08.539+00:00",
+          id: 'uuid',
+          title: 'title',
+          excerpt: 'excerpt',
+          body: 'body',
+          publisher: 'user:default/name',
+          created_at: '2022-11-02T15:28:08.539+00:00',
         },
       ]);
     });

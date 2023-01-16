@@ -1,7 +1,10 @@
-import { PluginDatabaseManager } from '@backstage/backend-common';
 import { Logger } from 'winston';
-import { initializePersistenceContext, PersistenceContext } from './persistence/persistenceContext';
+import { PluginDatabaseManager } from '@backstage/backend-common';
 import { PermissionEvaluator } from '@backstage/plugin-permission-common';
+import {
+  initializePersistenceContext,
+  PersistenceContext,
+} from './persistence/persistenceContext';
 
 export type AnnouncementsContextOptions = {
   logger: Logger;
@@ -15,7 +18,11 @@ export type AnnouncementsContext = {
   permissions: PermissionEvaluator;
 };
 
-export const buildAnnouncementsContext = async ({ logger, database, permissions }: AnnouncementsContextOptions): Promise<AnnouncementsContext> => {
+export const buildAnnouncementsContext = async ({
+  logger,
+  database,
+  permissions,
+}: AnnouncementsContextOptions): Promise<AnnouncementsContext> => {
   return {
     logger: logger,
     persistenceContext: await initializePersistenceContext(database),

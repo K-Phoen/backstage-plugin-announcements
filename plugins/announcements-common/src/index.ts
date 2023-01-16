@@ -1,1 +1,1 @@
-export { announcementEntityPermissions } from './permissions';
+export * from './permissions';
