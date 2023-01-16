@@ -27,11 +27,10 @@
     ]
   },
   "dependencies": {
-    "@backstage/plugin-permission-react": "^0.4.8",
     "@changesets/cli": "^2.18.0"
   },
   "devDependencies": {
-    "@backstage/cli": "^0.21.0",
+    "@backstage/cli": "^0.22.0",
     "@spotify/prettier-config": "^12.0.0",
     "@types/webpack": "^5.28.0",
     "concurrently": "^7.0.0",
