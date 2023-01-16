@@ -1,4 +1,6 @@
 import React from 'react';
+import { usePermission } from '@backstage/plugin-permission-react';
+import { announcementEntityPermissions } from '@k-phoen/backstage-plugin-announcements-common';
 import { InfoCard, Link, Progress } from '@backstage/core-components';
 import { useApi, useRouteRef } from '@backstage/core-plugin-api';
 import { List, ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core';
@@ -31,6 +33,8 @@ export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
   const { value: announcements, loading, error } = useAsync(async () => announcementsApi.announcements({
     max: max || 5,
   }));
+  const { announcementCreatePermission } = announcementEntityPermissions;
+  const { loading: loadingPermission, allowed: canAdd } = usePermission({ permission: announcementCreatePermission });
 
   if (loading) {
     return <Progress />;
@@ -59,7 +63,7 @@ export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
             </ListItem>
           </ListItem>
         ))}
-        {announcements?.length === 0 && (
+        {announcements?.length === 0 && !loadingPermission && canAdd && (
           <ListItem>
             <ListItemText>No announcements yet, want to <Link to={createAnnouncementLink()}>add one</Link>?</ListItemText>
           </ListItem>

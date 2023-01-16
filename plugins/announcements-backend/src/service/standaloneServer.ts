@@ -1,9 +1,16 @@
-import { createServiceBuilder, useHotMemoize } from '@backstage/backend-common';
+import {
+  createServiceBuilder,
+  useHotMemoize,
+  ServerTokenManager,
+  loadBackendConfig,
+  SingleHostDiscovery,
+} from '@backstage/backend-common';
 import { Server } from 'http';
 import Knex from 'knex';
 import { Logger } from 'winston';
 import { buildAnnouncementsContext } from './announcementsContextBuilder';
 import { createRouter } from './router';
+import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 
 export interface ServerOptions {
   port: number;
@@ -11,8 +18,20 @@ export interface ServerOptions {
   logger: Logger;
 }
 
-export async function startStandaloneServer(options: ServerOptions): Promise<Server> {
-  const logger = options.logger.child({ service: 'announcements-backend-backend' });
+export async function startStandaloneServer(
+  options: ServerOptions,
+): Promise<Server> {
+  const logger = options.logger.child({
+    service: 'announcements-backend-backend',
+  });
+  const config = await loadBackendConfig({ logger, argv: process.argv });
+  const discovery = SingleHostDiscovery.fromConfig(config);
+  const tokenManager = ServerTokenManager.fromConfig(config, { logger });
+  const permissions = ServerPermissionClient.fromConfig(config, {
+    discovery,
+    tokenManager,
+  });
+
   logger.debug('Starting application server...');
 
   const database = useHotMemoize(module, () => {
@@ -26,13 +45,15 @@ export async function startStandaloneServer(options: ServerOptions): Promise<Ser
   const announcementsContext = await buildAnnouncementsContext({
     logger: logger,
     database: { getClient: async () => database },
+    permissions,
   });
 
   const router = await createRouter(announcementsContext);
 
   let service = createServiceBuilder(module)
     .setPort(options.port)
-    .addRouter('/api/announcements', router);
+    .addRouter('/api/announcements', router)
+    .addRouter('/api/permission', router);
   if (options.enableCors) {
     service = service.enableCors({ origin: 'http://localhost:3000' });
   }
