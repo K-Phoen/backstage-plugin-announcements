@@ -19,7 +19,7 @@
     "lint": "backstage-cli repo lint --since origin/main",
     "lint:all": "backstage-cli repo lint",
     "version": "changeset version",
-    "release": "changeset publish",
+    "release": "yarn workspaces foreach --from '@k-phoen/*' npm publish --access public --tolerate-republish && yarn changeset tag",
     "prepare": "husky install",
     "postinstall": "husky install || true"
   },
