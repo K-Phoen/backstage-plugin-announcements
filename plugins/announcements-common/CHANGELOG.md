@@ -1,5 +1,11 @@
 # @k-phoen/backstage-plugin-announcements-common
 
+## 0.0.4
+
+### Patch Changes
+
+- 9bdc37d: Make announcements-common public
+
 ## 0.0.3
 
 ### Patch Changes
