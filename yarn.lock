@@ -11228,6 +11228,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"husky@npm:^8.0.0":
+  version: 8.0.3
+  resolution: "husky@npm:8.0.3"
+  bin:
+    husky: lib/bin.js
+  checksum: 837bc7e4413e58c1f2946d38fb050f5d7324c6f16b0fd66411ffce5703b294bd21429e8ba58711cd331951ee86ed529c5be4f76805959ff668a337dbfa82a1b0
+  languageName: node
+  linkType: hard
+
 "hyphenate-style-name@npm:^1.0.3":
   version: 1.0.4
   resolution: "hyphenate-style-name@npm:1.0.4"
@@ -17639,6 +17648,7 @@ __metadata:
     "@spotify/prettier-config": ^12.0.0
     "@types/webpack": ^5.28.0
     concurrently: ^7.0.0
+    husky: ^8.0.0
     lint-staged: ^13.0.3
     prettier: ^2.4.1
     react: ^17.0.2
