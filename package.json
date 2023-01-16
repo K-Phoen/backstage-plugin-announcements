@@ -18,7 +18,7 @@
     "test:all": "backstage-cli repo test --coverage",
     "lint": "backstage-cli repo lint --since origin/main",
     "lint:all": "backstage-cli repo lint",
-    "version": "changeset version",
+    "version": "changeset version && (git commit -am 'Update internal dependencies' || true)",
     "release": "changeset publish",
     "prepare": "husky install",
     "postinstall": "husky install || true"
