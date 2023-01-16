@@ -1,5 +1,12 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [6c9bf32]
+  - @k-phoen/backstage-plugin-announcements-common@0.0.3
+
 ## 0.0.8
 
 ### Patch Changes
