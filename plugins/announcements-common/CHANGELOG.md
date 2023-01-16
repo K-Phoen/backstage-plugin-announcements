@@ -1,5 +1,11 @@
 # @k-phoen/backstage-plugin-announcements-common
 
+## 0.0.3
+
+### Patch Changes
+
+- 6c9bf32: New release please
+
 ## 0.0.2
 
 ### Patch Changes
