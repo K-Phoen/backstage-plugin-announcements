@@ -25,7 +25,7 @@ Pull Requests (PRs) are the main and exclusive way to contribute to the project.
 
 ```
 git clone git@github.com:your_github_username/backstage-plugin-announcements.git
-cd dark
+cd backstage-plugin-announcements
 git remote add upstream https://github.com/K-Phoen/backstage-plugin-announcements.git
 git fetch upstream
 ```
@@ -68,9 +68,9 @@ Then use the GitHub UI to open a pull request.
 
 Your changes are much more likely to be approved if you:
 
-* add tests for new functionality
-* write a [good commit message][commit-message]
-* maintain backward compatibility
+- add tests for new functionality
+- write a [good commit message][commit-message]
+- maintain backward compatibility
 
 ## Creating Changesets
 
@@ -92,5 +92,5 @@ In general, changesets are not needed for the documentation, build utilities or 
 
 For more information, checkout [adding a changeset](https://github.com/atlassian/changesets/blob/master/docs/adding-a-changeset.md) documentation in the changesets repository.
 
-[fork]: https://github.com/K-Phoen/dark/fork
+[fork]: https://github.com/K-Phoen/backstage-plugin-announcements/fork
 [commit-message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
