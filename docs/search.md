@@ -60,7 +60,7 @@ export default async function createPlugin({
 Nicely display announcements search results:
 
 ```typescript
-// packages/app/components/search/SearchPage.tsx
+// packages/app/src/components/search/SearchPage.tsx
 
 import { AnnouncementSearchResultListItem } from '@k-phoen/backstage-plugin-announcements';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
