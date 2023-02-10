@@ -18,10 +18,12 @@ import { PluginEnvironment } from '../types';
 export default async function createPlugin({
   logger,
   database,
+  permissions,
 }: PluginEnvironment): Promise<Router> {
   const announcementsContext = await buildAnnouncementsContext({
     logger: logger,
-    database: database
+    database: database,
+    permissions: permissions
   });
 
   return await createRouter(announcementsContext);
