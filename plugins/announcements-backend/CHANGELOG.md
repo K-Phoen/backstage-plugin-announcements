@@ -1,5 +1,13 @@
 # @k-phoen/backstage-plugin-announcements-backend
 
+## 0.1.4
+
+### Patch Changes
+
+- 7d25e84: Bump Backstage-related dependencies
+- Updated dependencies [7d25e84]
+  - @k-phoen/backstage-plugin-announcements-common@0.0.6
+
 ## 0.1.3
 
 ### Patch Changes
