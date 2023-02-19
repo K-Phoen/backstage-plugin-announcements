@@ -1,11 +1,16 @@
 import React from 'react';
 import { Content, Header, Page } from '@backstage/core-components';
 import {
+  createApiFactory,
   createPlugin,
   createRoutableExtension,
 } from '@backstage/core-plugin-api';
 import { createDevApp } from '@backstage/dev-utils';
-import { entityRouteRef } from '@backstage/plugin-catalog-react';
+import {
+  CatalogApi,
+  catalogApiRef,
+  entityRouteRef,
+} from '@backstage/plugin-catalog-react';
 import { Grid, Typography } from '@material-ui/core';
 import {
   announcementsPlugin,
@@ -14,11 +19,37 @@ import {
   NewAnnouncementBanner,
 } from '../src/plugin';
 
+const mockCatalogApi = {
+  getEntityByRef: async (entityRef: string) => {
+    if (entityRef === 'user:default/guest') {
+      return {
+        kind: 'User',
+        metadata: {
+          name: 'guest',
+          namespace: 'default',
+          description: 'Anonymous to the max',
+        },
+        spec: {},
+      };
+    }
+    return undefined;
+  },
+};
+
 const fakeCatalogPlugin = createPlugin({
   id: 'catalog',
   routes: {
     catalogEntity: entityRouteRef,
   },
+  apis: [
+    createApiFactory({
+      api: catalogApiRef,
+      deps: {},
+      factory: () => {
+        return mockCatalogApi as CatalogApi;
+      },
+    }),
+  ],
 });
 
 export const CatalogEntityPage: () => JSX.Element = fakeCatalogPlugin.provide(
