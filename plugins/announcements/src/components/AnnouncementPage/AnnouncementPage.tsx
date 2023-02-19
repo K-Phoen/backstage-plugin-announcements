@@ -60,7 +60,8 @@ const AnnouncementDetails = ({
 };
 
 type AnnouncementPageProps = {
-  title?: string;
+  themeId: string;
+  title: string;
   subtitle?: ReactNode;
 };
 
@@ -71,7 +72,7 @@ export const AnnouncementPage = (props: AnnouncementPageProps) => {
     announcementsApi.announcementByID(id),
   );
 
-  let title = props.title || 'Announcements';
+  let title = props.title;
   let content: React.ReactNode = <Progress />;
 
   if (loading) {
@@ -91,7 +92,7 @@ export const AnnouncementPage = (props: AnnouncementPageProps) => {
   }
 
   return (
-    <Page themeId="home">
+    <Page themeId={props.themeId}>
       <Header title={title} subtitle={props.subtitle} />
 
       <Content>

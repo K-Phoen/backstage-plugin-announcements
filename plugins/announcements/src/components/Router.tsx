@@ -16,23 +16,30 @@ import { CreateAnnouncementPage } from './CreateAnnouncementPage';
 import { EditAnnouncementPage } from './EditAnnouncementPage';
 
 type RouterProps = {
+  themeId?: string;
   title?: string;
   subtitle?: string;
 };
 
 export const Router = (props: RouterProps) => {
+  const propsWithDefaults = {
+    themeId: 'home',
+    title: 'Announcements',
+    ...props,
+  };
+
   return (
     <Routes>
-      <Route path="/" element={<AnnouncementsPage {...props} />} />
+      <Route path="/" element={<AnnouncementsPage {...propsWithDefaults} />} />
       <Route
         path={`${announcementViewRouteRef.path}`}
-        element={<AnnouncementPage {...props} />}
+        element={<AnnouncementPage {...propsWithDefaults} />}
       />
       <Route
         path={`${announcementCreateRouteRef.path}`}
         element={
           <RequirePermission permission={announcementCreatePermission}>
-            <CreateAnnouncementPage {...props} />
+            <CreateAnnouncementPage {...propsWithDefaults} />
           </RequirePermission>
         }
       />
@@ -40,7 +47,7 @@ export const Router = (props: RouterProps) => {
         path={`${announcementEditRouteRef.path}`}
         element={
           <RequirePermission permission={announcementUpdatePermission}>
-            <EditAnnouncementPage {...props} />
+            <EditAnnouncementPage {...propsWithDefaults} />
           </RequirePermission>
         }
       />

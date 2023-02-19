@@ -160,7 +160,8 @@ const AnnouncementsGrid = () => {
 };
 
 type AnnouncementsPageProps = {
-  title?: ReactNode;
+  themeId: string;
+  title: string;
   subtitle?: ReactNode;
 };
 
@@ -170,11 +171,8 @@ export const AnnouncementsPage = (props: AnnouncementsPageProps) => {
     usePermission({ permission: announcementCreatePermission });
 
   return (
-    <Page themeId="home">
-      <Header
-        title={props.title || 'Announcements'}
-        subtitle={props.subtitle}
-      />
+    <Page themeId={props.themeId}>
+      <Header title={props.title} subtitle={props.subtitle} />
 
       <Content>
         <ContentHeader title="">
