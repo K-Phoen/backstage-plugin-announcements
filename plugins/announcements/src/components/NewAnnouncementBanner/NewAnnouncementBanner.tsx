@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useAsync } from 'react-use';
-import classNames from 'classnames';
 import { DateTime } from 'luxon';
 import { Link } from '@backstage/core-components';
 import { useApi, useRouteRef } from '@backstage/core-plugin-api';
@@ -17,20 +16,16 @@ import { announcementsApiRef } from '../../api';
 import { announcementViewRouteRef } from '../../routes';
 
 const useStyles = makeStyles((theme: BackstageTheme) => ({
-  root: {
+  // showing on top, as a block
+  blockPositioning: {
     padding: theme.spacing(0),
-    marginBottom: theme.spacing(0),
-    marginTop: theme.spacing(0),
-    display: 'flex',
-    flexFlow: 'row nowrap',
-  },
-  // showing on top
-  topPosition: {
     position: 'relative',
-    marginBottom: theme.spacing(6),
+    marginBottom: theme.spacing(4),
     marginTop: -theme.spacing(3),
     zIndex: 'unset',
   },
+  // showing on top, as a floating alert
+  floatingPositioning: {},
   icon: {
     fontSize: 20,
   },
@@ -42,8 +37,7 @@ const useStyles = makeStyles((theme: BackstageTheme) => ({
     width: '100%',
     maxWidth: 'inherit',
     flexWrap: 'nowrap',
-  },
-  message: {
+    backgroundColor: theme.palette.banner.info,
     display: 'flex',
     alignItems: 'center',
     color: theme.palette.banner.text,
@@ -51,12 +45,13 @@ const useStyles = makeStyles((theme: BackstageTheme) => ({
       color: theme.palette.banner.link,
     },
   },
-  info: {
-    backgroundColor: theme.palette.banner.info,
-  },
 }));
 
-export const NewAnnouncementBanner = () => {
+type NewAnnouncementBannerProps = {
+  variant?: 'block' | 'floating';
+};
+
+export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
   const classes = useStyles();
   const announcementsApi = useApi(announcementsApiRef);
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
@@ -71,22 +66,23 @@ export const NewAnnouncementBanner = () => {
   );
   const lastSeen = announcementsApi.lastSeenDate();
   const [bannerOpen, setBannerOpen] = useState(true);
+  const variant = props.variant || 'block';
 
   if (loading) {
-    return <></>;
+    return null;
   } else if (error) {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
   if (announcements?.length === 0) {
-    return <></>;
+    return null;
   }
 
   const announcement = announcements![0];
 
   // this announcement was already seen
   if (lastSeen >= DateTime.fromISO(announcement.created_at)) {
-    return <></>;
+    return null;
   }
 
   const message = (
@@ -110,15 +106,14 @@ export const NewAnnouncementBanner = () => {
     <Snackbar
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       open={bannerOpen}
-      classes={{
-        root: classNames(classes.root, classes.topPosition),
-      }}
+      className={
+        variant === 'block'
+          ? classes.blockPositioning
+          : classes.floatingPositioning
+      }
     >
       <SnackbarContent
-        classes={{
-          root: classNames(classes.content, classes.info),
-          message: classes.message,
-        }}
+        className={classes.content}
         message={message}
         action={[
           <IconButton
