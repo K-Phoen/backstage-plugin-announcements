@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import { useAsyncRetry } from 'react-use';
 import { usePermission } from '@backstage/plugin-permission-react';
 import {
@@ -14,9 +14,9 @@ import {
   Link,
   ItemCardGrid,
   Progress,
-  Button,
   ItemCardHeader,
   ContentHeader,
+  LinkButton,
 } from '@backstage/core-components';
 import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
 import { parseEntityRef } from '@backstage/catalog-model';
@@ -28,6 +28,7 @@ import Alert from '@material-ui/lab/Alert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -113,15 +114,15 @@ const AnnouncementCard = ({
       <CardContent>{announcement.excerpt}</CardContent>
       <CardActions>
         {!loadingUpdatePermission && canUpdate && (
-          <Button
+          <LinkButton
             to={editAnnouncementLink({ id: announcement.id })}
             color="default"
           >
             <EditIcon />
-          </Button>
+          </LinkButton>
         )}
         {!loadingDeletePermission && canDelete && (
-          <Button to="#" onClick={handleDelete} color="default">
+          <Button onClick={handleDelete} color="default">
             <DeleteIcon />
           </Button>
         )}
@@ -158,30 +159,34 @@ const AnnouncementsGrid = () => {
   );
 };
 
-type AnnouncementsPageOpts = {
-  title?: string;
+type AnnouncementsPageProps = {
+  title?: ReactNode;
+  subtitle?: ReactNode;
 };
 
-export const AnnouncementsPage = (opts: AnnouncementsPageOpts) => {
+export const AnnouncementsPage = (props: AnnouncementsPageProps) => {
   const newAnnouncementLink = useRouteRef(announcementCreateRouteRef);
   const { loading: loadingCreatePermission, allowed: canCreate } =
     usePermission({ permission: announcementCreatePermission });
 
   return (
     <Page themeId="home">
-      <Header title={opts.title || 'Announcements'} />
+      <Header
+        title={props.title || 'Announcements'}
+        subtitle={props.subtitle}
+      />
 
       <Content>
         <ContentHeader title="">
           {!loadingCreatePermission && (
-            <Button
+            <LinkButton
               disabled={!canCreate}
               to={newAnnouncementLink()}
               color="primary"
               variant="contained"
             >
               New announcement
-            </Button>
+            </LinkButton>
           )}
         </ContentHeader>
 

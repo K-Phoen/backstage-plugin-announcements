@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import useAsync from 'react-use/lib/useAsync';
 import { DateTime } from 'luxon';
 import {
@@ -59,14 +59,19 @@ const AnnouncementDetails = ({
   );
 };
 
-export const AnnouncementPage = () => {
+type AnnouncementPageProps = {
+  title?: string;
+  subtitle?: ReactNode;
+};
+
+export const AnnouncementPage = (props: AnnouncementPageProps) => {
   const announcementsApi = useApi(announcementsApiRef);
   const { id } = useRouteRefParams(announcementViewRouteRef);
   const { value, loading, error } = useAsync(async () =>
     announcementsApi.announcementByID(id),
   );
 
-  let title = 'Announcements';
+  let title = props.title || 'Announcements';
   let content: React.ReactNode = <Progress />;
 
   if (loading) {
@@ -74,7 +79,7 @@ export const AnnouncementPage = () => {
   } else if (error) {
     content = <Alert severity="error">{error.message}</Alert>;
   } else {
-    title = `${value!.title} – Announcements`;
+    title = `${value!.title} – ${title}`;
     content = <AnnouncementDetails announcement={value!} />;
 
     const lastSeen = announcementsApi.lastSeenDate();
@@ -87,7 +92,7 @@ export const AnnouncementPage = () => {
 
   return (
     <Page themeId="home">
-      <Header title={title} />
+      <Header title={title} subtitle={props.subtitle} />
 
       <Content>
         <Grid container justifyContent="center" alignItems="center">
