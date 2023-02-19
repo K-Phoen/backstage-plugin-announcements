@@ -16,7 +16,10 @@ import {
   useRouteRefParams,
 } from '@backstage/core-plugin-api';
 import { parseEntityRef } from '@backstage/catalog-model';
-import { entityRouteRef } from '@backstage/plugin-catalog-react';
+import {
+  EntityPeekAheadPopover,
+  entityRouteRef,
+} from '@backstage/plugin-catalog-react';
 import Alert from '@material-ui/lab/Alert';
 import { Grid } from '@material-ui/core';
 import { Announcement, announcementsApiRef } from '../../api';
@@ -37,8 +40,11 @@ const AnnouncementDetails = ({
   const publisherRef = parseEntityRef(announcement.publisher);
   const subHeader = (
     <span>
-      By <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>,{' '}
-      {DateTime.fromISO(announcement.created_at).toRelative()}
+      By{' '}
+      <EntityPeekAheadPopover entityRef={announcement.publisher}>
+        <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>
+      </EntityPeekAheadPopover>
+      , {DateTime.fromISO(announcement.created_at).toRelative()}
     </span>
   );
 
@@ -84,7 +90,7 @@ export const AnnouncementPage = () => {
       <Header title={title} />
 
       <Content>
-        <Grid container justify="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center">
           <Grid item sm={6}>
             {content}
           </Grid>

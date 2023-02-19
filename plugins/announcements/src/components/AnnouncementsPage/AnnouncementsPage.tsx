@@ -20,7 +20,10 @@ import {
 } from '@backstage/core-components';
 import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
 import { parseEntityRef } from '@backstage/catalog-model';
-import { entityRouteRef } from '@backstage/plugin-catalog-react';
+import {
+  EntityPeekAheadPopover,
+  entityRouteRef,
+} from '@backstage/plugin-catalog-react';
 import Alert from '@material-ui/lab/Alert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -70,8 +73,11 @@ const AnnouncementCard = ({
   );
   const subTitle = (
     <>
-      By <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>,{' '}
-      {DateTime.fromISO(announcement.created_at).toRelative()}
+      By{' '}
+      <EntityPeekAheadPopover entityRef={announcement.publisher}>
+        <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>
+      </EntityPeekAheadPopover>
+      , {DateTime.fromISO(announcement.created_at).toRelative()}
     </>
   );
   const { loading: loadingDeletePermission, allowed: canDelete } =
