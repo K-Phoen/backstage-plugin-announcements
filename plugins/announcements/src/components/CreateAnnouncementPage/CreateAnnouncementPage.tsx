@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Page, Header, Content } from '@backstage/core-components';
 import { alertApiRef, useApi } from '@backstage/core-plugin-api';
 import { announcementsApiRef, CreateAnnouncementRequest } from '../../api';
 import { AnnouncementForm } from '../AnnouncementForm';
 
-export const CreateAnnouncementPage = () => {
+type CreateAnnouncementPageProps = {
+  title?: string;
+  subtitle?: ReactNode;
+};
+
+export const CreateAnnouncementPage = (props: CreateAnnouncementPageProps) => {
   const announcementsApi = useApi(announcementsApiRef);
   const alertApi = useApi(alertApiRef);
 
@@ -19,7 +24,10 @@ export const CreateAnnouncementPage = () => {
 
   return (
     <Page themeId="home">
-      <Header title="New announcement" />
+      <Header
+        title={props.title || 'Announcements'}
+        subtitle={props.subtitle}
+      />
 
       <Content>
         <AnnouncementForm

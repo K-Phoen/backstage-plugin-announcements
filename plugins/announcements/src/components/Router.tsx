@@ -15,19 +15,24 @@ import { AnnouncementPage } from './AnnouncementPage';
 import { CreateAnnouncementPage } from './CreateAnnouncementPage';
 import { EditAnnouncementPage } from './EditAnnouncementPage';
 
-export const Router = () => {
+type RouterProps = {
+  title?: string;
+  subtitle?: string;
+};
+
+export const Router = (props: RouterProps) => {
   return (
     <Routes>
-      <Route path="/" element={<AnnouncementsPage />} />
+      <Route path="/" element={<AnnouncementsPage {...props} />} />
       <Route
         path={`${announcementViewRouteRef.path}`}
-        element={<AnnouncementPage />}
+        element={<AnnouncementPage {...props} />}
       />
       <Route
         path={`${announcementCreateRouteRef.path}`}
         element={
           <RequirePermission permission={announcementCreatePermission}>
-            <CreateAnnouncementPage />
+            <CreateAnnouncementPage {...props} />
           </RequirePermission>
         }
       />
@@ -35,7 +40,7 @@ export const Router = () => {
         path={`${announcementEditRouteRef.path}`}
         element={
           <RequirePermission permission={announcementUpdatePermission}>
-            <EditAnnouncementPage />
+            <EditAnnouncementPage {...props} />
           </RequirePermission>
         }
       />

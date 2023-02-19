@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useAsync } from 'react-use';
 import { Page, Header, Content, Progress } from '@backstage/core-components';
 import {
@@ -11,7 +11,12 @@ import { AnnouncementForm } from '../AnnouncementForm';
 import { announcementEditRouteRef } from '../../routes';
 import { announcementsApiRef, CreateAnnouncementRequest } from '../../api';
 
-export const EditAnnouncementPage = () => {
+type EditAnnouncementPageProps = {
+  title?: string;
+  subtitle?: ReactNode;
+};
+
+export const EditAnnouncementPage = (props: EditAnnouncementPageProps) => {
   const announcementsApi = useApi(announcementsApiRef);
   const alertApi = useApi(alertApiRef);
   const { id } = useRouteRefParams(announcementEditRouteRef);
@@ -19,7 +24,7 @@ export const EditAnnouncementPage = () => {
     announcementsApi.announcementByID(id),
   );
 
-  let title = 'Edit announcement';
+  let title = props.title || 'Announcements';
   let content: React.ReactNode = <Progress />;
 
   const onSubmit = async (request: CreateAnnouncementRequest) => {
@@ -36,13 +41,13 @@ export const EditAnnouncementPage = () => {
   } else if (error) {
     content = <Alert severity="error">{error.message}</Alert>;
   } else {
-    title = `Edit "${value!.title}"`;
+    title = `Edit "${value!.title}" – ${title}`;
     content = <AnnouncementForm initialData={value!} onSubmit={onSubmit} />;
   }
 
   return (
     <Page themeId="home">
-      <Header title={title} />
+      <Header title={title} subtitle={props.subtitle} />
 
       <Content>{content}</Content>
     </Page>
