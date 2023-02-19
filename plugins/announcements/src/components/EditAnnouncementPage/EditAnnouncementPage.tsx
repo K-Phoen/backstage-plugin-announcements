@@ -12,7 +12,8 @@ import { announcementEditRouteRef } from '../../routes';
 import { announcementsApiRef, CreateAnnouncementRequest } from '../../api';
 
 type EditAnnouncementPageProps = {
-  title?: string;
+  themeId: string;
+  title: string;
   subtitle?: ReactNode;
 };
 
@@ -24,7 +25,7 @@ export const EditAnnouncementPage = (props: EditAnnouncementPageProps) => {
     announcementsApi.announcementByID(id),
   );
 
-  let title = props.title || 'Announcements';
+  let title = props.title;
   let content: React.ReactNode = <Progress />;
 
   const onSubmit = async (request: CreateAnnouncementRequest) => {
@@ -46,7 +47,7 @@ export const EditAnnouncementPage = (props: EditAnnouncementPageProps) => {
   }
 
   return (
-    <Page themeId="home">
+    <Page themeId={props.themeId}>
       <Header title={title} subtitle={props.subtitle} />
 
       <Content>{content}</Content>

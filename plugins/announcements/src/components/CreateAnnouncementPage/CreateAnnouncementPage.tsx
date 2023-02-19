@@ -5,7 +5,8 @@ import { announcementsApiRef, CreateAnnouncementRequest } from '../../api';
 import { AnnouncementForm } from '../AnnouncementForm';
 
 type CreateAnnouncementPageProps = {
-  title?: string;
+  themeId: string;
+  title: string;
   subtitle?: ReactNode;
 };
 
@@ -23,11 +24,8 @@ export const CreateAnnouncementPage = (props: CreateAnnouncementPageProps) => {
   };
 
   return (
-    <Page themeId="home">
-      <Header
-        title={props.title || 'Announcements'}
-        subtitle={props.subtitle}
-      />
+    <Page themeId={props.themeId}>
+      <Header title={props.title} subtitle={props.subtitle} />
 
       <Content>
         <AnnouncementForm
