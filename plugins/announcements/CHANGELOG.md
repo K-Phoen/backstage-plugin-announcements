@@ -1,5 +1,18 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.0.12
+
+### Patch Changes
+
+- f427a96: Display a popover when hovering on the publisher's name
+- fead58e: Page titles and subtitles are now customizable
+- 7d25e84: Bump Backstage-related dependencies
+- ba1e9ec: Allow the "New announcement banner" component to be used as a floating notification
+- 00753b7: Fix routes definition
+- 60babbc: Make the themeId configurable on all pages
+- Updated dependencies [7d25e84]
+  - @k-phoen/backstage-plugin-announcements-common@0.0.6
+
 ## 0.0.11
 
 ### Patch Changes
