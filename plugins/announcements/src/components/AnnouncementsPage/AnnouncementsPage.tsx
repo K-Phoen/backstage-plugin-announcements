@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { useAsyncRetry } from 'react-use';
 import { usePermission } from '@backstage/plugin-permission-react';
 import {
@@ -41,6 +41,8 @@ import {
   announcementViewRouteRef,
 } from '../../routes';
 import { Announcement, announcementsApiRef } from '../../api';
+import { DeleteAnnouncementDialog } from './DeleteAnnouncementDialog';
+import { useDeleteAnnouncementDialogState } from './useDeleteAnnouncementDialogState';
 
 const useStyles = makeStyles(theme => ({
   cardHeader: {
@@ -50,18 +52,15 @@ const useStyles = makeStyles(theme => ({
 
 const AnnouncementCard = ({
   announcement,
-  onChange,
+  onDelete,
 }: {
   announcement: Announcement;
-  onChange?: () => void;
+  onDelete: () => void;
 }) => {
   const classes = useStyles();
-  const announcementsApi = useApi(announcementsApiRef);
-  const alertApi = useApi(alertApiRef);
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
   const editAnnouncementLink = useRouteRef(announcementEditRouteRef);
   const entityLink = useRouteRef(entityRouteRef);
-  const [deleting, setDeleting] = useState(false);
 
   const publisherRef = parseEntityRef(announcement.publisher);
   const title = (
@@ -86,26 +85,6 @@ const AnnouncementCard = ({
   const { loading: loadingUpdatePermission, allowed: canUpdate } =
     usePermission({ permission: announcementUpdatePermission });
 
-  const handleDelete = async () => {
-    setDeleting(true);
-
-    try {
-      await announcementsApi.deleteAnnouncementByID(announcement.id);
-
-      alertApi.post({ message: 'Announcement deleted.', severity: 'success' });
-    } catch (err) {
-      alertApi.post({ message: (err as Error).message, severity: 'error' });
-    }
-
-    if (onChange) {
-      onChange();
-    }
-  };
-
-  if (deleting) {
-    return <Progress />;
-  }
-
   return (
     <Card>
       <CardMedia>
@@ -122,7 +101,7 @@ const AnnouncementCard = ({
           </LinkButton>
         )}
         {!loadingDeletePermission && canDelete && (
-          <Button onClick={handleDelete} color="default">
+          <Button onClick={onDelete} color="default">
             <DeleteIcon />
           </Button>
         )}
@@ -133,12 +112,20 @@ const AnnouncementCard = ({
 
 const AnnouncementsGrid = () => {
   const announcementsApi = useApi(announcementsApiRef);
+  const alertApi = useApi(alertApiRef);
+
   const {
     value: announcements,
     loading,
     error,
     retry: refresh,
   } = useAsyncRetry(async () => announcementsApi.announcements({}));
+  const {
+    isOpen: isDeleteDialogOpen,
+    open: openDeleteDialog,
+    close: closeDeleteDialog,
+    announcement: announcementToDelete,
+  } = useDeleteAnnouncementDialogState();
 
   if (loading) {
     return <Progress />;
@@ -146,16 +133,41 @@ const AnnouncementsGrid = () => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
+  const onCancelDelete = () => {
+    closeDeleteDialog();
+  };
+  const onConfirmDelete = async () => {
+    closeDeleteDialog();
+
+    try {
+      await announcementsApi.deleteAnnouncementByID(announcementToDelete!.id);
+
+      alertApi.post({ message: 'Announcement deleted.', severity: 'success' });
+    } catch (err) {
+      alertApi.post({ message: (err as Error).message, severity: 'error' });
+    }
+
+    refresh();
+  };
+
   return (
-    <ItemCardGrid>
-      {announcements!.map((announcement, index) => (
-        <AnnouncementCard
-          key={index}
-          announcement={announcement}
-          onChange={refresh}
-        />
-      ))}
-    </ItemCardGrid>
+    <>
+      <ItemCardGrid>
+        {announcements!.map((announcement, index) => (
+          <AnnouncementCard
+            key={index}
+            announcement={announcement}
+            onDelete={() => openDeleteDialog(announcement)}
+          />
+        ))}
+      </ItemCardGrid>
+
+      <DeleteAnnouncementDialog
+        open={isDeleteDialogOpen}
+        onCancel={onCancelDelete}
+        onConfirm={onConfirmDelete}
+      />
+    </>
   );
 };
 
