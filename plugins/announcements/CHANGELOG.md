@@ -1,5 +1,13 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.0.14
+
+### Patch Changes
+
+- 528302a: Display a confirmation dialog before deleting an announcement
+- a443bf3: Redirect the user after creating a new announcement
+- 5023f75: Tweak the announcements card style
+
 ## 0.0.13
 
 ### Patch Changes
