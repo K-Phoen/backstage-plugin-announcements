@@ -1,5 +1,11 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.0.13
+
+### Patch Changes
+
+- d51a982: Fix search results display for Backstage 1.11.x
+
 ## 0.0.12
 
 ### Patch Changes
