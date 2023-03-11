@@ -1,7 +1,6 @@
 import React from 'react';
 import { DateTime } from 'luxon';
 import { Link } from '@backstage/core-components';
-import { useAnalytics } from '@backstage/core-plugin-api';
 import {
   IndexableDocument,
   ResultHighlight,
@@ -35,31 +34,26 @@ export type IndexableAnnouncement = IndexableDocument & {
   createdAt: string;
 };
 
-type Props = {
-  result: IndexableDocument;
+export interface AnnouncementSearchResultProps {
+  result?: IndexableDocument;
   highlight?: ResultHighlight;
   rank?: number;
-};
+}
 
 export const AnnouncementSearchResultListItem = ({
   result,
-  rank,
   highlight,
-}: Props) => {
+}: AnnouncementSearchResultProps) => {
   const classes = useStyles();
-  const analytics = useAnalytics();
 
-  const handleClick = () => {
-    analytics.captureEvent('discover', result.title, {
-      attributes: { to: result.location },
-      value: rank,
-    });
-  };
+  if (!result) {
+    return null;
+  }
 
   const document = result as IndexableAnnouncement;
 
   const title = (
-    <Link noTrack to={result.location} onClick={handleClick}>
+    <Link noTrack to={result.location}>
       {highlight?.fields.title ? (
         <HighlightedSearchResultText
           text={highlight.fields.title}
