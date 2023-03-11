@@ -7,7 +7,12 @@ import {
   errorApiRef,
   identityApiRef,
 } from '@backstage/core-plugin-api';
+import {
+  createSearchResultListItemExtension,
+  SearchResultListItemExtensionProps,
+} from '@backstage/plugin-search-react';
 import { announcementsApiRef, DefaultAnnouncementsApi } from './api';
+import { AnnouncementSearchResultProps } from './components/AnnouncementSearchResultListItem';
 import { rootRouteRef } from './routes';
 
 export const announcementsPlugin = createPlugin({
@@ -61,5 +66,18 @@ export const NewAnnouncementBanner = announcementsPlugin.provide(
           m => m.NewAnnouncementBanner,
         ),
     },
+  }),
+);
+
+export const AnnouncementSearchResultListItem: (
+  props: SearchResultListItemExtensionProps<AnnouncementSearchResultProps>,
+) => JSX.Element | null = announcementsPlugin.provide(
+  createSearchResultListItemExtension({
+    name: 'AnnouncementSearchResultListItem',
+    component: () =>
+      import('./components/AnnouncementSearchResultListItem').then(
+        m => m.AnnouncementSearchResultListItem,
+      ),
+    predicate: result => result.type === 'announcements',
   }),
 );

@@ -33,7 +33,10 @@ export default async function createPlugin({
   // Announcements indexing
   indexBuilder.addCollator({
     schedule: tenMinutesSchedule,
-    factory: AnnouncementCollatorFactory.fromConfig({ logger: env.logger, discoveryApi: env.discovery }),
+    factory: AnnouncementCollatorFactory.fromConfig({
+      logger: env.logger,
+      discoveryApi: env.discovery,
+    }),
   });
 
   // …
@@ -80,23 +83,7 @@ import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 />
 
 <SearchResult>
-  {({ results }) => (
-    <List>
-      {results.map(({ type, document, highlight, rank }) => {
-        switch (type) {
-          case 'announcements':
-            return (
-              <AnnouncementSearchResultListItem
-                key={document.location}
-                result={document}
-                highlight={highlight}
-                rank={rank}
-              />
-            );
-          // ...
-        }
-      })}
-    </List>
-  )}
+  // ...
+  <AnnouncementSearchResultListItem />
 </SearchResult>
 ```
