@@ -74,7 +74,7 @@ export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
       <List dense>
         {announcements?.map(announcement => (
           <ListItem key={announcement.id}>
-            <ListItem button>
+            <ListItem>
               {lastSeen < DateTime.fromISO(announcement.created_at) && (
                 <ListItemIcon
                   className={classes.newAnnouncementIcon}
