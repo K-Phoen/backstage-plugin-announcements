@@ -1,7 +1,9 @@
 import React, { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Page, Header, Content } from '@backstage/core-components';
-import { alertApiRef, useApi } from '@backstage/core-plugin-api';
+import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
 import { announcementsApiRef, CreateAnnouncementRequest } from '../../api';
+import { rootRouteRef } from '../../routes';
 import { AnnouncementForm } from '../AnnouncementForm';
 
 type CreateAnnouncementPageProps = {
@@ -12,12 +14,16 @@ type CreateAnnouncementPageProps = {
 
 export const CreateAnnouncementPage = (props: CreateAnnouncementPageProps) => {
   const announcementsApi = useApi(announcementsApiRef);
+  const rootPage = useRouteRef(rootRouteRef);
   const alertApi = useApi(alertApiRef);
+  const navigate = useNavigate();
 
   const onSubmit = async (request: CreateAnnouncementRequest) => {
     try {
       await announcementsApi.createAnnouncement(request);
       alertApi.post({ message: 'Announcement created.', severity: 'success' });
+
+      navigate(rootPage());
     } catch (err) {
       alertApi.post({ message: (err as Error).message, severity: 'error' });
     }
