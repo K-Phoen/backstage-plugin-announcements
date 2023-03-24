@@ -4377,7 +4377,7 @@ __metadata:
     "@testing-library/react": ^12.1.3
     "@testing-library/user-event": ^14.0.0
     "@types/luxon": ^3.0.0
-    "@types/node": ^16.11.26
+    "@types/node": ^18.15.7
     "@uiw/react-md-editor": ^3.19.5
     cross-fetch: ^3.1.5
     luxon: ^3.0.0
@@ -6034,7 +6034,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.26, @types/node@npm:^16.9.2":
+"@types/node@npm:^16.9.2":
   version: 16.18.10
   resolution: "@types/node@npm:16.18.10"
   checksum: 1b138616923e9a1c6d3806edf75714b605d2ec689357cdc675bc73816c508ff11b3c68df054b02a496c76654d8ed53add2e90816af39423431c73aa6eec06f29
@@ -6045,6 +6045,13 @@ __metadata:
   version: 18.14.0
   resolution: "@types/node@npm:18.14.0"
   checksum: d83fcf5e4ed544755dd9028f5cbb6b9d46235043159111bb2ad62223729aee581c0144a9f6df8ba73d74011db9ed4ebd7af2fd5e0996714e3beb508a5da8ac5c
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.15.7":
+  version: 18.15.7
+  resolution: "@types/node@npm:18.15.7"
+  checksum: 08d1dd1898be10cd274955ed7f491bcab5b7e70ce66b6a1e996a582d5467f7517046b0d9c5f4e15871df94dd72d1ad9e7be236d2cff1a1450ec906d7fa3062d2
   languageName: node
   linkType: hard
 
