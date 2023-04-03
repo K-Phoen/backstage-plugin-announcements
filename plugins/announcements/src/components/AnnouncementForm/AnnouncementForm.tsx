@@ -55,33 +55,31 @@ export const AnnouncementForm = ({
       title={initialData.title ? `Edit announcement` : 'New announcement'}
     >
       <form className={classes.formRoot} onSubmit={handleSubmit}>
-        <div>
-          <TextField
-            id="title"
-            type="text"
-            label="Title"
-            value={form.title}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <TextField
-            id="excerpt"
-            type="text"
-            label="Excerpt"
-            value={form.excerpt}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <MDEditor
-            value={form.body}
-            style={{ minHeight: '30rem' }}
-            onChange={value => setForm({ ...form, ...{ body: value || '' } })}
-          />
-        </div>
+        <TextField
+          id="title"
+          type="text"
+          label="Title"
+          value={form.title}
+          onChange={handleChange}
+          variant="outlined"
+          fullWidth
+          required
+        />
+        <TextField
+          id="excerpt"
+          type="text"
+          label="Excerpt"
+          value={form.excerpt}
+          onChange={handleChange}
+          variant="outlined"
+          fullWidth
+          required
+        />
+        <MDEditor
+          value={form.body}
+          style={{ minHeight: '30rem' }}
+          onChange={value => setForm({ ...form, ...{ body: value || '' } })}
+        />
         <Button
           variant="contained"
           color="primary"
