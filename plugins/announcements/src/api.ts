@@ -19,6 +19,11 @@ export type Announcement = {
   created_at: string;
 };
 
+export type AnnouncementsList = {
+  count: number;
+  results: Announcement[];
+};
+
 export type CreateAnnouncementRequest = {
   publisher: string;
   title: string;
@@ -27,7 +32,10 @@ export type CreateAnnouncementRequest = {
 };
 
 export interface AnnouncementsApi {
-  announcements(opts: { max?: number }): Promise<Announcement[]>;
+  announcements(opts: {
+    max?: number;
+    page?: number;
+  }): Promise<AnnouncementsList>;
   announcementByID(id: string): Promise<Announcement>;
 
   createAnnouncement(request: CreateAnnouncementRequest): Promise<Announcement>;
@@ -106,8 +114,22 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
     });
   }
 
-  async announcements({ max }: { max?: number }): Promise<Announcement[]> {
-    return this.fetch<Announcement[]>(`/?${max ? `max=${max}` : ''}`);
+  async announcements({
+    max,
+    page,
+  }: {
+    max?: number;
+    page?: number;
+  }): Promise<AnnouncementsList> {
+    const params = new URLSearchParams();
+    if (max) {
+      params.append('max', max.toString());
+    }
+    if (page) {
+      params.append('page', page.toString());
+    }
+
+    return this.fetch<AnnouncementsList>(`/?${params.toString()}`);
   }
 
   async announcementByID(id: string): Promise<Announcement> {

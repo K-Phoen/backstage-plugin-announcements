@@ -15,6 +15,12 @@ export type DbAnnouncement = {
 
 type AnnouncementsFilters = {
   max?: number;
+  offset?: number;
+};
+
+type AnnouncementsList = {
+  count: number;
+  results: Announcement[];
 };
 
 const timestampToDateTime = (input: Date | string): DateTime => {
@@ -57,17 +63,28 @@ const DBToAnnouncement = (announcementDb: DbAnnouncement): Announcement => {
 export class AnnouncementsDatabase {
   constructor(private readonly db: Knex) {}
 
-  async announcements(request: AnnouncementsFilters): Promise<Announcement[]> {
+  async announcements(
+    request: AnnouncementsFilters,
+  ): Promise<AnnouncementsList> {
+    const countResult = await this.db<DbAnnouncement>(announcementsTable)
+      .count<Record<string, number>>('id', { as: 'total' })
+      .first();
     const queryBuilder = this.db<DbAnnouncement>(announcementsTable).orderBy(
       'created_at',
       'desc',
     );
 
+    if (request.offset) {
+      queryBuilder.offset(request.offset);
+    }
     if (request.max) {
       queryBuilder.limit(request.max);
     }
 
-    return (await queryBuilder.select()).map(DBToAnnouncement);
+    return {
+      count: countResult && countResult.total ? countResult.total : 0,
+      results: (await queryBuilder.select()).map(DBToAnnouncement),
+    };
   }
 
   async announcementByID(id: string): Promise<Announcement | undefined> {
