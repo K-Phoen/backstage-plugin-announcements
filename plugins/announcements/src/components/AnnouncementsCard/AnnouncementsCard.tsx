@@ -72,7 +72,7 @@ export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
       deepLink={deepLink}
     >
       <List dense>
-        {announcements?.map(announcement => (
+        {announcements?.results.map(announcement => (
           <ListItem key={announcement.id}>
             <ListItem>
               {lastSeen < DateTime.fromISO(announcement.created_at) && (
@@ -97,7 +97,7 @@ export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
             </ListItem>
           </ListItem>
         ))}
-        {announcements?.length === 0 && !loadingPermission && canAdd && (
+        {announcements?.count === 0 && !loadingPermission && canAdd && (
           <ListItem>
             <ListItemText>
               No announcements yet, want to{' '}

@@ -74,11 +74,11 @@ export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  if (announcements?.length === 0) {
+  if (announcements?.count === 0) {
     return null;
   }
 
-  const announcement = announcements![0];
+  const announcement = announcements!.results[0];
 
   // this announcement was already seen
   if (lastSeen >= DateTime.fromISO(announcement.created_at)) {

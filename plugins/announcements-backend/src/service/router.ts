@@ -49,13 +49,21 @@ export async function createRouter(
   const router = Router();
   router.use(express.json());
 
-  router.get('/', async (req: Request<{}, {}, {}, { max?: number }>, res) => {
-    const results = await persistenceContext.announcementsStore.announcements(
-      req.query,
-    );
+  router.get(
+    '/',
+    async (req: Request<{}, {}, {}, { page?: number; max?: number }>, res) => {
+      const results = await persistenceContext.announcementsStore.announcements(
+        {
+          max: req.query.max,
+          offset: req.query.page
+            ? (req.query.page - 1) * (req.query.max ?? 10)
+            : undefined,
+        },
+      );
 
-    return res.json(results);
-  });
+      return res.json(results);
+    },
+  );
 
   router.get('/:id', async (req: Request<{ id: string }, {}, {}, {}>, res) => {
     const result = await persistenceContext.announcementsStore.announcementByID(

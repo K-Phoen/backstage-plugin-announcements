@@ -43,10 +43,16 @@ import {
 import { Announcement, announcementsApiRef } from '../../api';
 import { DeleteAnnouncementDialog } from './DeleteAnnouncementDialog';
 import { useDeleteAnnouncementDialogState } from './useDeleteAnnouncementDialogState';
+import { Pagination } from '@material-ui/lab';
 
 const useStyles = makeStyles(theme => ({
   cardHeader: {
     color: theme.palette.text.primary,
+  },
+  pagination: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing(4),
   },
 }));
 
@@ -110,16 +116,25 @@ const AnnouncementCard = ({
   );
 };
 
-const AnnouncementsGrid = () => {
+const AnnouncementsGrid = ({ maxPerPage }: { maxPerPage: number }) => {
+  const classes = useStyles();
   const announcementsApi = useApi(announcementsApiRef);
   const alertApi = useApi(alertApiRef);
 
+  const [page, setPage] = React.useState(1);
+  const handleChange = (_event: any, value: number) => {
+    setPage(value);
+  };
+
   const {
-    value: announcements,
+    value: announcementsList,
     loading,
     error,
     retry: refresh,
-  } = useAsyncRetry(async () => announcementsApi.announcements({}));
+  } = useAsyncRetry(
+    async () => announcementsApi.announcements({ max: maxPerPage, page }),
+    [page],
+  );
   const {
     isOpen: isDeleteDialogOpen,
     open: openDeleteDialog,
@@ -153,7 +168,7 @@ const AnnouncementsGrid = () => {
   return (
     <>
       <ItemCardGrid>
-        {announcements!.map((announcement, index) => (
+        {announcementsList?.results!.map((announcement, index) => (
           <AnnouncementCard
             key={index}
             announcement={announcement}
@@ -161,6 +176,16 @@ const AnnouncementsGrid = () => {
           />
         ))}
       </ItemCardGrid>
+
+      {announcementsList && announcementsList.count !== 0 && (
+        <div className={classes.pagination}>
+          <Pagination
+            count={Math.ceil(announcementsList.count / maxPerPage)}
+            page={page}
+            onChange={handleChange}
+          />
+        </div>
+      )}
 
       <DeleteAnnouncementDialog
         open={isDeleteDialogOpen}
@@ -175,6 +200,7 @@ type AnnouncementsPageProps = {
   themeId: string;
   title: string;
   subtitle?: ReactNode;
+  maxPerPage?: number;
 };
 
 export const AnnouncementsPage = (props: AnnouncementsPageProps) => {
@@ -200,7 +226,7 @@ export const AnnouncementsPage = (props: AnnouncementsPageProps) => {
           )}
         </ContentHeader>
 
-        <AnnouncementsGrid />
+        <AnnouncementsGrid maxPerPage={props.maxPerPage ?? 10} />
       </Content>
     </Page>
   );
