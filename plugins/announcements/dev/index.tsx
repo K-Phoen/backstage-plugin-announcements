@@ -86,7 +86,7 @@ createDevApp()
             </Grid>
 
             <Grid item md={12}>
-              <NewAnnouncementBanner />
+              <NewAnnouncementBanner max={2} />
             </Grid>
             <Grid item md={6}>
               <AnnouncementsCard max={2} />

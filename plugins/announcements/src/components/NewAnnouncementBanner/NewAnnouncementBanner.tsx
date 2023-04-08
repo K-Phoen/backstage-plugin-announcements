@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Close from '@material-ui/icons/Close';
-import { announcementsApiRef } from '../../api';
+import { Announcement, announcementsApiRef } from '../../api';
 import { announcementViewRouteRef } from '../../routes';
 
 const useStyles = makeStyles((theme: BackstageTheme) => ({
@@ -47,43 +47,25 @@ const useStyles = makeStyles((theme: BackstageTheme) => ({
   },
 }));
 
-type NewAnnouncementBannerProps = {
+type AnnouncementBannerProps = {
+  announcement: Announcement;
   variant?: 'block' | 'floating';
 };
 
-export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
+const AnnouncementBanner = (props: AnnouncementBannerProps) => {
   const classes = useStyles();
   const announcementsApi = useApi(announcementsApiRef);
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
-  const {
-    value: announcements,
-    loading,
-    error,
-  } = useAsync(async () =>
-    announcementsApi.announcements({
-      max: 1,
-    }),
-  );
-  const lastSeen = announcementsApi.lastSeenDate();
   const [bannerOpen, setBannerOpen] = useState(true);
   const variant = props.variant || 'block';
+  const announcement = props.announcement;
 
-  if (loading) {
-    return null;
-  } else if (error) {
-    return <Alert severity="error">{error.message}</Alert>;
-  }
-
-  if (announcements?.count === 0) {
-    return null;
-  }
-
-  const announcement = announcements!.results[0];
-
-  // this announcement was already seen
-  if (lastSeen >= DateTime.fromISO(announcement.created_at)) {
-    return null;
-  }
+  const handleClick = () => {
+    announcementsApi.markLastSeenDate(
+      DateTime.fromISO(announcement.created_at),
+    );
+    setBannerOpen(false);
+  };
 
   const message = (
     <>
@@ -94,13 +76,6 @@ export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
       &nbsp;– {announcement.excerpt}
     </>
   );
-
-  const handleClick = () => {
-    announcementsApi.markLastSeenDate(
-      DateTime.fromISO(announcement.created_at),
-    );
-    setBannerOpen(false);
-  };
 
   return (
     <Snackbar
@@ -127,5 +102,56 @@ export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
         ]}
       />
     </Snackbar>
+  );
+};
+
+type NewAnnouncementBannerProps = {
+  variant?: 'block' | 'floating';
+  max?: number;
+};
+
+export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
+  const announcementsApi = useApi(announcementsApiRef);
+  const {
+    value: announcements,
+    loading,
+    error,
+  } = useAsync(async () =>
+    announcementsApi.announcements({
+      max: props.max || 1,
+    }),
+  );
+  const lastSeen = announcementsApi.lastSeenDate();
+
+  if (loading) {
+    return null;
+  } else if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
+
+  if (announcements?.count === 0) {
+    return null;
+  }
+
+  const unseenAnnouncements = (announcements?.results || []).filter(
+    announcement => {
+      return lastSeen < DateTime.fromISO(announcement.created_at);
+    },
+  );
+
+  if (unseenAnnouncements?.length === 0) {
+    return null;
+  }
+
+  return (
+    <>
+      {unseenAnnouncements.map(announcement => (
+        <AnnouncementBanner
+          key={announcement.id}
+          announcement={announcement}
+          variant={props.variant}
+        />
+      ))}
+    </>
   );
 };
