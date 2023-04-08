@@ -30,9 +30,14 @@ const useStyles = makeStyles({
 type AnnouncementsCardOpts = {
   title?: string;
   max?: number;
+  category?: string;
 };
 
-export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
+export const AnnouncementsCard = ({
+  title,
+  max,
+  category,
+}: AnnouncementsCardOpts) => {
   const classes = useStyles();
   const announcementsApi = useApi(announcementsApiRef);
   const announcementsLink = useRouteRef(rootRouteRef);
@@ -47,6 +52,7 @@ export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
   } = useAsync(async () =>
     announcementsApi.announcements({
       max: max || 5,
+      category,
     }),
   );
   const { announcementCreatePermission } = announcementEntityPermissions;
