@@ -14543,7 +14543,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^13.0.3":
+"lint-staged@npm:^13.2.1":
   version: 13.2.1
   resolution: "lint-staged@npm:13.2.1"
   dependencies:
@@ -19058,7 +19058,7 @@ __metadata:
     "@types/webpack": ^5.28.0
     concurrently: ^7.0.0
     husky: ^8.0.0
-    lint-staged: ^13.0.3
+    lint-staged: ^13.2.1
     prettier: ^2.4.1
     react: ^17.0.2
     react-dom: ^17.0.2
