@@ -65,7 +65,7 @@ const announcementUpsertToDB = (
     excerpt: announcement.excerpt,
     body: announcement.body,
     publisher: announcement.publisher,
-    created_at: announcement.created_at.toSQL(),
+    created_at: announcement.created_at.toSQL()!,
   };
 };
 

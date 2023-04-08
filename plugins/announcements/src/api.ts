@@ -203,6 +203,6 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
   }
 
   markLastSeenDate(date: DateTime): void {
-    this.webStorage.set<string>(lastSeenKey, date.toISO());
+    this.webStorage.set<string>(lastSeenKey, date.toISO()!);
   }
 }
