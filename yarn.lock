@@ -4333,7 +4333,7 @@ __metadata:
     express: ^4.17.1
     express-promise-router: ^4.1.0
     knex: ^2.0.0
-    luxon: ^3.1.0
+    luxon: ^3.3.0
     msw: ^0.46.0
     node-fetch: ^2.6.7
     slugify: ^1.6.6
@@ -4377,11 +4377,11 @@ __metadata:
     "@testing-library/jest-dom": ^5.10.1
     "@testing-library/react": ^12.1.3
     "@testing-library/user-event": ^14.0.0
-    "@types/luxon": ^3.0.0
+    "@types/luxon": ^3.3.0
     "@types/node": ^16.11.26
     "@uiw/react-md-editor": ^3.19.5
     cross-fetch: ^3.1.5
-    luxon: ^3.0.0
+    luxon: ^3.3.0
     msw: ^0.46.0
     react-use: ^17.2.4
   peerDependencies:
@@ -5988,6 +5988,13 @@ __metadata:
   version: 3.1.0
   resolution: "@types/luxon@npm:3.1.0"
   checksum: 04768029342ad76fc2a9339436c143ea64797b35cf9b03ddded787c13eae30f0ca1246e51c2c5365ed912f98068e13a967a3931b137eb4585248a0ad7ec3fa86
+  languageName: node
+  linkType: hard
+
+"@types/luxon@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "@types/luxon@npm:3.3.0"
+  checksum: f7e3a89fc3ca404fbc3ea538653ed6860bc28f570a8c4d6d24449b89b9b553b7d6ad6cc94a9e129c5b8c9a2b97f0c365b3017f811e59c4a859a9c219a1c918e0
   languageName: node
   linkType: hard
 
@@ -14844,7 +14851,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^3.0.0, luxon@npm:^3.1.0":
+"luxon@npm:^3.0.0":
   version: 3.1.1
   resolution: "luxon@npm:3.1.1"
   checksum: 388fb35d3c51a19d8b305a3338e7e74634b08562e7d2f9ed5c05a7f4bc9ee1c1ab6a2546b6d9c4c104516b24043757d65f5f3fe3d78b206fbf55a9586ab62230
@@ -14855,6 +14862,13 @@ __metadata:
   version: 3.2.1
   resolution: "luxon@npm:3.2.1"
   checksum: 3fa3def2c5f5d3032b4c46220c4da8aeb467ac979888fc9d2557adcd22195f93516b4ad5909a75862bec8dc6ddc0953b0f38e6d2f4a8ab8450ddc531a83cf20d
+  languageName: node
+  linkType: hard
+
+"luxon@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "luxon@npm:3.3.0"
+  checksum: 50cf17a0dc155c3dcacbeae8c0b7e80db425e0ba97b9cbdf12a7fc142d841ff1ab1560919f033af46240ed44e2f70c49f76e3422524c7fc8bb8d81ca47c66187
   languageName: node
   linkType: hard
 
