@@ -8,6 +8,7 @@ import { AnnouncementsDatabase } from './persistence/AnnouncementsDatabase';
 import { PersistenceContext } from './persistence/persistenceContext';
 import { createRouter } from './router';
 import { PermissionEvaluator } from '@backstage/plugin-permission-common';
+import { CategoriesDatabase } from './persistence/CategoriesDatabase';
 
 describe('createRouter', () => {
   let app: express.Express;
@@ -26,6 +27,7 @@ describe('createRouter', () => {
       insertAnnouncement: insertAnnouncementMock,
       updateAnnouncement: updateAnnouncementMock,
     } as unknown as AnnouncementsDatabase,
+    categoriesStore: {} as unknown as CategoriesDatabase,
   };
 
   const mockedAuthorize: jest.MockedFunction<PermissionEvaluator['authorize']> =
@@ -59,7 +61,7 @@ describe('createRouter', () => {
     jest.resetAllMocks();
   });
 
-  describe('GET /', () => {
+  describe('GET /announcements', () => {
     it('returns ok', async () => {
       announcementsMock.mockReturnValueOnce([
         {
@@ -72,7 +74,7 @@ describe('createRouter', () => {
         },
       ] as Announcement[]);
 
-      const response = await request(app).get('/');
+      const response = await request(app).get('/announcements');
 
       expect(response.status).toEqual(200);
       expect(announcementsMock).toHaveBeenCalledWith({});

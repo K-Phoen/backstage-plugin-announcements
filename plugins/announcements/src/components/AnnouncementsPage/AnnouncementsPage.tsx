@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { useAsyncRetry } from 'react-use';
+import { useLocation } from 'react-router-dom';
 import { usePermission } from '@backstage/plugin-permission-react';
 import {
   announcementCreatePermission,
@@ -39,11 +40,13 @@ import {
   announcementCreateRouteRef,
   announcementEditRouteRef,
   announcementViewRouteRef,
+  rootRouteRef,
 } from '../../routes';
 import { Announcement, announcementsApiRef } from '../../api';
 import { DeleteAnnouncementDialog } from './DeleteAnnouncementDialog';
 import { useDeleteAnnouncementDialogState } from './useDeleteAnnouncementDialogState';
 import { Pagination } from '@material-ui/lab';
+import { ContextMenu } from './ContextMenu';
 
 const useStyles = makeStyles(theme => ({
   cardHeader: {
@@ -64,6 +67,7 @@ const AnnouncementCard = ({
   onDelete: () => void;
 }) => {
   const classes = useStyles();
+  const announcementsLink = useRouteRef(rootRouteRef);
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
   const editAnnouncementLink = useRouteRef(announcementEditRouteRef);
   const entityLink = useRouteRef(entityRouteRef);
@@ -83,6 +87,17 @@ const AnnouncementCard = ({
       <EntityPeekAheadPopover entityRef={announcement.publisher}>
         <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>
       </EntityPeekAheadPopover>
+      {announcement.category && (
+        <>
+          {' '}
+          in{' '}
+          <Link
+            to={`${announcementsLink()}?category=${announcement.category.slug}`}
+          >
+            {announcement.category.title}
+          </Link>
+        </>
+      )}
       , {DateTime.fromISO(announcement.created_at).toRelative()}
     </>
   );
@@ -116,7 +131,13 @@ const AnnouncementCard = ({
   );
 };
 
-const AnnouncementsGrid = ({ maxPerPage }: { maxPerPage: number }) => {
+const AnnouncementsGrid = ({
+  maxPerPage,
+  category,
+}: {
+  maxPerPage: number;
+  category?: string;
+}) => {
   const classes = useStyles();
   const announcementsApi = useApi(announcementsApiRef);
   const alertApi = useApi(alertApiRef);
@@ -132,8 +153,9 @@ const AnnouncementsGrid = ({ maxPerPage }: { maxPerPage: number }) => {
     error,
     retry: refresh,
   } = useAsyncRetry(
-    async () => announcementsApi.announcements({ max: maxPerPage, page }),
-    [page],
+    async () =>
+      announcementsApi.announcements({ max: maxPerPage, page, category }),
+    [page, maxPerPage, category],
   );
   const {
     isOpen: isDeleteDialogOpen,
@@ -201,16 +223,21 @@ type AnnouncementsPageProps = {
   title: string;
   subtitle?: ReactNode;
   maxPerPage?: number;
+  category?: string;
 };
 
 export const AnnouncementsPage = (props: AnnouncementsPageProps) => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   const newAnnouncementLink = useRouteRef(announcementCreateRouteRef);
   const { loading: loadingCreatePermission, allowed: canCreate } =
     usePermission({ permission: announcementCreatePermission });
 
   return (
     <Page themeId={props.themeId}>
-      <Header title={props.title} subtitle={props.subtitle} />
+      <Header title={props.title} subtitle={props.subtitle}>
+        <ContextMenu />
+      </Header>
 
       <Content>
         <ContentHeader title="">
@@ -226,7 +253,10 @@ export const AnnouncementsPage = (props: AnnouncementsPageProps) => {
           )}
         </ContentHeader>
 
-        <AnnouncementsGrid maxPerPage={props.maxPerPage ?? 10} />
+        <AnnouncementsGrid
+          maxPerPage={props.maxPerPage ?? 10}
+          category={props.category ?? queryParams.get('category') ?? undefined}
+        />
       </Content>
     </Page>
   );

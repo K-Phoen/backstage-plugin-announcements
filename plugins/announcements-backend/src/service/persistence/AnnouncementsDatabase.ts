@@ -4,8 +4,19 @@ import { Announcement } from '../model';
 
 const announcementsTable = 'announcements';
 
+type AnnouncementUpsert = {
+  id: string;
+  category?: string;
+  publisher: string;
+  title: string;
+  excerpt: string;
+  body: string;
+  created_at: DateTime;
+};
+
 export type DbAnnouncement = {
   id: string;
+  category?: string;
   publisher: string;
   title: string;
   excerpt: string;
@@ -13,9 +24,15 @@ export type DbAnnouncement = {
   created_at: string;
 };
 
+export type DbAnnouncementWithCategory = DbAnnouncement & {
+  category_slug?: string;
+  category_title?: string;
+};
+
 type AnnouncementsFilters = {
   max?: number;
   offset?: number;
+  category?: string;
 };
 
 type AnnouncementsList = {
@@ -38,9 +55,12 @@ const timestampToDateTime = (input: Date | string): DateTime => {
   return result;
 };
 
-const announcementToDB = (announcement: Announcement): DbAnnouncement => {
+const announcementUpsertToDB = (
+  announcement: AnnouncementUpsert,
+): DbAnnouncement => {
   return {
     id: announcement.id,
+    category: announcement.category,
     title: announcement.title,
     excerpt: announcement.excerpt,
     body: announcement.body,
@@ -49,9 +69,18 @@ const announcementToDB = (announcement: Announcement): DbAnnouncement => {
   };
 };
 
-const DBToAnnouncement = (announcementDb: DbAnnouncement): Announcement => {
+const DBToAnnouncementWithCategory = (
+  announcementDb: DbAnnouncementWithCategory,
+): Announcement => {
   return {
     id: announcementDb.id,
+    category:
+      announcementDb.category && announcementDb.category_title
+        ? {
+            slug: announcementDb.category,
+            title: announcementDb.category_title,
+          }
+        : undefined,
     title: announcementDb.title,
     excerpt: announcementDb.excerpt,
     body: announcementDb.body,
@@ -66,14 +95,33 @@ export class AnnouncementsDatabase {
   async announcements(
     request: AnnouncementsFilters,
   ): Promise<AnnouncementsList> {
-    const countResult = await this.db<DbAnnouncement>(announcementsTable)
-      .count<Record<string, number>>('id', { as: 'total' })
-      .first();
-    const queryBuilder = this.db<DbAnnouncement>(announcementsTable).orderBy(
-      'created_at',
-      'desc',
-    );
+    const countQueryBuilder = this.db<DbAnnouncement>(announcementsTable).count<
+      Record<string, number>
+    >('id', { as: 'total' });
 
+    if (request.category) {
+      countQueryBuilder.where('category', request.category);
+    }
+
+    const countResult = await countQueryBuilder.first();
+
+    const queryBuilder = this.db<DbAnnouncementWithCategory>(announcementsTable)
+      .select(
+        'id',
+        'publisher',
+        'announcements.title',
+        'excerpt',
+        'body',
+        'category',
+        'created_at',
+        'categories.title as category_title',
+      )
+      .orderBy('created_at', 'desc')
+      .leftJoin('categories', 'announcements.category', 'categories.slug');
+
+    if (request.category) {
+      queryBuilder.where('category', request.category);
+    }
     if (request.offset) {
       queryBuilder.offset(request.offset);
     }
@@ -83,34 +131,55 @@ export class AnnouncementsDatabase {
 
     return {
       count: countResult && countResult.total ? countResult.total : 0,
-      results: (await queryBuilder.select()).map(DBToAnnouncement),
+      results: (await queryBuilder.select()).map(DBToAnnouncementWithCategory),
     };
   }
 
   async announcementByID(id: string): Promise<Announcement | undefined> {
-    const dbAnnouncement = await this.db<DbAnnouncement>(announcementsTable)
+    const dbAnnouncement = await this.db<DbAnnouncementWithCategory>(
+      announcementsTable,
+    )
+      .select(
+        'id',
+        'publisher',
+        'announcements.title',
+        'excerpt',
+        'body',
+        'category',
+        'created_at',
+        'categories.title as category_title',
+      )
+      .leftJoin('categories', 'announcements.category', 'categories.slug')
       .where('id', id)
       .first();
     if (!dbAnnouncement) {
       return undefined;
     }
 
-    return DBToAnnouncement(dbAnnouncement);
+    return DBToAnnouncementWithCategory(dbAnnouncement);
   }
 
   async deleteAnnouncementByID(id: string): Promise<void> {
     return this.db<DbAnnouncement>(announcementsTable).where('id', id).delete();
   }
 
-  async insertAnnouncement(announcement: Announcement) {
+  async insertAnnouncement(
+    announcement: AnnouncementUpsert,
+  ): Promise<Announcement> {
     await this.db<DbAnnouncement>(announcementsTable).insert(
-      announcementToDB(announcement),
+      announcementUpsertToDB(announcement),
     );
+
+    return (await this.announcementByID(announcement.id))!;
   }
 
-  async updateAnnouncement(announcement: Announcement) {
+  async updateAnnouncement(
+    announcement: AnnouncementUpsert,
+  ): Promise<Announcement> {
     await this.db<DbAnnouncement>(announcementsTable)
       .where('id', announcement.id)
-      .update(announcementToDB(announcement));
+      .update(announcementUpsertToDB(announcement));
+
+    return (await this.announcementByID(announcement.id))!;
   }
 }

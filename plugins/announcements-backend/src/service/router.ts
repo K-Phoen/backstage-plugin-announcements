@@ -1,6 +1,7 @@
 import express, { Request } from 'express';
 import Router from 'express-promise-router';
 import { DateTime } from 'luxon';
+import slugify from 'slugify';
 import { v4 as uuid } from 'uuid';
 import { errorHandler } from '@backstage/backend-common';
 import { NotAllowedError } from '@backstage/errors';
@@ -15,13 +16,17 @@ import {
   announcementUpdatePermission,
 } from '@k-phoen/backstage-plugin-announcements-common';
 import { AnnouncementsContext } from './announcementsContextBuilder';
-import { Announcement } from './model';
 
 interface AnnouncementRequest {
   publisher: string;
+  category?: string;
   title: string;
   excerpt: string;
   body: string;
+}
+
+interface CategoryRequest {
+  title: string;
 }
 
 export async function createRouter(
@@ -49,11 +54,24 @@ export async function createRouter(
   const router = Router();
   router.use(express.json());
 
+  // eslint-disable-next-line spaced-comment
+  /*****************
+   * Announcements *
+   ****************/
   router.get(
-    '/',
-    async (req: Request<{}, {}, {}, { page?: number; max?: number }>, res) => {
+    '/announcements',
+    async (
+      req: Request<
+        {},
+        {},
+        {},
+        { category?: string; page?: number; max?: number }
+      >,
+      res,
+    ) => {
       const results = await persistenceContext.announcementsStore.announcements(
         {
+          category: req.query.category,
           max: req.query.max,
           offset: req.query.page
             ? (req.query.page - 1) * (req.query.max ?? 10)
@@ -65,16 +83,20 @@ export async function createRouter(
     },
   );
 
-  router.get('/:id', async (req: Request<{ id: string }, {}, {}, {}>, res) => {
-    const result = await persistenceContext.announcementsStore.announcementByID(
-      req.params.id,
-    );
+  router.get(
+    '/announcements/:id',
+    async (req: Request<{ id: string }, {}, {}, {}>, res) => {
+      const result =
+        await persistenceContext.announcementsStore.announcementByID(
+          req.params.id,
+        );
 
-    return res.json(result);
-  });
+      return res.json(result);
+    },
+  );
 
   router.delete(
-    '/:id',
+    '/announcements/:id',
     async (req: Request<{ id: string }, {}, {}, {}>, res) => {
       if (!(await isRequestAuthorized(req, announcementDeletePermission))) {
         throw new NotAllowedError('Unauthorized');
@@ -88,57 +110,82 @@ export async function createRouter(
     },
   );
 
-  router.post('/', async (req, res) => {
-    if (!(await isRequestAuthorized(req, announcementCreatePermission))) {
-      throw new NotAllowedError('Unauthorized');
-    }
+  router.post(
+    '/announcements',
+    async (req: Request<{}, {}, AnnouncementRequest, {}>, res) => {
+      if (!(await isRequestAuthorized(req, announcementCreatePermission))) {
+        throw new NotAllowedError('Unauthorized');
+      }
 
-    const announcementRequest: AnnouncementRequest = req.body;
-    const announcement: Announcement = {
-      ...announcementRequest,
-      ...{
-        id: uuid(),
-        created_at: DateTime.now(),
-      },
-    };
+      const announcement =
+        await persistenceContext.announcementsStore.insertAnnouncement({
+          ...req.body,
+          ...{
+            id: uuid(),
+            created_at: DateTime.now(),
+          },
+        });
 
-    await persistenceContext.announcementsStore.insertAnnouncement(
-      announcement,
-    );
-
-    return res.status(201).json(announcement);
-  });
+      return res.status(201).json(announcement);
+    },
+  );
 
   router.put(
-    '/:id',
+    '/announcements/:id',
     async (req: Request<{ id: string }, {}, AnnouncementRequest, {}>, res) => {
       if (!(await isRequestAuthorized(req, announcementUpdatePermission))) {
         throw new NotAllowedError('Unauthorized');
       }
 
-      const announcement =
+      const initialAnnouncement =
         await persistenceContext.announcementsStore.announcementByID(
           req.params.id,
         );
-      if (!announcement) {
+      if (!initialAnnouncement) {
         return res.status(404).end();
       }
 
-      const updatedAnnouncement: Announcement = {
-        ...announcement,
+      const announcement =
+        await persistenceContext.announcementsStore.updateAnnouncement({
+          ...initialAnnouncement,
+          ...{
+            title: req.body.title,
+            excerpt: req.body.excerpt,
+            body: req.body.body,
+            publisher: req.body.publisher,
+            category: req.body.category,
+          },
+        });
+
+      return res.status(200).json(announcement);
+    },
+  );
+
+  // eslint-disable-next-line spaced-comment
+  /**************
+   * Categories *
+   **************/
+  router.get('/categories', async (_req, res) => {
+    const results = await persistenceContext.categoriesStore.categories();
+
+    return res.json(results);
+  });
+
+  router.post(
+    '/categories',
+    async (req: Request<{}, {}, CategoryRequest, {}>, res) => {
+      const category = {
+        ...req.body,
         ...{
-          title: req.body.title,
-          excerpt: req.body.excerpt,
-          body: req.body.body,
-          publisher: req.body.publisher,
+          slug: slugify(req.body.title, {
+            lower: true,
+          }),
         },
       };
 
-      await persistenceContext.announcementsStore.updateAnnouncement(
-        updatedAnnouncement,
-      );
+      await persistenceContext.categoriesStore.insert(category);
 
-      return res.status(200).json(updatedAnnouncement);
+      return res.status(201).json(category);
     },
   );
 

@@ -3,6 +3,7 @@ import {
   resolvePackagePath,
 } from '@backstage/backend-common';
 import { AnnouncementsDatabase } from './AnnouncementsDatabase';
+import { CategoriesDatabase } from './CategoriesDatabase';
 
 const migrationsDir = resolvePackagePath(
   '@k-phoen/backstage-plugin-announcements-backend',
@@ -16,6 +17,7 @@ const migrationsDir = resolvePackagePath(
  */
 export type PersistenceContext = {
   announcementsStore: AnnouncementsDatabase;
+  categoriesStore: CategoriesDatabase;
 };
 
 /**
@@ -36,5 +38,6 @@ export const initializePersistenceContext = async (
 
   return {
     announcementsStore: new AnnouncementsDatabase(client),
+    categoriesStore: new CategoriesDatabase(client),
   };
 };

@@ -90,9 +90,25 @@ export const AnnouncementsCard = ({ title, max }: AnnouncementsCardOpts) => {
                     {announcement.title}
                   </Link>
                 }
-                secondary={`${DateTime.fromISO(
-                  announcement.created_at,
-                ).toRelative()} – ${announcement.excerpt}`}
+                secondary={
+                  <>
+                    {DateTime.fromISO(announcement.created_at).toRelative()}
+                    {announcement.category && (
+                      <>
+                        {' '}
+                        in{' '}
+                        <Link
+                          to={`${announcementsLink()}?category=${
+                            announcement.category.slug
+                          }`}
+                        >
+                          {announcement.category.title}
+                        </Link>
+                      </>
+                    )}{' '}
+                    – {announcement.excerpt}
+                  </>
+                }
               />
             </ListItem>
           </ListItem>
