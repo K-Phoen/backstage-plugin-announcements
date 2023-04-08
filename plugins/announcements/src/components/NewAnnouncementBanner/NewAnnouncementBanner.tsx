@@ -108,6 +108,7 @@ const AnnouncementBanner = (props: AnnouncementBannerProps) => {
 type NewAnnouncementBannerProps = {
   variant?: 'block' | 'floating';
   max?: number;
+  category?: string;
 };
 
 export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
@@ -119,6 +120,7 @@ export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
   } = useAsync(async () =>
     announcementsApi.announcements({
       max: props.max || 1,
+      category: props.category,
     }),
   );
   const lastSeen = announcementsApi.lastSeenDate();
