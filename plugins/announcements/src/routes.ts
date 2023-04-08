@@ -21,3 +21,9 @@ export const announcementViewRouteRef = createSubRouteRef({
   path: '/view/:id',
   parent: rootRouteRef,
 });
+
+export const categoriesListRouteRef = createSubRouteRef({
+  id: 'announcements/categories',
+  path: '/categories',
+  parent: rootRouteRef,
+});

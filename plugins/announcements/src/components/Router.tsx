@@ -9,11 +9,13 @@ import {
   announcementCreateRouteRef,
   announcementEditRouteRef,
   announcementViewRouteRef,
+  categoriesListRouteRef,
 } from '../routes';
 import { AnnouncementsPage } from './AnnouncementsPage';
 import { AnnouncementPage } from './AnnouncementPage';
 import { CreateAnnouncementPage } from './CreateAnnouncementPage';
 import { EditAnnouncementPage } from './EditAnnouncementPage';
+import { CategoriesPage } from './CategoriesPage';
 
 type RouterProps = {
   themeId?: string;
@@ -50,6 +52,11 @@ export const Router = (props: RouterProps) => {
             <EditAnnouncementPage {...propsWithDefaults} />
           </RequirePermission>
         }
+      />
+
+      <Route
+        path={`${categoriesListRouteRef.path}`}
+        element={<CategoriesPage themeId={propsWithDefaults.themeId} />}
       />
     </Routes>
   );

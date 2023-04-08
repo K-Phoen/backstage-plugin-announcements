@@ -2,7 +2,11 @@ import React, { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Page, Header, Content } from '@backstage/core-components';
 import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
-import { announcementsApiRef, CreateAnnouncementRequest } from '../../api';
+import {
+  Announcement,
+  announcementsApiRef,
+  CreateAnnouncementRequest,
+} from '../../api';
 import { rootRouteRef } from '../../routes';
 import { AnnouncementForm } from '../AnnouncementForm';
 
@@ -35,7 +39,7 @@ export const CreateAnnouncementPage = (props: CreateAnnouncementPageProps) => {
 
       <Content>
         <AnnouncementForm
-          initialData={{} as CreateAnnouncementRequest}
+          initialData={{} as Announcement}
           onSubmit={onSubmit}
         />
       </Content>
