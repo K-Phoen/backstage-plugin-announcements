@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing(4),
   },
-  ItemCardHeader: {
+  itemCardHeader: {
 
   },
   link: {
