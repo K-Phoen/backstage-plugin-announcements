@@ -6,6 +6,7 @@ const announcementsTable = 'announcements';
 
 type AnnouncementUpsert = {
   id: string;
+  type?: 'info' | 'warning' | 'error';
   category?: string;
   publisher: string;
   title: string;
@@ -16,6 +17,7 @@ type AnnouncementUpsert = {
 
 export type DbAnnouncement = {
   id: string;
+  type?: 'info' | 'warning' | 'error';
   category?: string;
   publisher: string;
   title: string;
@@ -60,6 +62,7 @@ const announcementUpsertToDB = (
 ): DbAnnouncement => {
   return {
     id: announcement.id,
+    type: announcement.type,
     category: announcement.category,
     title: announcement.title,
     excerpt: announcement.excerpt,
@@ -74,6 +77,7 @@ const DBToAnnouncementWithCategory = (
 ): Announcement => {
   return {
     id: announcementDb.id,
+    type: announcementDb.type,
     category:
       announcementDb.category && announcementDb.category_title
         ? {
@@ -108,6 +112,7 @@ export class AnnouncementsDatabase {
     const queryBuilder = this.db<DbAnnouncementWithCategory>(announcementsTable)
       .select(
         'id',
+        'type',
         'publisher',
         'announcements.title',
         'excerpt',
@@ -141,6 +146,7 @@ export class AnnouncementsDatabase {
     )
       .select(
         'id',
+        'type',
         'publisher',
         'announcements.title',
         'excerpt',
