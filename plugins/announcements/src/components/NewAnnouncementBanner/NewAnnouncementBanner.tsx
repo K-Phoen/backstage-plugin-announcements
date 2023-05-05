@@ -137,7 +137,10 @@ export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
 
   const unseenAnnouncements = (announcements?.results || []).filter(
     announcement => {
-      return lastSeen < DateTime.fromISO(announcement.created_at);
+      return (
+        announcement.sticky ||
+        lastSeen < DateTime.fromISO(announcement.created_at)
+      );
     },
   );
 

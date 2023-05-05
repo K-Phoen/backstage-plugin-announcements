@@ -7,6 +7,7 @@ const announcementsTable = 'announcements';
 type AnnouncementUpsert = {
   id: string;
   category?: string;
+  sticky?: boolean;
   publisher: string;
   title: string;
   excerpt: string;
@@ -17,6 +18,7 @@ type AnnouncementUpsert = {
 export type DbAnnouncement = {
   id: string;
   category?: string;
+  sticky?: boolean;
   publisher: string;
   title: string;
   excerpt: string;
@@ -62,6 +64,7 @@ const announcementUpsertToDB = (
     id: announcement.id,
     category: announcement.category,
     title: announcement.title,
+    sticky: announcement.sticky,
     excerpt: announcement.excerpt,
     body: announcement.body,
     publisher: announcement.publisher,
@@ -81,6 +84,7 @@ const DBToAnnouncementWithCategory = (
             title: announcementDb.category_title,
           }
         : undefined,
+    sticky: announcementDb.sticky,
     title: announcementDb.title,
     excerpt: announcementDb.excerpt,
     body: announcementDb.body,
@@ -113,6 +117,7 @@ export class AnnouncementsDatabase {
         'excerpt',
         'body',
         'category',
+        'sticky',
         'created_at',
         'categories.title as category_title',
       )
@@ -146,6 +151,7 @@ export class AnnouncementsDatabase {
         'excerpt',
         'body',
         'category',
+        'sticky',
         'created_at',
         'categories.title as category_title',
       )
