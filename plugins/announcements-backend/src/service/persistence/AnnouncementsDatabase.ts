@@ -121,6 +121,7 @@ export class AnnouncementsDatabase {
         'created_at',
         'categories.title as category_title',
       )
+      .orderBy('sticky', 'desc')
       .orderBy('created_at', 'desc')
       .leftJoin('categories', 'announcements.category', 'categories.slug');
 
