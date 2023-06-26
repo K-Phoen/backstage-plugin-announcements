@@ -1,5 +1,24 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.1.0
+
+### Minor Changes
+
+- 2f5aa27: Introduce announcement categories
+
+### Patch Changes
+
+- e9101d0: Display announcements by category for the banner and card
+- 793d5b9: Bump Backstage dependencies to 1.15.0
+- ab3813f: Bump Backstage dependencies
+- b8c5c87: Paginate results in the announcements page
+- 3ac02c7: Support displaying multiple announcements using the NewAnnouncementBanner component
+- 0868ffc: Cleanup the announcement form style
+- cca69ec: Prevent the submission of empty announcements
+- Updated dependencies [793d5b9]
+- Updated dependencies [ab3813f]
+  - @k-phoen/backstage-plugin-announcements-common@0.0.7
+
 ## 0.0.14
 
 ### Patch Changes
