@@ -11,6 +11,11 @@ export type Announcement = {
   created_at: string;
 };
 
+export type AnnouncementsList = {
+    count: number;
+    results: Announcement[];
+};
+
 export class AnnouncementsClient {
   private readonly discoveryApi: DiscoveryApi;
 
@@ -30,6 +35,7 @@ export class AnnouncementsClient {
   }
 
   async announcements(): Promise<Announcement[]> {
-    return await this.fetch<Announcement[]>('/');
+    const result = await this.fetch<AnnouncementsList>('/announcements');
+    return result?.results;
   }
 }
