@@ -6,6 +6,7 @@ import {
   discoveryApiRef,
   errorApiRef,
   identityApiRef,
+  fetchApiRef,
 } from '@backstage/core-plugin-api';
 import {
   createSearchResultListItemExtension,
@@ -27,12 +28,14 @@ export const announcementsPlugin = createPlugin({
         discoveryApi: discoveryApiRef,
         identityApi: identityApiRef,
         errorApi: errorApiRef,
+        fetchApi: fetchApiRef,
       },
-      factory: ({ discoveryApi, identityApi, errorApi }) => {
+      factory: ({ discoveryApi, identityApi, errorApi, fetchApi }) => {
         return new DefaultAnnouncementsApi({
           discoveryApi: discoveryApi,
           identityApi: identityApi,
           errorApi: errorApi,
+          fetchApi: fetchApi,
         });
       },
     }),

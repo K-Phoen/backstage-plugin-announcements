@@ -7,6 +7,7 @@ import {
   IdentityApi,
 } from '@backstage/core-plugin-api';
 import { ResponseError } from '@backstage/errors';
+import { FetchApi } from '@backstage/core-plugin-api';
 
 const lastSeenKey = 'user_last_seen_date';
 
@@ -71,17 +72,20 @@ type Options = {
   discoveryApi: DiscoveryApi;
   identityApi: IdentityApi;
   errorApi: ErrorApi;
+  fetchApi: FetchApi;
 };
 
 export class DefaultAnnouncementsApi implements AnnouncementsApi {
   private readonly discoveryApi: DiscoveryApi;
   private readonly identityApi: IdentityApi;
   private readonly webStorage: WebStorage;
+  private readonly fetchApi: FetchApi;
 
   constructor(opts: Options) {
     this.discoveryApi = opts.discoveryApi;
     this.identityApi = opts.identityApi;
     this.webStorage = new WebStorage('announcements', opts.errorApi);
+    this.fetchApi = opts.fetchApi;
   }
 
   private async fetch<T = any>(input: string, init?: RequestInit): Promise<T> {
@@ -93,18 +97,18 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
       headers.set('authorization', `Bearer ${token}`);
     }
 
-    const request = new Request(`${baseApiUrl}${input}`, {
-      ...init,
-      headers,
-    });
+    return this.fetchApi
+      .fetch(`${baseApiUrl}${input}`, {
+        ...init,
+        headers,
+      })
+      .then(async response => {
+        if (!response.ok) {
+          throw await ResponseError.fromResponse(response);
+        }
 
-    return fetch(request).then(async response => {
-      if (!response.ok) {
-        throw await ResponseError.fromResponse(response);
-      }
-
-      return response.json() as Promise<T>;
-    });
+        return response.json() as Promise<T>;
+      });
   }
 
   private async delete(input: string, init?: RequestInit): Promise<void> {
@@ -116,16 +120,16 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
       headers.set('authorization', `Bearer ${token}`);
     }
 
-    const request = new Request(`${baseApiUrl}${input}`, {
-      ...{ method: 'DELETE' },
-      headers,
-    });
-
-    return fetch(request).then(async response => {
-      if (!response.ok) {
-        throw await ResponseError.fromResponse(response);
-      }
-    });
+    return this.fetchApi
+      .fetch(`${baseApiUrl}${input}`, {
+        ...{ method: 'DELETE' },
+        headers,
+      })
+      .then(async response => {
+        if (!response.ok) {
+          throw await ResponseError.fromResponse(response);
+        }
+      });
   }
 
   async announcements({
