@@ -17,6 +17,7 @@ export type Category = {
 
 export type Announcement = {
   id: string;
+  type?: 'info' | 'warning' | 'error';
   category?: Category;
   publisher: string;
   title: string;

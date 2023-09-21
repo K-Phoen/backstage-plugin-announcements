@@ -8,11 +8,15 @@ import {
   makeStyles,
   Snackbar,
   SnackbarContent,
+  useTheme,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Close from '@material-ui/icons/Close';
 import { Announcement, announcementsApiRef } from '../../api';
 import { announcementViewRouteRef } from '../../routes';
+import InfoIcon from '@material-ui/icons/Info';
+import WarningIcon from '@material-ui/icons/Warning';
+import ErrorIcon from '@material-ui/icons/Error';
 
 const useStyles = makeStyles(theme => ({
   // showing on top, as a block
@@ -29,19 +33,20 @@ const useStyles = makeStyles(theme => ({
     fontSize: 20,
   },
   bannerIcon: {
-    fontSize: 20,
     marginRight: '0.5rem',
   },
   content: {
     width: '100%',
     maxWidth: 'inherit',
-    flexWrap: 'nowrap',
-    backgroundColor: theme.palette.banner.info,
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.palette.banner.text,
-    '& a': {
-      color: theme.palette.banner.link,
+    '& > div': {
+      display: 'flex',
+      flexWrap: 'nowrap',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: theme.palette.banner.text,
+      '& a': {
+        color: theme.palette.banner.link,
+      },
     },
   },
 }));
@@ -53,6 +58,7 @@ type AnnouncementBannerProps = {
 
 const AnnouncementBanner = (props: AnnouncementBannerProps) => {
   const classes = useStyles();
+  const theme = useTheme();
   const announcementsApi = useApi(announcementsApiRef);
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
   const [bannerOpen, setBannerOpen] = useState(true);
@@ -66,15 +72,29 @@ const AnnouncementBanner = (props: AnnouncementBannerProps) => {
     setBannerOpen(false);
   };
 
+  let icon = <InfoIcon />;
+  if (announcement.type === 'warning') {
+    icon = <WarningIcon />;
+  } else if (announcement.type === 'error') {
+    icon = <ErrorIcon />;
+  }
+
   const message = (
     <>
-      <span className={classes.bannerIcon}>📣</span>
+      <span className={classes.bannerIcon}>{icon}</span>
       <Link to={viewAnnouncementLink({ id: announcement.id })}>
         {announcement.title}
       </Link>
       &nbsp;– {announcement.excerpt}
     </>
   );
+
+  let bgColor = theme.palette.info;
+  if (announcement.type === 'warning') {
+    bgColor = theme.palette.warning;
+  } else if (announcement.type === 'error') {
+    bgColor = theme.palette.error;
+  }
 
   return (
     <Snackbar
@@ -88,6 +108,7 @@ const AnnouncementBanner = (props: AnnouncementBannerProps) => {
     >
       <SnackbarContent
         className={classes.content}
+        style={{ backgroundColor: bgColor.main }}
         message={message}
         action={[
           <IconButton
