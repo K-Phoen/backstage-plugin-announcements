@@ -3,7 +3,6 @@ import { useAsync } from 'react-use';
 import { DateTime } from 'luxon';
 import { Link } from '@backstage/core-components';
 import { useApi, useRouteRef } from '@backstage/core-plugin-api';
-import { BackstageTheme } from '@backstage/theme';
 import {
   IconButton,
   makeStyles,
@@ -19,7 +18,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import ErrorIcon from '@material-ui/icons/Error';
 
-const useStyles = makeStyles((theme: BackstageTheme) => ({
+const useStyles = makeStyles(theme => ({
   // showing on top, as a block
   blockPositioning: {
     padding: theme.spacing(0),
