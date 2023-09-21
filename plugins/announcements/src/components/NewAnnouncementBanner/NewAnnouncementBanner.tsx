@@ -3,7 +3,6 @@ import { useAsync } from 'react-use';
 import { DateTime } from 'luxon';
 import { Link } from '@backstage/core-components';
 import { useApi, useRouteRef } from '@backstage/core-plugin-api';
-import { BackstageTheme } from '@backstage/theme';
 import {
   IconButton,
   makeStyles,
@@ -15,7 +14,7 @@ import Close from '@material-ui/icons/Close';
 import { Announcement, announcementsApiRef } from '../../api';
 import { announcementViewRouteRef } from '../../routes';
 
-const useStyles = makeStyles((theme: BackstageTheme) => ({
+const useStyles = makeStyles(theme => ({
   // showing on top, as a block
   blockPositioning: {
     padding: theme.spacing(0),

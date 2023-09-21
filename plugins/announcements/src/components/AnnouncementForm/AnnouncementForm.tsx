@@ -156,7 +156,7 @@ export const AnnouncementForm = ({
           variant="contained"
           color="primary"
           type="submit"
-          disabled={loading}
+          disabled={loading || !form.body}
         >
           Submit
         </Button>
