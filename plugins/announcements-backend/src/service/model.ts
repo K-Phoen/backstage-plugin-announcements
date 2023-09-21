@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 export type Announcement = {
   id: string;
   category?: Category;
+  sticky?: boolean;
   publisher: string;
   title: string;
   excerpt: string;

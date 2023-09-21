@@ -20,6 +20,7 @@ import { AnnouncementsContext } from './announcementsContextBuilder';
 interface AnnouncementRequest {
   publisher: string;
   category?: string;
+  sticky?: boolean;
   title: string;
   excerpt: string;
   body: string;

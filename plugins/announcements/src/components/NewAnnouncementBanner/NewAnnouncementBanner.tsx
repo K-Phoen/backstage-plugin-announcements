@@ -60,6 +60,9 @@ const AnnouncementBanner = (props: AnnouncementBannerProps) => {
   const announcement = props.announcement;
 
   const handleClick = () => {
+    if (announcement.sticky) {
+      return;
+    }
     announcementsApi.markLastSeenDate(
       DateTime.fromISO(announcement.created_at),
     );
@@ -90,14 +93,16 @@ const AnnouncementBanner = (props: AnnouncementBannerProps) => {
         className={classes.content}
         message={message}
         action={[
-          <IconButton
-            key="dismiss"
-            title="Mark as seen"
-            color="inherit"
-            onClick={handleClick}
-          >
-            <Close className={classes.icon} />
-          </IconButton>,
+          !announcement.sticky && (
+            <IconButton
+              key="dismiss"
+              title="Mark as seen"
+              color="inherit"
+              onClick={handleClick}
+            >
+              <Close className={classes.icon} />
+            </IconButton>
+          ),
         ]}
       />
     </Snackbar>
@@ -136,7 +141,10 @@ export const NewAnnouncementBanner = (props: NewAnnouncementBannerProps) => {
 
   const unseenAnnouncements = (announcements?.results || []).filter(
     announcement => {
-      return lastSeen < DateTime.fromISO(announcement.created_at);
+      return (
+        announcement.sticky ||
+        lastSeen < DateTime.fromISO(announcement.created_at)
+      );
     },
   );
 
