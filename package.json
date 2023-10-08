@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@backstage/cli": "^0.22.8",
-    "@changesets/cli": "^2.18.0",
+    "@changesets/cli": "^2.26.2",
     "@spotify/prettier-config": "^12.0.0",
     "@types/webpack": "^5.28.3",
     "concurrently": "^7.0.0",
