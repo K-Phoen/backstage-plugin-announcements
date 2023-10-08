@@ -7052,14 +7052,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack@npm:^5.28.0":
-  version: 5.28.0
-  resolution: "@types/webpack@npm:5.28.0"
+"@types/webpack@npm:^5.28.3":
+  version: 5.28.3
+  resolution: "@types/webpack@npm:5.28.3"
   dependencies:
     "@types/node": "*"
     tapable: ^2.2.0
     webpack: ^5
-  checksum: a038d7e12dd109c6a8d2eb744fd32070ef94f1655e730fb1443b370db98864c3a0e408638b02d12ba08269b9c012b3be8b801117ced2d1102e7676203fd663ed
+  checksum: 8452528f7ff61eb5e53d9d1dc08c05c648af2d850e14debf49141859b72798ea2d91f2892f849d7fa97e208fef7ae82960eea24b1019cb072b4713b515e74bfc
   languageName: node
   linkType: hard
 
@@ -19848,7 +19848,7 @@ __metadata:
     "@backstage/cli": ^0.22.8
     "@changesets/cli": ^2.18.0
     "@spotify/prettier-config": ^12.0.0
-    "@types/webpack": ^5.28.0
+    "@types/webpack": ^5.28.3
     concurrently: ^7.0.0
     husky: ^8.0.0
     lint-staged: ^13.0.3
