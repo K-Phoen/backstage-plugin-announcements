@@ -48,6 +48,11 @@ import { useDeleteAnnouncementDialogState } from './useDeleteAnnouncementDialogS
 import { Pagination } from '@material-ui/lab';
 import { ContextMenu } from './ContextMenu';
 
+export type AnnouncementsStylePickerClassKey =
+  | 'itemCardHeader'
+  | 'cardHeader'
+  | 'link';
+
 const useStyles = makeStyles(theme => ({
   cardHeader: {
     color: theme.palette.text.primary,
@@ -57,7 +62,17 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing(4),
   },
-}));
+  itemCardHeader: {
+
+  },
+  link: {
+
+  },
+  }),
+  {
+    name: 'AnnouncementsStylePicker',
+  },
+);
 
 const AnnouncementCard = ({
   announcement,
@@ -85,7 +100,7 @@ const AnnouncementCard = ({
     <>
       By{' '}
       <EntityPeekAheadPopover entityRef={announcement.publisher}>
-        <Link to={entityLink(publisherRef)}>{publisherRef.name}</Link>
+        <Link to={entityLink(publisherRef)} className={classes.link}>{publisherRef.name}</Link>
       </EntityPeekAheadPopover>
       {announcement.category && (
         <>
@@ -109,7 +124,7 @@ const AnnouncementCard = ({
   return (
     <Card>
       <CardMedia>
-        <ItemCardHeader title={title} subtitle={subTitle} />
+        <ItemCardHeader title={title} subtitle={subTitle} classes={{root : useStyles().itemCardHeader}}/>
       </CardMedia>
       <CardContent>{announcement.excerpt}</CardContent>
       <CardActions>
