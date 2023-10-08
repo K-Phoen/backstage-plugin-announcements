@@ -43,7 +43,7 @@
     "@k-phoen/backstage-plugin-announcements-common": "^0.0.7",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "4.0.0-alpha.57",
+    "@material-ui/lab": "4.0.0-alpha.61",
     "@uiw/react-md-editor": "^3.19.5",
     "luxon": "^3.2.0",
     "react-use": "^17.2.4"
