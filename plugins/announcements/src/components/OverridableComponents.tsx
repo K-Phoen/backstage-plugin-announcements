@@ -3,7 +3,7 @@ import { StyleRules } from '@material-ui/core/styles/withStyles';
 import { AnnouncementsStylePickerClassKey } from './AnnouncementsPage/AnnouncementsPage';
 
 export type AnnouncementsNameToClassKey = {
-    AnnouncementsStylePicker: AnnouncementsStylePickerClassKey;
+  AnnouncementsStylePicker: AnnouncementsStylePickerClassKey;
 };
 
 export type BackstageOverrides = Overrides & {

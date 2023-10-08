@@ -26,6 +26,7 @@ interface AnnouncementRequest {
   title: string;
   excerpt: string;
   body: string;
+  type?: 'info' | 'warning' | 'error';
 }
 
 interface CategoryRequest {

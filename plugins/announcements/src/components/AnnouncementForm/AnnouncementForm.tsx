@@ -5,9 +5,12 @@ import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import {
   Button,
   CircularProgress,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   makeStyles,
+  Select,
   Switch,
   TextField,
 } from '@material-ui/core';
@@ -18,11 +21,15 @@ import {
 } from '../../api';
 import { Autocomplete } from '@material-ui/lab';
 import { useAsync } from 'react-use';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles(theme => ({
   formRoot: {
     '& > *': {
       margin: theme.spacing(1),
+    },
+    formControl: {
+      minWidth: '150px',
     },
   },
 }));
@@ -92,6 +99,22 @@ export const AnnouncementForm = ({
           fullWidth
           required
         />
+        <FormControl className={classes.formRoot}>
+          <Select
+            id="type"
+            name="type"
+            defaultValue="info"
+            variant="outlined"
+            value={form.type ?? 'info'}
+            // @ts-ignore
+            onChange={handleChange}
+          >
+            <MenuItem value="info">Info</MenuItem>
+            <MenuItem value="warning">Warning</MenuItem>
+            <MenuItem value="error">Error</MenuItem>
+          </Select>
+          <FormHelperText>Announcement type</FormHelperText>
+        </FormControl>
         <Autocomplete
           fullWidth
           getOptionSelected={(option, value) => option.slug === value.slug}

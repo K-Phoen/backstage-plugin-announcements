@@ -53,21 +53,18 @@ export type AnnouncementsStylePickerClassKey =
   | 'cardHeader'
   | 'link';
 
-const useStyles = makeStyles(theme => ({
-  cardHeader: {
-    color: theme.palette.text.primary,
-  },
-  pagination: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: theme.spacing(4),
-  },
-  itemCardHeader: {
-
-  },
-  link: {
-
-  },
+const useStyles = makeStyles(
+  theme => ({
+    cardHeader: {
+      color: theme.palette.text.primary,
+    },
+    pagination: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: theme.spacing(4),
+    },
+    itemCardHeader: {},
+    link: {},
   }),
   {
     name: 'AnnouncementsStylePicker',
@@ -100,7 +97,9 @@ const AnnouncementCard = ({
     <>
       By{' '}
       <EntityPeekAheadPopover entityRef={announcement.publisher}>
-        <Link to={entityLink(publisherRef)} className={classes.link}>{publisherRef.name}</Link>
+        <Link to={entityLink(publisherRef)} className={classes.link}>
+          {publisherRef.name}
+        </Link>
       </EntityPeekAheadPopover>
       {announcement.category && (
         <>
@@ -124,7 +123,11 @@ const AnnouncementCard = ({
   return (
     <Card>
       <CardMedia>
-        <ItemCardHeader title={title} subtitle={subTitle} classes={{root : useStyles().itemCardHeader}}/>
+        <ItemCardHeader
+          title={title}
+          subtitle={subTitle}
+          classes={{ root: useStyles().itemCardHeader }}
+        />
       </CardMedia>
       <CardContent>{announcement.excerpt}</CardContent>
       <CardActions>
