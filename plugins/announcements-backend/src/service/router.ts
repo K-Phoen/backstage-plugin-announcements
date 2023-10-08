@@ -22,6 +22,7 @@ import { createPermissionIntegrationRouter } from '@backstage/plugin-permission-
 interface AnnouncementRequest {
   publisher: string;
   category?: string;
+  sticky?: boolean;
   title: string;
   excerpt: string;
   body: string;

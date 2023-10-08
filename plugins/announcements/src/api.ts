@@ -19,6 +19,7 @@ export type Category = {
 export type Announcement = {
   id: string;
   category?: Category;
+  sticky?: boolean;
   publisher: string;
   title: string;
   excerpt: string;
