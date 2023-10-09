@@ -6,7 +6,7 @@ import {
   announcementCreatePermission,
   announcementUpdatePermission,
   announcementDeletePermission,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@kurtaking/backstage-plugin-announcements-common';
 import { DateTime } from 'luxon';
 import {
   Page,

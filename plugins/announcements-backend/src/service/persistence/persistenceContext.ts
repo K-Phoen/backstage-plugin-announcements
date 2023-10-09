@@ -6,7 +6,7 @@ import { AnnouncementsDatabase } from './AnnouncementsDatabase';
 import { CategoriesDatabase } from './CategoriesDatabase';
 
 const migrationsDir = resolvePackagePath(
-  '@k-phoen/backstage-plugin-announcements-backend',
+  '@kurtaking/backstage-plugin-announcements-backend',
   'migrations',
 );
 

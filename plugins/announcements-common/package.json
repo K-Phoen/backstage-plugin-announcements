@@ -1,17 +1,17 @@
 {
-  "name": "@k-phoen/backstage-plugin-announcements-common",
+  "name": "@kurtaking/backstage-plugin-announcements-common",
   "version": "0.0.7",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "description": "Common functionalities for the announcements plugin",
   "license": "MIT",
-  "homepage": "https://github.com/K-Phoen/backstage-plugin-announcements",
+  "homepage": "https://github.com/kurtaking/backstage-plugin-announcements",
   "bugs": {
-    "url": "https://github.com/K-Phoen/backstage-plugin-announcements/issues"
+    "url": "https://github.com/kurtaking/backstage-plugin-announcements/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/K-Phoen/backstage-plugin-announcements.git"
+    "url": "https://github.com/kurtaking/backstage-plugin-announcements.git"
   },
   "publishConfig": {
     "access": "public",

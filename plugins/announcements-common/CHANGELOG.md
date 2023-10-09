@@ -1,4 +1,4 @@
-# @k-phoen/backstage-plugin-announcements-common
+# @kurtaking/backstage-plugin-announcements-common
 
 ## 0.0.7
 

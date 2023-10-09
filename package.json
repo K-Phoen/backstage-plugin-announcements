@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "concurrently \"yarn start\" \"yarn start-backend\"",
-    "start": "yarn workspace @k-phoen/backstage-plugin-announcements start",
-    "start-backend": "yarn workspace @k-phoen/backstage-plugin-announcements-backend start",
+    "start": "yarn workspace @kurtaking/backstage-plugin-announcements start",
+    "start-backend": "yarn workspace @kurtaking/backstage-plugin-announcements-backend start",
     "start:ci": "concurrently \"yarn start\" \"yarn start-backend:ci\"",
     "build": "backstage-cli repo build --all",
     "tsc": "tsc",

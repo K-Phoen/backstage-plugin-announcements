@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import { usePermission } from '@backstage/plugin-permission-react';
 import { InfoCard, Link, Progress } from '@backstage/core-components';
 import { useApi, useRouteRef } from '@backstage/core-plugin-api';
-import { announcementEntityPermissions } from '@k-phoen/backstage-plugin-announcements-common';
+import { announcementEntityPermissions } from '@kurtaking/backstage-plugin-announcements-common';
 import {
   List,
   ListItem,

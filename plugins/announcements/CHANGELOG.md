@@ -1,4 +1,4 @@
-# @k-phoen/backstage-plugin-announcements
+# @kurtaking/backstage-plugin-announcements
 
 ## 0.1.0
 
@@ -17,7 +17,7 @@
 - cca69ec: Prevent the submission of empty announcements
 - Updated dependencies [793d5b9]
 - Updated dependencies [ab3813f]
-  - @k-phoen/backstage-plugin-announcements-common@0.0.7
+  - @kurtaking/backstage-plugin-announcements-common@0.0.7
 
 ## 0.0.14
 
@@ -44,7 +44,7 @@
 - 00753b7: Fix routes definition
 - 60babbc: Make the themeId configurable on all pages
 - Updated dependencies [7d25e84]
-  - @k-phoen/backstage-plugin-announcements-common@0.0.6
+  - @kurtaking/backstage-plugin-announcements-common@0.0.6
 
 ## 0.0.11
 
@@ -54,21 +54,21 @@
 - 56d5e6d: Try and setup release pipeline to replace 'workspace:\*' version constraints
 - Updated dependencies [0e1d000]
 - Updated dependencies [56d5e6d]
-  - @k-phoen/backstage-plugin-announcements-common@0.0.5
+  - @kurtaking/backstage-plugin-announcements-common@0.0.5
 
 ## 0.0.10
 
 ### Patch Changes
 
 - Updated dependencies [9bdc37d]
-  - @k-phoen/backstage-plugin-announcements-common@0.0.4
+  - @kurtaking/backstage-plugin-announcements-common@0.0.4
 
 ## 0.0.9
 
 ### Patch Changes
 
 - Updated dependencies [6c9bf32]
-  - @k-phoen/backstage-plugin-announcements-common@0.0.3
+  - @kurtaking/backstage-plugin-announcements-common@0.0.3
 
 ## 0.0.8
 
@@ -77,7 +77,7 @@
 - 0c12eea: Bump Backstage dependencies
 - Updated dependencies [062aca5]
 - Updated dependencies [0c12eea]
-  - @k-phoen/backstage-plugin-announcements-common@0.0.2
+  - @kurtaking/backstage-plugin-announcements-common@0.0.2
 
 ## 0.0.7
 

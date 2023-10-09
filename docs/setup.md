@@ -5,13 +5,16 @@
 Add the plugin to your backend app:
 
 ```bash
-cd packages/backend && yarn add @k-phoen/backstage-plugin-announcements-backend
+cd packages/backend && yarn add @kurtaking/backstage-plugin-announcements-backend
 ```
 
 Create a file in `packages/backend/src/plugins/announcements.ts`:
 
 ```ts
-import { buildAnnouncementsContext, createRouter } from '@k-phoen/backstage-plugin-announcements-backend';
+import {
+  buildAnnouncementsContext,
+  createRouter,
+} from '@kurtaking/backstage-plugin-announcements-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 
@@ -23,7 +26,7 @@ export default async function createPlugin({
   const announcementsContext = await buildAnnouncementsContext({
     logger: logger,
     database: database,
-    permissions: permissions
+    permissions: permissions,
   });
 
   return await createRouter(announcementsContext);
@@ -38,7 +41,9 @@ import announcements from './plugins/announcements';
 // ...
 async function main() {
   // ...
-  const announcementsEnv = useHotMemoize(module, () => createEnv('announcements'));
+  const announcementsEnv = useHotMemoize(module, () =>
+    createEnv('announcements'),
+  );
 
   const apiRouter = Router();
   apiRouter.use('/announcements', await announcements(announcementsEnv));
@@ -51,14 +56,14 @@ async function main() {
 Add the plugin to your frontend app:
 
 ```bash
-cd packages/app && yarn add @k-phoen/backstage-plugin-announcements
+cd packages/app && yarn add @kurtaking/backstage-plugin-announcements
 ```
 
 Expose the announcements page:
 
 ```ts
 // packages/app/src/App.tsx
-import { AnnouncementsPage } from '@k-phoen/backstage-plugin-announcements';
+import { AnnouncementsPage } from '@kurtaking/backstage-plugin-announcements';
 
 // ...
 

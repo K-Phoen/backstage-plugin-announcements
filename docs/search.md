@@ -4,7 +4,7 @@ Enable announcements indexing in the search engine:
 
 ```typescript
 // packages/backend/src/plugins/search.ts
-import { AnnouncementCollatorFactory } from '@k-phoen/backstage-plugin-announcements-backend';
+import { AnnouncementCollatorFactory } from '@kurtaking/backstage-plugin-announcements-backend';
 
 export default async function createPlugin({
   logger,
@@ -65,7 +65,7 @@ Nicely display announcements search results:
 ```typescript
 // packages/app/src/components/search/SearchPage.tsx
 
-import { AnnouncementSearchResultListItem } from '@k-phoen/backstage-plugin-announcements';
+import { AnnouncementSearchResultListItem } from '@kurtaking/backstage-plugin-announcements';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 
 // ...

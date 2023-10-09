@@ -15,7 +15,7 @@ import {
   announcementDeletePermission,
   announcementEntityPermissions,
   announcementUpdatePermission,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@kurtaking/backstage-plugin-announcements-common';
 import { AnnouncementsContext } from './announcementsContextBuilder';
 import { createPermissionIntegrationRouter } from '@backstage/plugin-permission-node';
 
