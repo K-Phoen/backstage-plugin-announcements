@@ -1,4 +1,4 @@
-import crossFetch from 'cross-fetch';
+import fetch from 'node-fetch';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
 import { ResponseError } from '@backstage/errors';
 
@@ -21,12 +21,12 @@ export class AnnouncementsClient {
   private async fetch<T = any>(input: string): Promise<T> {
     const baseApiUrl = await this.discoveryApi.getBaseUrl('announcements');
 
-    return crossFetch(`${baseApiUrl}${input}`).then(async response => {
-      if (!response.ok) {
-        throw await ResponseError.fromResponse(response);
-      }
-      return response.json() as Promise<T>;
-    });
+    const response = await fetch(`${baseApiUrl}${input}`);
+    if (!response.ok) {
+      throw await ResponseError.fromResponse(response);
+    }
+
+    return response.json() as Promise<T>;
   }
 
   async announcements(): Promise<Announcement[]> {
