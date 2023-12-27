@@ -1,16 +1,16 @@
 import { Server } from 'http';
-import Knex from 'knex';
 import { Logger } from 'winston';
 import {
   createServiceBuilder,
-  useHotMemoize,
   ServerTokenManager,
   loadBackendConfig,
-  SingleHostDiscovery,
+  HostDiscovery,
+  DatabaseManager,
 } from '@backstage/backend-common';
 import { buildAnnouncementsContext } from './announcementsContextBuilder';
 import { createRouter } from './router';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
+import { ConfigReader } from '@backstage/config';
 
 export interface ServerOptions {
   port: number;
@@ -25,7 +25,7 @@ export async function startStandaloneServer(
     service: 'announcements-backend-backend',
   });
   const config = await loadBackendConfig({ logger, argv: process.argv });
-  const discovery = SingleHostDiscovery.fromConfig(config);
+  const discovery = HostDiscovery.fromConfig(config);
   const tokenManager = ServerTokenManager.fromConfig(config, { logger });
   const permissions = ServerPermissionClient.fromConfig(config, {
     discovery,
@@ -34,17 +34,18 @@ export async function startStandaloneServer(
 
   logger.debug('Starting application server...');
 
-  const database = useHotMemoize(module, () => {
-    return Knex({
-      client: 'better-sqlite3',
-      connection: ':memory:',
-      useNullAsDefault: true,
-    });
-  });
+  const manager = DatabaseManager.fromConfig(
+    new ConfigReader({
+      backend: {
+        database: { client: 'better-sqlite3', connection: ':memory:' },
+      },
+    }),
+  );
+  const database = manager.forPlugin('announcements');
 
   const announcementsContext = await buildAnnouncementsContext({
     logger: logger,
-    database: { getClient: async () => database },
+    database: database,
     permissions,
   });
 
