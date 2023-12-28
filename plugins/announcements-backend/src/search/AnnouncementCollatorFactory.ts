@@ -2,17 +2,17 @@ import { Readable } from 'stream';
 import { Logger } from 'winston';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
 import { DocumentCollatorFactory } from '@backstage/plugin-search-common';
-import { IndexableDocument } from '@backstage/plugin-search-common';
-import { Announcement, AnnouncementsClient } from './api';
-
-export type IndexableAnnouncementDocument = IndexableDocument & {
-  excerpt: string;
-  createdAt: string;
-};
+import { AnnouncementsClient } from './api';
+import { TokenManager } from '@backstage/backend-common';
+import {
+  Announcement,
+  IndexableAnnouncement,
+} from '@k-phoen/backstage-plugin-announcements-common';
 
 type AnnouncementCollatorOptions = {
   logger: Logger;
   discoveryApi: DiscoveryApi;
+  tokenManager?: TokenManager;
 };
 
 export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
@@ -29,6 +29,7 @@ export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
     this.logger = options.logger;
     this.announcementsClient = new AnnouncementsClient({
       discoveryApi: options.discoveryApi,
+      tokenManager: options.tokenManager,
     });
   }
 
@@ -36,21 +37,32 @@ export class AnnouncementCollatorFactory implements DocumentCollatorFactory {
     return Readable.from(this.execute());
   }
 
-  private async *execute(): AsyncGenerator<IndexableAnnouncementDocument> {
-    this.logger.info('indexing announcements');
+  private async *execute(): AsyncGenerator<IndexableAnnouncement> {
+    this.logger.info('started indexing announcements');
 
-    const results = await this.announcementsClient.announcements();
+    let results: Announcement[] = [];
+    let page = 1;
+    const maxPerPage = 50;
 
-    this.logger.debug(`got ${results.length} announcements`);
+    do {
+      results = await this.announcementsClient.announcements({
+        page,
+        maxPerPage,
+      });
 
-    for (const result of results) {
-      yield this.getDocumentInfo(result);
-    }
+      this.logger.debug(`got ${results.length} announcements for page ${page}`);
+
+      for (const result of results) {
+        yield this.getDocumentInfo(result);
+      }
+
+      page += 1;
+    } while (results.length !== 0);
+
+    this.logger.info('finished indexing announcements');
   }
 
-  private getDocumentInfo(
-    announcement: Announcement,
-  ): IndexableAnnouncementDocument {
+  private getDocumentInfo(announcement: Announcement): IndexableAnnouncement {
     this.logger.debug(
       `mapping announcement ${announcement.id} to indexable document`,
     );

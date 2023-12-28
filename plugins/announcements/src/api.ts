@@ -8,39 +8,16 @@ import {
 } from '@backstage/core-plugin-api';
 import { ResponseError } from '@backstage/errors';
 import { FetchApi } from '@backstage/core-plugin-api';
+import {
+  Announcement,
+  AnnouncementsList,
+  Category,
+  CreateAnnouncementRequest,
+  CreateCategoryRequest,
+  UpdateAnnouncementRequest,
+} from '@k-phoen/backstage-plugin-announcements-common';
 
 const lastSeenKey = 'user_last_seen_date';
-
-export type Category = {
-  slug: string;
-  title: string;
-};
-
-export type Announcement = {
-  id: string;
-  category?: Category;
-  publisher: string;
-  title: string;
-  excerpt: string;
-  body: string;
-  created_at: string;
-};
-
-export type AnnouncementsList = {
-  count: number;
-  results: Announcement[];
-};
-
-export type CreateAnnouncementRequest = Omit<
-  Announcement,
-  'id' | 'category' | 'created_at'
-> & {
-  category?: string;
-};
-
-export type CreateCategoryRequest = {
-  title: string;
-};
 
 export interface AnnouncementsApi {
   announcements(opts: {
@@ -53,7 +30,7 @@ export interface AnnouncementsApi {
   createAnnouncement(request: CreateAnnouncementRequest): Promise<Announcement>;
   updateAnnouncement(
     id: string,
-    request: CreateAnnouncementRequest,
+    request: UpdateAnnouncementRequest,
   ): Promise<Announcement>;
   deleteAnnouncementByID(id: string): Promise<void>;
 
@@ -171,7 +148,7 @@ export class DefaultAnnouncementsApi implements AnnouncementsApi {
 
   async updateAnnouncement(
     id: string,
-    request: CreateAnnouncementRequest,
+    request: UpdateAnnouncementRequest,
   ): Promise<Announcement> {
     return this.fetch<Announcement>(`/announcements/${id}`, {
       method: 'PUT',

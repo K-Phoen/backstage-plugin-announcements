@@ -11,23 +11,14 @@ import {
   BasicPermission,
 } from '@backstage/plugin-permission-common';
 import {
+  CreateAnnouncementRequest,
+  CreateCategoryRequest,
+  UpdateAnnouncementRequest,
   announcementCreatePermission,
   announcementDeletePermission,
   announcementUpdatePermission,
 } from '@k-phoen/backstage-plugin-announcements-common';
 import { AnnouncementsContext } from './announcementsContextBuilder';
-
-interface AnnouncementRequest {
-  publisher: string;
-  category?: string;
-  title: string;
-  excerpt: string;
-  body: string;
-}
-
-interface CategoryRequest {
-  title: string;
-}
 
 export async function createRouter(
   options: AnnouncementsContext,
@@ -112,7 +103,7 @@ export async function createRouter(
 
   router.post(
     '/announcements',
-    async (req: Request<{}, {}, AnnouncementRequest, {}>, res) => {
+    async (req: Request<{}, {}, CreateAnnouncementRequest, {}>, res) => {
       if (!(await isRequestAuthorized(req, announcementCreatePermission))) {
         throw new NotAllowedError('Unauthorized');
       }
@@ -132,7 +123,10 @@ export async function createRouter(
 
   router.put(
     '/announcements/:id',
-    async (req: Request<{ id: string }, {}, AnnouncementRequest, {}>, res) => {
+    async (
+      req: Request<{ id: string }, {}, UpdateAnnouncementRequest, {}>,
+      res,
+    ) => {
       if (!(await isRequestAuthorized(req, announcementUpdatePermission))) {
         throw new NotAllowedError('Unauthorized');
       }
@@ -173,7 +167,7 @@ export async function createRouter(
 
   router.post(
     '/categories',
-    async (req: Request<{}, {}, CategoryRequest, {}>, res) => {
+    async (req: Request<{}, {}, CreateCategoryRequest, {}>, res) => {
       const category = {
         ...req.body,
         ...{

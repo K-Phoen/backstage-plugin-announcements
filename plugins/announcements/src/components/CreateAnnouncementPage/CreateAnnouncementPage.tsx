@@ -2,13 +2,13 @@ import React, { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Page, Header, Content } from '@backstage/core-components';
 import { alertApiRef, useApi, useRouteRef } from '@backstage/core-plugin-api';
-import {
-  Announcement,
-  announcementsApiRef,
-  CreateAnnouncementRequest,
-} from '../../api';
+import { announcementsApiRef } from '../../api';
 import { rootRouteRef } from '../../routes';
 import { AnnouncementForm } from '../AnnouncementForm';
+import {
+  Announcement,
+  CreateAnnouncementRequest,
+} from '@k-phoen/backstage-plugin-announcements-common';
 
 type CreateAnnouncementPageProps = {
   themeId: string;

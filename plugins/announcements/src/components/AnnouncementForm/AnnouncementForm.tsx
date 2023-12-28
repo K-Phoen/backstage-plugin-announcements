@@ -8,13 +8,13 @@ import {
   makeStyles,
   TextField,
 } from '@material-ui/core';
-import {
-  Announcement,
-  announcementsApiRef,
-  CreateAnnouncementRequest,
-} from '../../api';
+import { announcementsApiRef } from '../../api';
 import { Autocomplete } from '@material-ui/lab';
 import { useAsync } from 'react-use';
+import {
+  Announcement,
+  CreateAnnouncementRequest,
+} from '@k-phoen/backstage-plugin-announcements-common';
 
 const useStyles = makeStyles(theme => ({
   formRoot: {
