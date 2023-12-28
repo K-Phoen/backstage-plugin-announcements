@@ -9,7 +9,8 @@ import {
 import { Alert } from '@material-ui/lab';
 import { AnnouncementForm } from '../AnnouncementForm';
 import { announcementEditRouteRef } from '../../routes';
-import { announcementsApiRef, CreateAnnouncementRequest } from '../../api';
+import { announcementsApiRef } from '../../api';
+import { UpdateAnnouncementRequest } from '@k-phoen/backstage-plugin-announcements-common';
 
 type EditAnnouncementPageProps = {
   themeId: string;
@@ -28,7 +29,7 @@ export const EditAnnouncementPage = (props: EditAnnouncementPageProps) => {
   let title = props.title;
   let content: React.ReactNode = <Progress />;
 
-  const onSubmit = async (request: CreateAnnouncementRequest) => {
+  const onSubmit = async (request: UpdateAnnouncementRequest) => {
     try {
       await announcementsApi.updateAnnouncement(id, request);
       alertApi.post({ message: 'Announcement updated.', severity: 'success' });

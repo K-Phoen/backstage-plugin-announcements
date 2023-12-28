@@ -11,8 +11,9 @@ import {
 import { useApi } from '@backstage/core-plugin-api';
 import { Button, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import { announcementsApiRef, Category } from '../../api';
+import { announcementsApiRef } from '../../api';
 import { NewCategoryDialog } from '../NewCategoryDialog';
+import { Category } from '@k-phoen/backstage-plugin-announcements-common';
 
 const useStyles = makeStyles(theme => ({
   container: {

@@ -1,5 +1,5 @@
+import { Announcement } from '@k-phoen/backstage-plugin-announcements-common';
 import { useCallback, useState } from 'react';
-import { Announcement } from '../../api';
 
 export type DeleteAnnouncementDialogState = {
   open: (a: Announcement) => void;

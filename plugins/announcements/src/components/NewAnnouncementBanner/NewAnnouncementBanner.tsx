@@ -11,8 +11,9 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Close from '@material-ui/icons/Close';
-import { Announcement, announcementsApiRef } from '../../api';
+import { announcementsApiRef } from '../../api';
 import { announcementViewRouteRef } from '../../routes';
+import { Announcement } from '@k-phoen/backstage-plugin-announcements-common';
 
 const useStyles = makeStyles(theme => ({
   // showing on top, as a block

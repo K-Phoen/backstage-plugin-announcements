@@ -14,6 +14,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
+import { IndexableAnnouncement } from '@k-phoen/backstage-plugin-announcements-common';
 
 const useStyles = makeStyles({
   createdAt: {
@@ -29,10 +30,6 @@ const useStyles = makeStyles({
     wordBreak: 'break-all',
   },
 });
-
-export type IndexableAnnouncement = IndexableDocument & {
-  createdAt: string;
-};
 
 export interface AnnouncementSearchResultProps {
   result?: IndexableDocument;

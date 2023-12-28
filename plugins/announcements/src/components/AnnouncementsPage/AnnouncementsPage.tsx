@@ -6,6 +6,7 @@ import {
   announcementCreatePermission,
   announcementUpdatePermission,
   announcementDeletePermission,
+  Announcement,
 } from '@k-phoen/backstage-plugin-announcements-common';
 import { DateTime } from 'luxon';
 import {
@@ -42,7 +43,7 @@ import {
   announcementViewRouteRef,
   rootRouteRef,
 } from '../../routes';
-import { Announcement, announcementsApiRef } from '../../api';
+import { announcementsApiRef } from '../../api';
 import { DeleteAnnouncementDialog } from './DeleteAnnouncementDialog';
 import { useDeleteAnnouncementDialogState } from './useDeleteAnnouncementDialogState';
 import { Pagination } from '@material-ui/lab';
