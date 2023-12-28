@@ -1,5 +1,15 @@
 # @k-phoen/backstage-plugin-announcements-common
 
+## 0.1.0
+
+### Minor Changes
+
+- 556d00e: Correctly index announcements
+
+### Patch Changes
+
+- 54d27f2: Bump dependencies to match Backstage 1.21.1
+
 ## 0.0.7
 
 ### Patch Changes

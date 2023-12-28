@@ -1,5 +1,20 @@
 # @k-phoen/backstage-plugin-announcements
 
+## 0.2.0
+
+### Minor Changes
+
+- 556d00e: Correctly index announcements
+
+### Patch Changes
+
+- 63b849f: Use node-fetch instead of cross-fetch
+- f503221: Use backstage fetch API
+- 54d27f2: Bump dependencies to match Backstage 1.21.1
+- Updated dependencies [556d00e]
+- Updated dependencies [54d27f2]
+  - @k-phoen/backstage-plugin-announcements-common@0.1.0
+
 ## 0.1.0
 
 ### Minor Changes
