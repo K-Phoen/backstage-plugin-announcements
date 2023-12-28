@@ -4768,7 +4768,7 @@ __metadata:
     "@backstage/plugin-permission-common": ^0.7.11
     "@backstage/plugin-permission-node": ^0.7.19
     "@backstage/plugin-search-common": ^1.2.9
-    "@k-phoen/backstage-plugin-announcements-common": ^0.0.7
+    "@k-phoen/backstage-plugin-announcements-common": ^0.1.0
     "@types/express": ^4.17.6
     "@types/node-fetch": ^2.6.9
     "@types/supertest": ^2.0.8
@@ -4788,7 +4788,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@k-phoen/backstage-plugin-announcements-common@^0.0.7, @k-phoen/backstage-plugin-announcements-common@workspace:plugins/announcements-common":
+"@k-phoen/backstage-plugin-announcements-common@^0.1.0, @k-phoen/backstage-plugin-announcements-common@workspace:plugins/announcements-common":
   version: 0.0.0-use.local
   resolution: "@k-phoen/backstage-plugin-announcements-common@workspace:plugins/announcements-common"
   dependencies:
@@ -4815,7 +4815,7 @@ __metadata:
     "@backstage/plugin-search-react": ^1.7.4
     "@backstage/test-utils": ^1.4.6
     "@backstage/theme": ^0.5.0
-    "@k-phoen/backstage-plugin-announcements-common": ^0.0.7
+    "@k-phoen/backstage-plugin-announcements-common": ^0.1.0
     "@material-ui/core": ^4.12.2
     "@material-ui/icons": ^4.9.1
     "@material-ui/lab": 4.0.0-alpha.57
