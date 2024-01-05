@@ -8,6 +8,7 @@ import {
   makeStyles,
   Snackbar,
   SnackbarContent,
+  Theme,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Close from '@material-ui/icons/Close';
@@ -15,14 +16,14 @@ import { announcementsApiRef } from '../../api';
 import { announcementViewRouteRef } from '../../routes';
 import { Announcement } from '@k-phoen/backstage-plugin-announcements-common';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles<Theme, AnnouncementBannerProps>(theme => ({
   // showing on top, as a block
   blockPositioning: {
     padding: theme.spacing(0),
     position: 'relative',
     marginBottom: theme.spacing(4),
     marginTop: -theme.spacing(3),
-    zIndex: 'unset',
+    zIndex: props => (props.retainZIndex ? theme.zIndex.snackbar : 'unset'),
   },
   // showing on top, as a floating alert
   floatingPositioning: {},
@@ -50,10 +51,11 @@ const useStyles = makeStyles(theme => ({
 type AnnouncementBannerProps = {
   announcement: Announcement;
   variant?: 'block' | 'floating';
+  retainZIndex?: boolean;
 };
 
 const AnnouncementBanner = (props: AnnouncementBannerProps) => {
-  const classes = useStyles();
+  const classes = useStyles(props);
   const announcementsApi = useApi(announcementsApiRef);
   const viewAnnouncementLink = useRouteRef(announcementViewRouteRef);
   const [bannerOpen, setBannerOpen] = useState(true);
