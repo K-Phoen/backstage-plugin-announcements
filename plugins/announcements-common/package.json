@@ -1,18 +1,10 @@
 {
-  "name": "@k-phoen/backstage-plugin-announcements-common",
-  "version": "0.1.0",
+  "name": "@absa-common/plugin-announcements-common",
+  "version": "1.0.0",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "description": "Common functionalities for the announcements plugin",
   "license": "MIT",
-  "homepage": "https://github.com/K-Phoen/backstage-plugin-announcements",
-  "bugs": {
-    "url": "https://github.com/K-Phoen/backstage-plugin-announcements/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/K-Phoen/backstage-plugin-announcements.git"
-  },
   "publishConfig": {
     "access": "public",
     "main": "dist/index.cjs.js",
