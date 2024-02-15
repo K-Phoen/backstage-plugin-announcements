@@ -5,13 +5,13 @@
 Add the plugin to your backend app:
 
 ```bash
-cd packages/backend && yarn add @k-phoen/backstage-plugin-announcements-backend
+cd packages/backend && yarn add @absa-common/plugin-announcements-backend
 ```
 
 Create a file in `packages/backend/src/plugins/announcements.ts`:
 
 ```ts
-import { buildAnnouncementsContext, createRouter } from '@k-phoen/backstage-plugin-announcements-backend';
+import { buildAnnouncementsContext, createRouter } from '@absa-common/plugin-announcements-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 
@@ -51,14 +51,14 @@ async function main() {
 Add the plugin to your frontend app:
 
 ```bash
-cd packages/app && yarn add @k-phoen/backstage-plugin-announcements
+cd packages/app && yarn add @absa-common/plugin-announcements
 ```
 
 Expose the announcements page:
 
 ```ts
 // packages/app/src/App.tsx
-import { AnnouncementsPage } from '@k-phoen/backstage-plugin-announcements';
+import { AnnouncementsPage } from '@absa-common/plugin-announcements';
 
 // ...
 

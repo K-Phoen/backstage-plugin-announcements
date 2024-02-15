@@ -8,7 +8,7 @@ import { AnnouncementForm } from '../AnnouncementForm';
 import {
   Announcement,
   CreateAnnouncementRequest,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@absa-common/plugin-announcements-common';
 
 type CreateAnnouncementPageProps = {
   themeId: string;

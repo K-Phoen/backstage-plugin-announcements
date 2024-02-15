@@ -7,7 +7,7 @@ import { TokenManager } from '@backstage/backend-common';
 import {
   Announcement,
   IndexableAnnouncement,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@absa-common/plugin-announcements-common';
 
 type AnnouncementCollatorOptions = {
   logger: Logger;

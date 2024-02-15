@@ -17,7 +17,7 @@ import {
   announcementCreatePermission,
   announcementDeletePermission,
   announcementUpdatePermission,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@absa-common/plugin-announcements-common';
 import { AnnouncementsContext } from './announcementsContextBuilder';
 
 export async function createRouter(

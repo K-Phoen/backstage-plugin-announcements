@@ -1,4 +1,4 @@
-import { Announcement } from '@k-phoen/backstage-plugin-announcements-common';
+import { Announcement } from '@absa-common/plugin-announcements-common';
 import { useCallback, useState } from 'react';
 
 export type DeleteAnnouncementDialogState = {

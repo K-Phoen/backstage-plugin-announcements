@@ -10,7 +10,7 @@ import { Alert } from '@material-ui/lab';
 import { AnnouncementForm } from '../AnnouncementForm';
 import { announcementEditRouteRef } from '../../routes';
 import { announcementsApiRef } from '../../api';
-import { UpdateAnnouncementRequest } from '@k-phoen/backstage-plugin-announcements-common';
+import { UpdateAnnouncementRequest } from '@absa-common/plugin-announcements-common';
 
 type EditAnnouncementPageProps = {
   themeId: string;

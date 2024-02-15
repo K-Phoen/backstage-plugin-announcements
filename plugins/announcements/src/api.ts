@@ -15,7 +15,7 @@ import {
   CreateAnnouncementRequest,
   CreateCategoryRequest,
   UpdateAnnouncementRequest,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@absa-common/plugin-announcements-common';
 
 const lastSeenKey = 'user_last_seen_date';
 

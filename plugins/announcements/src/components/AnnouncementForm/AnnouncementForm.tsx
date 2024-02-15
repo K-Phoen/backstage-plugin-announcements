@@ -14,7 +14,7 @@ import { useAsync } from 'react-use';
 import {
   Announcement,
   CreateAnnouncementRequest,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@absa-common/plugin-announcements-common';
 
 const useStyles = makeStyles(theme => ({
   formRoot: {

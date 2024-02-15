@@ -4,7 +4,7 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import {
   announcementCreatePermission,
   announcementUpdatePermission,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@absa-common/plugin-announcements-common';
 import {
   announcementCreateRouteRef,
   announcementEditRouteRef,

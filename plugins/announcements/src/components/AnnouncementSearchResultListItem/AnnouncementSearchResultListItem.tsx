@@ -14,7 +14,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
-import { IndexableAnnouncement } from '@k-phoen/backstage-plugin-announcements-common';
+import { IndexableAnnouncement } from '@absa-common/plugin-announcements-common';
 
 const useStyles = makeStyles({
   createdAt: {

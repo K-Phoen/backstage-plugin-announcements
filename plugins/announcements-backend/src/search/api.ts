@@ -5,7 +5,7 @@ import { TokenManager } from '@backstage/backend-common';
 import {
   Announcement,
   AnnouncementsList,
-} from '@k-phoen/backstage-plugin-announcements-common';
+} from '@absa-common/plugin-announcements-common';
 
 export class AnnouncementsClient {
   private readonly discoveryApi: DiscoveryApi;

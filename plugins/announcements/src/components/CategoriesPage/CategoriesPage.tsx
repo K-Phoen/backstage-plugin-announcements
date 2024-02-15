@@ -13,7 +13,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { announcementsApiRef } from '../../api';
 import { NewCategoryDialog } from '../NewCategoryDialog';
-import { Category } from '@k-phoen/backstage-plugin-announcements-common';
+import { Category } from '@absa-common/plugin-announcements-common';
 
 const useStyles = makeStyles(theme => ({
   container: {

@@ -13,7 +13,7 @@ import { Alert } from '@material-ui/lab';
 import Close from '@material-ui/icons/Close';
 import { announcementsApiRef } from '../../api';
 import { announcementViewRouteRef } from '../../routes';
-import { Announcement } from '@k-phoen/backstage-plugin-announcements-common';
+import { Announcement } from '@absa-common/plugin-announcements-common';
 
 const useStyles = makeStyles(theme => ({
   // showing on top, as a block

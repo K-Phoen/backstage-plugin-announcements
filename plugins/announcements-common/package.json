@@ -6,9 +6,9 @@
   "description": "Common functionalities for the announcements plugin",
   "license": "MIT",
   "publishConfig": {
+    "registry": "https://artifacts.bcp.absa.co.za/artifactory/api/npm/backstage-npm/",
     "access": "public",
-    "main": "dist/index.cjs.js",
-    "module": "dist/index.esm.js",
+    "main": "dist/index.esm.js",
     "types": "dist/index.d.ts"
   },
   "backstage": {
